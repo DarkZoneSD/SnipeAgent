@@ -178,12 +178,6 @@
   <data name="asset_data_icon_64_64" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\asset_data_icon_64_64.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="github_button_untriggered" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\github_button_untriggered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="github_button_triggered" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\github_button_triggered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="settings_button_triggered" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\settings_button_triggered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -222,5 +216,11 @@
   </data>
   <data name="folder_button_untriggered" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\folder_button_untriggered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="github_button_triggered" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\github_button_triggered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="github_button_untriggered" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\github_button_untriggered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
