@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             btnOpenGithub = new Button();
+            btnOpenAppdataFolder = new Button();
             SuspendLayout();
             // 
             // btnOpenGithub
@@ -44,6 +45,19 @@
             btnOpenGithub.UseVisualStyleBackColor = false;
             btnOpenGithub.Click += btnOpenGithub_Click;
             // 
+            // btnOpenAppdataFolder
+            // 
+            btnOpenAppdataFolder.BackColor = Color.Transparent;
+            btnOpenAppdataFolder.BackgroundImage = Properties.Resources.folder_button_untriggered;
+            btnOpenAppdataFolder.BackgroundImageLayout = ImageLayout.Center;
+            btnOpenAppdataFolder.ForeColor = Color.Transparent;
+            btnOpenAppdataFolder.Location = new Point(582, 461);
+            btnOpenAppdataFolder.Name = "btnOpenAppdataFolder";
+            btnOpenAppdataFolder.Size = new Size(32, 32);
+            btnOpenAppdataFolder.TabIndex = 64;
+            btnOpenAppdataFolder.UseVisualStyleBackColor = false;
+            btnOpenAppdataFolder.Click += btnOpenAppdataFolder_Click;
+            // 
             // Settings_Form
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -52,6 +66,7 @@
             BackgroundImage = Properties.Resources.settings_menu_ui;
             BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(664, 505);
+            Controls.Add(btnOpenAppdataFolder);
             Controls.Add(btnOpenGithub);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Settings_Form";
@@ -63,5 +78,6 @@
         #endregion
 
         private Button btnOpenGithub;
+        private Button btnOpenAppdataFolder;
     }
 }

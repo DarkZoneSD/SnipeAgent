@@ -143,6 +143,26 @@ namespace SystemTrayApp.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap folder_button_triggered {
+            get {
+                object obj = ResourceManager.GetObject("folder_button_triggered", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap folder_button_untriggered {
+            get {
+                object obj = ResourceManager.GetObject("folder_button_untriggered", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap github_button_triggered {
             get {
                 object obj = ResourceManager.GetObject("github_button_triggered", resourceCulture);

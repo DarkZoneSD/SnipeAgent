@@ -230,4 +230,3 @@ namespace SystemTrayApp
         
     }
 }
-// Process.Start("explorer.exe", $@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\SnipeAgent");

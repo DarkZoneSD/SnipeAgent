@@ -24,6 +24,13 @@ namespace SystemTrayApp
             btnOpenGithub.FlatAppearance.BorderSize = 0;
             btnOpenGithub.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
 
+            btnOpenAppdataFolder.MouseEnter += OnMouseEnterBtnOpenAppdataFolder;
+            btnOpenAppdataFolder.MouseLeave += OnMouseLeaveBtnOpenAppdataFolder;
+
+            btnOpenAppdataFolder.FlatStyle = FlatStyle.Flat;
+            btnOpenAppdataFolder.FlatAppearance.BorderSize = 0;
+            btnOpenAppdataFolder.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
+
         }
 
         private void OnMouseEnterBtnOpenGitHub(object sender, EventArgs e)
@@ -33,6 +40,14 @@ namespace SystemTrayApp
         private void OnMouseLeaveBtnOpenGitHub(object sender, EventArgs e)
         {
             btnOpenGithub.BackgroundImage = Resources.github_button_untriggered;
+        }
+        private void OnMouseEnterBtnOpenAppdataFolder(object sender, EventArgs e)
+        {
+            btnOpenAppdataFolder.BackgroundImage = Resources.folder_button_triggered;
+        }
+        private void OnMouseLeaveBtnOpenAppdataFolder(object sender, EventArgs e)
+        {
+            btnOpenAppdataFolder.BackgroundImage = Resources.folder_button_untriggered;
         }
 
         private void Settings_Form_Load(object sender, EventArgs e)
@@ -46,6 +61,11 @@ namespace SystemTrayApp
             myProcess.StartInfo.UseShellExecute = true;
             myProcess.StartInfo.FileName = "https://github.com/DarkZoneSD/SnipeAgent";
             myProcess.Start();
+        }
+
+        private void btnOpenAppdataFolder_Click(object sender, EventArgs e)
+        {
+            Process.Start("explorer.exe", $@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\SnipeAgent");
         }
     }
 }
