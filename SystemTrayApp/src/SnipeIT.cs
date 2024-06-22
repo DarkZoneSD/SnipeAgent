@@ -59,7 +59,7 @@ namespace SystemTrayApp.src
             string modelUrl = baseUrl.Substring(0, indexOfLastSlash) + "/model";
             string apiToken = DotNetEnv.Env.GetString("API_TOKEN");
             var client = new HttpClient();
-            MessageBox.Show(modelUrl);
+            //MessageBox.Show(modelUrl);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);

@@ -28,22 +28,40 @@
         /// </summary>
         private void InitializeComponent()
         {
+            btnOpenGithub = new Button();
             SuspendLayout();
+            // 
+            // btnOpenGithub
+            // 
+            btnOpenGithub.BackColor = Color.Transparent;
+            btnOpenGithub.BackgroundImage = Properties.Resources.github_button_untriggered;
+            btnOpenGithub.BackgroundImageLayout = ImageLayout.Center;
+            btnOpenGithub.ForeColor = Color.Transparent;
+            btnOpenGithub.Location = new Point(620, 461);
+            btnOpenGithub.Name = "btnOpenGithub";
+            btnOpenGithub.Size = new Size(32, 32);
+            btnOpenGithub.TabIndex = 63;
+            btnOpenGithub.UseVisualStyleBackColor = false;
+            btnOpenGithub.Click += btnOpenGithub_Click;
             // 
             // Settings_Form
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.DimGray;
-            BackgroundImage = Properties.Resources.home_menu_ui;
+            BackgroundImage = Properties.Resources.settings_menu_ui;
             BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(664, 505);
+            Controls.Add(btnOpenGithub);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Settings_Form";
             Text = "Settings_Form";
+            Load += Settings_Form_Load;
             ResumeLayout(false);
         }
 
         #endregion
+
+        private Button btnOpenGithub;
     }
 }

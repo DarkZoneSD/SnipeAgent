@@ -143,6 +143,26 @@ namespace SystemTrayApp.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap github_button_triggered {
+            get {
+                object obj = ResourceManager.GetObject("github_button_triggered", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap github_button_untriggered {
+            get {
+                object obj = ResourceManager.GetObject("github_button_untriggered", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap home_button_triggered {
             get {
                 object obj = ResourceManager.GetObject("home_button_triggered", resourceCulture);
@@ -316,6 +336,16 @@ namespace SystemTrayApp.Properties {
         internal static System.Drawing.Bitmap settings_button_untriggered {
             get {
                 object obj = ResourceManager.GetObject("settings_button_untriggered", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap settings_menu_ui {
+            get {
+                object obj = ResourceManager.GetObject("settings_menu_ui", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

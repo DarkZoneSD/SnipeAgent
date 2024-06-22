@@ -136,6 +136,9 @@
   <data name="minimize_button_triggered" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\minimize_button_triggered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="copy_button_triggered" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\copy_button_triggered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="direction_button_triggered" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\direction_button_triggered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -190,8 +193,14 @@
   <data name="settings_button_untriggered" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\settings_button_untriggered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="settings_menu_ui" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\settings_menu_ui.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="direction_button_untriggered" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\direction_button_untriggered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="copy_button_untriggered" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\copy_button_untriggered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="refresh_button_untriggered" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\refresh_button_untriggered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -202,10 +211,10 @@
   <data name="save_button_triggered" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\save_button_triggered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="copy_button_triggered" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\copy_button_triggered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="github_button_triggered" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\github_button_triggered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="copy_button_untriggered" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\copy_button_untriggered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="github_button_untriggered" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\github_button_untriggered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
