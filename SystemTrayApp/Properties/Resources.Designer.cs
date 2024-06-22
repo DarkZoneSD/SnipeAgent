@@ -213,6 +213,16 @@ namespace SystemTrayApp.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap home_menu_ui_lower_line {
+            get {
+                object obj = ResourceManager.GetObject("home_menu_ui_lower_line", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icon_32_32 {
             get {
                 object obj = ResourceManager.GetObject("icon_32_32", resourceCulture);

@@ -33,7 +33,7 @@
             lblMACAddress = new Label();
             btnRefresh = new Button();
             lblMAC = new Label();
-            lblAssetName = new Label();
+            lblHostMachineName = new Label();
             lblHostmachineNameValue = new Label();
             lblSerialNumber = new Label();
             lblSerialNumberValue = new Label();
@@ -133,18 +133,18 @@
             lblMAC.TabIndex = 3;
             lblMAC.Text = "Placeholder MAC";
             // 
-            // lblAssetName
+            // lblHostMachineName
             // 
-            lblAssetName.AutoSize = true;
-            lblAssetName.BackColor = Color.Transparent;
-            lblAssetName.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblAssetName.ForeColor = SystemColors.ControlLight;
-            lblAssetName.Location = new Point(12, 138);
-            lblAssetName.Name = "lblAssetName";
-            lblAssetName.Size = new Size(147, 20);
-            lblAssetName.TabIndex = 7;
-            lblAssetName.Text = "Hostmachine Name";
-            lblAssetName.TextAlign = ContentAlignment.TopCenter;
+            lblHostMachineName.AutoSize = true;
+            lblHostMachineName.BackColor = Color.Transparent;
+            lblHostMachineName.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblHostMachineName.ForeColor = SystemColors.ControlLight;
+            lblHostMachineName.Location = new Point(12, 138);
+            lblHostMachineName.Name = "lblHostMachineName";
+            lblHostMachineName.Size = new Size(147, 20);
+            lblHostMachineName.TabIndex = 7;
+            lblHostMachineName.Text = "Hostmachine Name";
+            lblHostMachineName.TextAlign = ContentAlignment.TopCenter;
             // 
             // lblHostmachineNameValue
             // 
@@ -786,7 +786,7 @@
             Controls.Add(lblSerialNumberValue);
             Controls.Add(lblSerialNumber);
             Controls.Add(lblHostmachineNameValue);
-            Controls.Add(lblAssetName);
+            Controls.Add(lblHostMachineName);
             Controls.Add(lblMAC);
             Controls.Add(btnRefresh);
             Controls.Add(lblMACAddress);
@@ -810,7 +810,7 @@
         private Button btnRefresh;
         private Label lblMAC;
         private Label lblAssetID;
-        private Label lblAssetName;
+        private Label lblHostMachineName;
         private Label lblAssetIDValue;
         private Label lblHostmachineNameValue;
         private Label lblSerialNumber;

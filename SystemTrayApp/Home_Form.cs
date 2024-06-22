@@ -509,6 +509,9 @@ namespace SystemTrayApp
             lblMAC.Text = getMacAddress(selectedInterfaceIndex);
 
             UpdateInterfaceSelectionPosition();
+
+            if (lblInterfaceName.Size.Height > 17) MoveTextDown();
+            else MoveTextUp();
         }
 
         private void btnNextInterface_Click(object sender, EventArgs e)
@@ -518,6 +521,9 @@ namespace SystemTrayApp
             lblInterfaceName.Text = AllNetworkInterfaces[selectedInterfaceIndex].Name;
             lblMAC.Text = getMacAddress(selectedInterfaceIndex);
             UpdateInterfaceSelectionPosition();
+
+            if(lblInterfaceName.Size.Height > 17) MoveTextDown();
+            else MoveTextUp();
         }
 
         private void btnUpdateAssetData_Click(object sender, EventArgs e)
@@ -559,6 +565,68 @@ namespace SystemTrayApp
         {
             if (lblMAC.Text.Length > 0) Clipboard.SetText(lblMAC.Text);
             else Clipboard.Clear();
+        }
+
+        public void MoveTextDown()
+        {
+            if(!(lblHostMachineName.Location == new Point(12, 155)))
+            {
+                this.Hide();
+                this.BackgroundImage = Resources.home_menu_ui_lower_line;
+                this.lblHostMachineName.Location = new Point(12, 138 + 17);
+                this.lblHostmachineNameValue.Location = new Point(12, 161 + 17);
+                this.btnCopyHostMachine.Location = new Point(204, 161 + 17);
+
+                this.lblSerialNumber.Location = new Point(12, 190 + 17);
+                this.lblSerialNumberValue.Location = new Point(12, 213 + 17);
+                this.btnCopySerial.Location = new Point(204, 213 + 17);
+
+                this.lblSystemUUID.Location = new Point(12, 236 + 17);
+                this.lblSystemUUIDValue.Location = new Point(12, 259 + 17);
+                this.lblSystemUUIDValue2.Location = new Point(12, 276 + 17);
+                this.btnCopyUuid.Location = new Point(204, 259 + 17);
+
+                this.lblSystemModel.Location = new Point(12, 299 + 17);
+                this.lblSystemModelValue.Location = new Point(12, 322 + 17);
+                this.btnCopyModel.Location = new Point(204, 322 + 17);
+
+                this.lblManufacturer.Location = new Point(12, 345 + 17);
+                this.lblManufacturerValue.Location = new Point(12, 368 + 17);
+                this.lblManufacturerValue2.Location = new Point(12, 385 + 17);
+                this.btnCopyManufacturer.Location = new Point(204, 368 + 17);
+                this.Show();
+            }
+            
+        }
+        public void MoveTextUp()
+        {
+            if (!(lblHostMachineName.Location == new Point(12, 138)))
+            {
+                this.Hide();
+                this.BackgroundImage = Resources.home_menu_ui;
+                this.lblHostMachineName.Location = new Point(12, 138);
+                this.lblHostmachineNameValue.Location = new Point(12, 161);
+                this.btnCopyHostMachine.Location = new Point(204, 161);
+
+                this.lblSerialNumber.Location = new Point(12, 190);
+                this.lblSerialNumberValue.Location = new Point(12, 213);
+                this.btnCopySerial.Location = new Point(204, 213);
+
+                this.lblSystemUUID.Location = new Point(12, 236);
+                this.lblSystemUUIDValue.Location = new Point(12, 259);
+                this.lblSystemUUIDValue2.Location = new Point(12, 276);
+                this.btnCopyUuid.Location = new Point(204, 259);
+
+                this.lblSystemModel.Location = new Point(12, 299);
+                this.lblSystemModelValue.Location = new Point(12, 322);
+                this.btnCopyModel.Location = new Point(204, 322);
+
+                this.lblManufacturer.Location = new Point(12, 345);
+                this.lblManufacturerValue.Location = new Point(12, 368);
+                this.lblManufacturerValue2.Location = new Point(12, 385);
+                this.btnCopyManufacturer.Location = new Point(204, 368);
+                this.Show();
+            }
         }
     }
 }
