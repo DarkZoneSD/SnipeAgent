@@ -37,6 +37,18 @@ namespace SystemTrayApp
             get { return api_token; }
             set { api_token = value; }
         }
+        private static string model_id = RetrieveMethods.GetModelID();
+        public static string ModelID
+        {
+            get { return model_id; }
+            set { model_id = value; }
+        }
+        private static string status_id = RetrieveMethods.GetStatusID();
+        public static string StatusID
+        {
+            get { return status_id; }
+            set { status_id = value; }
+        }
         private static string env_file_path = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\SnipeAgent\.Env";
         public static string EnvFilePath
         {
@@ -77,13 +89,24 @@ namespace SystemTrayApp
         }
         public static string GetApiToken()
         {
-            DotNetEnv.Env.Load(".env");
+            DotNetEnv.Env.Load($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\SnipeAgent\.Env");
             return DotNetEnv.Env.GetString("API_TOKEN");
         }
         public static string GetApiUrl()
         {
-            DotNetEnv.Env.Load(".env");
+            DotNetEnv.Env.Load($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\SnipeAgent\.Env");
             return DotNetEnv.Env.GetString("API_URL");
         }
+        public static string GetModelID()
+        {
+            DotNetEnv.Env.Load($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\SnipeAgent\.Env");
+            return DotNetEnv.Env.GetString("MODEL_ID");
+        }
+        public static string GetStatusID()
+        {
+            DotNetEnv.Env.Load($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\SnipeAgent\.Env");
+            return DotNetEnv.Env.GetString("STATUS_ID");
+        }
+
     }
 }

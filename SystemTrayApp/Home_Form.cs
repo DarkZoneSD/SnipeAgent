@@ -496,7 +496,7 @@ namespace SystemTrayApp
 
         private void btnUpdateAssetData_Click(object sender, EventArgs e)
         {
-            Task.Run(() => SnipeIT.CreateAsset(Global.HostName, Global.SerialNumber, 1, txtAssetMAC.Text, Global.Uuid));
+
         }
 
         private void btnCopyHostMachien_Click(object sender, EventArgs e)
@@ -561,6 +561,11 @@ namespace SystemTrayApp
             }
             
         }
+        public void RunCreateAsset()
+        {
+            MessageBox.Show("Creating a new asset");
+            Task.Run(() => SnipeIT.CreateAsset(Global.HostName, Global.SerialNumber, txtAssetMAC.Text, Global.Uuid));
+        }
         public void MoveTextUp()
         {
             if (!(lblHostMachineName.Location == new Point(12, 138)))
@@ -591,5 +596,6 @@ namespace SystemTrayApp
                 this.Show();
             }
         }
+        
     }
 }

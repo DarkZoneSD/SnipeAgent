@@ -21,12 +21,15 @@ for that you have  to actively press ""save"".
 ------------------------------------------------------------------------------------------------------------------------------
 for more information you can ask me on GitHub. https://Github.com/DarkZoneSD/SnipeAgent
 ";
-            File.WriteAllText($@"{snipe_directory_path}\README.txt", value);
+            if(!File.Exists($@"{snipe_directory_path}\README.txt")) File.WriteAllText($@"{snipe_directory_path}\README.txt", value);
         }
         public static void Create()
         {
-            Directory.CreateDirectory(snipe_directory_path);
-            Directory.CreateDirectory(uuid_directory_path);
+            if(!Directory.Exists(snipe_directory_path))
+                Directory.CreateDirectory(snipe_directory_path);
+            if (!Directory.Exists(uuid_directory_path))
+                Directory.CreateDirectory(uuid_directory_path);
+
         }
     }
     public class EnvFile
@@ -35,13 +38,12 @@ for more information you can ask me on GitHub. https://Github.com/DarkZoneSD/Sni
         public static string snipe_directory_path = $@"{all_users_appdata}\SnipeAgent";
         public static void Create() 
         {
-            string value = @"
-API_URL=http://localhost:8000/api/v1/hardware
+            string value = @"API_URL=http://localhost:8000/api/v1/hardware
 API_TOKEN=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZWIzZjNkODJhNGNjZmU0YWRiMjg1ZmQzZjYyMDZkNjk0Y2EzNzk0NWE3MGIyNjIzZGFkMTY4NTRkZDBiMTBlZjVlMTZmZmU4YTllMGNjZDkiLCJpYXQiOjE3MTczNDQ4MzYuMDIyMjU2LCJuYmYiOjE3MTczNDQ4MzYuMDIyMjU5LCJleHAiOjIzNDg0OTY4MzYuMDE2NjE1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.RV4daNQpfdqAsbTMrXn6erzltSd7nCy7zH1mxZZ9ObEf8ZoN9cXnJ28Ldric28lZRHtPYzKXvcVpcjOFw2TdJgkNQYqmYz4cXUiosQov707IBvpJowSwbLlHC_COHkVdq0Lt1FlwcM8rpv_wG5LX6jkteMJABqKbh2q71U-OtS3g2vvPnNagCO_En-PqcXG9BjiJgs_vozXhVqOV-uaar0mdlbQdyo9E0XbI1StWTejpoPUf0sC6OO-fwRWtX7RDtsTSNOHYwTsluCKK2x7YEgni-DDsmyo-zOAOSmLn0SeRJMEcEP7m0wEVvieTRCY3tGX-afXoRf7gigMjh8hAbgTFWHf0jG26Kdl7tOHW2ei8sGwhvS5T1y_CHZeAKwQ84zOkDqdRzrsaWqfZGT291F4F6jHyvPpFLzEXH9tcG2TqeKGSP1d81WbvaEb1Rt9D-5g1clTl6UFJJhz5Zf8fdCu5FnsvBwvvrfgO_BpBE0mrDS9fNKQEhyXPO7IDC_1IPvVzZa2JedKghoWoQ6lKZ01LoVxT6iUMEKMw8DS8_Fh9rkSO0eTONq5GG-Q44hXwR5JM5wERBMELViDgWZHtgq4-_TMAatlrESdYAV43IdBubStZrmHdasdbM6IjOPdzcgD45pTEF3NgkE9Lt2OZVdroVTlOGkotk2m3IIpFqtU
 FIRST_RUN=False
-MODEL_ID=1";
-            if (File.Exists($@"{snipe_directory_path}\.Env"))
-                File.WriteAllText($@"{snipe_directory_path}\.Env", value);
+MODEL_ID=1
+STATUS_ID=2";
+            if (!File.Exists($@"{snipe_directory_path}\.Env")) File.WriteAllText($@"{snipe_directory_path}\.Env", value);
         }
 
         public static void Update(string key, string new_value)
@@ -69,11 +71,6 @@ MODEL_ID=1";
             File.WriteAllLines(Global.EnvFilePath, lines);
 
             Env.Load();
-        }
-        public static string IsFirstRun()
-        {
-            DotNetEnv.Env.Load(".env");
-            return DotNetEnv.Env.GetString("FIRST_RUN");
         }
     }
     public class Uuid
