@@ -12,9 +12,14 @@ namespace SystemTrayApp
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            EnvFile.Create();
-            Task.Run(() => SnipeIT.CreateDefaultModel());
-            AppdataFolder.CreateReadMe();
+            if (EnvFile.IsFirstRun() == "True")
+            {
+                AppdataFolder.Create();
+                EnvFile.Create();
+                AppdataFolder.CreateReadMe();
+                EnvFile.Update("FIRST_RUN", "False");
+            }
+
             ApplicationConfiguration.Initialize();
             Application.Run(new Form1());
         }

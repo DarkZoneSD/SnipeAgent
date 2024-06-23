@@ -100,11 +100,6 @@ namespace SystemTrayApp
 
             rotateImage(btnNextInterface);
 
-            //TODO WRITE TO DATABASE ON FIRST RUN
-            if (CheckForFirstRun() == "True")
-            {
-                UpdateEnvFile("FIRST_RUN", "False");
-            }
         }
         private void UpdateInterfaceSelectionPosition()
         {
@@ -470,35 +465,8 @@ namespace SystemTrayApp
 
         private void btnSaveServerConfig_Click(object sender, EventArgs e)
         {
-            UpdateEnvFile("API_URL", txtApiUrlValue.Text);
-            UpdateEnvFile("API_TOKEN", txtApiKey.Text);
-        }
-
-        public void UpdateEnvFile(string key, string new_value)
-        {
-            DotNetEnv.Env.Load();
-
-            string[] linesArray = File.ReadAllLines(Global.EnvFilePath);
-            List<string> lines = linesArray.ToList();
-
-            bool variableUpdated = false;
-
-            for (int i = 0; i < lines.Count; i++)
-            {
-                if (lines[i].StartsWith($"{key}="))
-                {
-                    lines[i] = $"{key}={new_value}";
-                    variableUpdated = true;
-                    break;
-                }
-            }
-            if (!variableUpdated)
-            {
-                lines.Add($"{key}={new_value}");
-            }
-            File.WriteAllLines(Global.EnvFilePath, lines);
-
-            Env.Load();
+            EnvFile.Update("API_URL", txtApiUrlValue.Text);
+            EnvFile.Update("API_TOKEN", txtApiKey.Text);
         }
 
         private void btnLastInterface_Click(object sender, EventArgs e)
@@ -529,11 +497,6 @@ namespace SystemTrayApp
         private void btnUpdateAssetData_Click(object sender, EventArgs e)
         {
             Task.Run(() => SnipeIT.CreateAsset(Global.HostName, Global.SerialNumber, 1, txtAssetMAC.Text, Global.Uuid));
-        }
-        static string CheckForFirstRun()
-        {
-            DotNetEnv.Env.Load(".env");
-            return DotNetEnv.Env.GetString("FIRST_RUN");
         }
 
         private void btnCopyHostMachien_Click(object sender, EventArgs e)
