@@ -10,11 +10,14 @@ namespace SystemTrayApp
 {
     public partial class Form1 : Form
     {
+        bool settingsIsShowing, homeIsShowing;
+
         Home_Form home_form = new Home_Form();
         public bool homeIsClicked = false;
         public bool settingsIsClicked = false;
         public Form1()
         {
+            settingsIsShowing = true;
             InitializeComponent();
             //TODO https://www.youtube.com/watch?v=2h69Ce4MZiQ Costum ContextMenuStrip for COOOOOLER Design
             notifyIcon1.ContextMenuStrip = contextMenuStrip1;
@@ -198,32 +201,46 @@ namespace SystemTrayApp
 
         private void btnHome_Click(object sender, EventArgs e)
         {
-            settingsIsClicked = false;
-            btnSettings.BackgroundImage = Resources.settings_button_untriggered;
-            btnHome.BackgroundImage = Resources.home_button_triggered;
-            Settings_Form settings_form = new Settings_Form();
-            settings_form.Hide();
-            home_form.TopLevel = false;
-            flpCurrentMenu.Controls.Clear();
-            flpCurrentMenu.Controls.Add(home_form);
-            home_form.Show();
-            homeIsClicked = true;
+            if(!homeIsShowing)
+            {
+                settingsIsClicked = false;
+                btnSettings.BackgroundImage = Resources.settings_button_untriggered;
+                btnHome.BackgroundImage = Resources.home_button_triggered;
+                Settings_Form settings_form = new Settings_Form();
+
+                settings_form.Hide();
+                home_form.TopLevel = false;
+                flpCurrentMenu.Controls.Clear();
+                flpCurrentMenu.Controls.Add(home_form);
+                home_form.Show();
+
+                homeIsClicked = true;
+                settingsIsShowing = false;
+                homeIsShowing = true;
+            }
         }
 
         private void btnSettings_Click(object sender, EventArgs e)
         {
-            homeIsClicked = false;
-            btnHome.BackgroundImage = Resources.home_button_untriggered;
-            btnSettings.BackgroundImage = Resources.settings_button_triggered;
+            if (!settingsIsShowing)
+            {
+                homeIsClicked = false;
+                btnHome.BackgroundImage = Resources.home_button_untriggered;
+                btnSettings.BackgroundImage = Resources.settings_button_triggered;
 
-            //Select Settings Menu
-            Settings_Form settings_form = new Settings_Form();
-            settings_form.TopLevel = false;
-            flpCurrentMenu.Controls.Clear();
-            flpCurrentMenu.Controls.Add(settings_form);
-            settings_form.Show();
+                //Select Settings Menu
+                Settings_Form settings_form = new Settings_Form();
+                settings_form.TopLevel = false;
 
-            settingsIsClicked = true;
+                flpCurrentMenu.Controls.Add(settings_form);
+                settings_form.Show();
+                home_form.Hide();
+
+                settingsIsClicked = true;
+                homeIsShowing = false;
+                settingsIsShowing = true;
+            }
+            
         }
 
         private void pnlDragAndDrop_Paint(object sender, PaintEventArgs e) { }
