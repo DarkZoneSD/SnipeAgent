@@ -41,7 +41,8 @@ namespace SystemTrayApp.src
                     serial = serial_number,
                     status_id = statusId, // Assuming 2 corresponds to 'Ready to Deploy'
                     _snipeit_mac_address_1 = mac,
-                    _snipeit_uuid_2 = uuid
+                    _snipeit_uuid_2 = uuid,
+                    category = 2
                 };
 
                 var json = Newtonsoft.Json.JsonConvert.SerializeObject(asset);
@@ -52,11 +53,7 @@ namespace SystemTrayApp.src
                 if (response.IsSuccessStatusCode)
                 {
                     string responseBody = await response.Content.ReadAsStringAsync();
-                    //if (responseBody.Contains("_snipeit_uuid_2"))
-                    //{
-                    //    MessageBox.Show(@$"The UUID already exists in the Database. Delete the asset from the database or update the UUID by resetting it in" +
-                    //        " the settings or deleting the Appdata\\SnipeAgent folder to regenerate the files.");
-                    //}
+
                     Console.WriteLine("Asset created successfully. Response: " + responseBody);
                 }
                 else
@@ -146,6 +143,7 @@ namespace SystemTrayApp.src
                         var value = row[key]?.ToString();
                         if (value != null)
                         {
+                            Console.WriteLine($"Value: {value}");
                             return value;
                         }
                     }
@@ -168,7 +166,7 @@ namespace SystemTrayApp.src
             if (!assetExists) SnipeIT.CreateAsset(Global.HostName, Global.SerialNumber, "", Global.Uuid);
         }
         //TODO: be able to retrieve nested JSON objects
-        public static async Task<string> GetAssetNestedProperties(string uuid, string key)
+        public static async Task<string> GetAssetThreeNestedProperties(string uuid, string key, string sub_key, string sub_sub_key)
         {
             Console.WriteLine($"Retrieving data for property: {key} of the asset with UUID:{uuid}");
             string baseUrl = Global.ApiUrl;
@@ -188,26 +186,74 @@ namespace SystemTrayApp.src
                 string responseBody = await response.Content.ReadAsStringAsync();
                 var jsonResponse = JObject.Parse(responseBody);
 
-                // Check if the payload contains any rows
                 var rows = jsonResponse["rows"];
-                if (rows != null && rows.HasValues)
+                foreach (var row in rows)
                 {
-                    Console.WriteLine("Asset retrieved successfully.\n");
-
-                    // Retrieve the value from the JSON object where the key matches
-                    foreach (var row in rows)
+                    if (rows != null && rows.HasValues)
                     {
-                        var value = row[key]?.ToString();
+                        Console.WriteLine("Asset retrieved successfully.\n");
+
+                        string value = row[key][sub_key][sub_sub_key]?.ToString();
                         if (value != null)
                         {
+                            Console.WriteLine($"Value: {value}");
                             return value;
                         }
                     }
+                    else
+                    {
+                        Console.WriteLine("Asset not found.");
+                    }
                 }
-                else
+                
+            }
+            else
+            {
+                Console.WriteLine("Error: " + response.StatusCode);
+            }
+
+            return null;
+        }
+        public static async Task<string> GetAssetTwoNestedProperties(string uuid, string key, string sub_key)
+        {
+            Console.WriteLine($"Retrieving data for property: {key} of the asset with UUID:{uuid}");
+            string baseUrl = Global.ApiUrl;
+            string apiToken = Global.ApiToken;
+            var client = new HttpClient();
+
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
+
+            string url = $"{baseUrl}?search={uuid}";
+
+            HttpResponseMessage response = await client.GetAsync(url);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JObject.Parse(responseBody);
+
+                var rows = jsonResponse["rows"];
+                foreach (var row in rows)
                 {
-                    Console.WriteLine("Asset not found.");
+                    if (rows != null && rows.HasValues)
+                    {
+                        Console.WriteLine("Asset retrieved successfully.\n");
+
+                        string value = row[key][sub_key]?.ToString();
+                        if (value != null)
+                        {
+                            Console.WriteLine($"Value: {value}");
+                            return value;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Asset not found.");
+                    }
                 }
+
             }
             else
             {

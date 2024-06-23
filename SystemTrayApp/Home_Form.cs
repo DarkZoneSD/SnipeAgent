@@ -505,7 +505,7 @@ namespace SystemTrayApp
 
         private void btnUpdateAssetData_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void btnCopyHostMachien_Click(object sender, EventArgs e)

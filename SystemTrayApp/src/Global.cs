@@ -110,7 +110,7 @@ namespace SystemTrayApp
         }
         public async static Task<String> GetAssetCategory()
         {
-            return await SnipeIT.GetAssetProperties(Global.Uuid, "");
+            return await SnipeIT.GetAssetTwoNestedProperties(Global.Uuid, "category", "name");
         }
         #endregion
 
@@ -136,7 +136,7 @@ namespace SystemTrayApp
         }
         public async static Task<String> GetAssetModel()
         {
-            return await SnipeIT.GetAssetProperties(Global.Uuid, "model.name");
+            return await SnipeIT.GetAssetTwoNestedProperties(Global.Uuid, "model", "name");
         }
         #endregion
 
@@ -162,7 +162,7 @@ namespace SystemTrayApp
         }
         public async static Task<String> GetAssetMAC()
         {
-            return await SnipeIT.GetAssetProperties(Global.Uuid, "custom_fields.MAC Address.value");
+            return await SnipeIT.GetAssetThreeNestedProperties(Global.Uuid, "custom_fields", "MAC Address", "value");
         }
         #endregion
 
@@ -176,8 +176,7 @@ namespace SystemTrayApp
 
         public async static Task<String> GetAssetUUID()
         {
-            string[] keys = new string[3] {"custom_field", "UUID", "value" };
-            return await SnipeIT.GetAssetProperties(Global.Uuid, "custom_field.UUID.value");
+            return await SnipeIT.GetAssetThreeNestedProperties(Global.Uuid, "custom_fields", "UUID", "value");
         }
         #endregion
     }
