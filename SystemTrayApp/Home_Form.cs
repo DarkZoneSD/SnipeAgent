@@ -102,6 +102,9 @@ namespace SystemTrayApp
 
             rotateImage(btnNextInterface);
 
+            //TODO: For some reason this txtfield has password chars when it shouldnt
+            txtAssetTag.ReadOnly = false;
+            txtAssetTag.PasswordChar = '\0';
         }
         private void UpdateInterfaceSelectionPosition()
         {
@@ -415,6 +418,10 @@ namespace SystemTrayApp
                 pbServerConnectionStatus.Image = Properties.Resources.server_connection_status_icon_connected;
                 lblServerConnectionStatus.Text = statusMessage;
                 lblServerConnectionStatus.ForeColor = Color.FromArgb(58, 255, 88);
+                if(txtAssetTag.Text.Length == 0) 
+                {
+                    UseAssetProperties();
+                }
             }
             else
             {
@@ -492,7 +499,7 @@ namespace SystemTrayApp
             lblMAC.Text = getMacAddress(selectedInterfaceIndex);
             UpdateInterfaceSelectionPosition();
 
-            if(lblInterfaceName.Size.Height > 17) MoveTextDown();
+            if (lblInterfaceName.Size.Height > 17) MoveTextDown();
             else MoveTextUp();
         }
 
@@ -534,7 +541,7 @@ namespace SystemTrayApp
 
         public void MoveTextDown()
         {
-            if(!(lblHostMachineName.Location == new Point(12, 155)))
+            if (!(lblHostMachineName.Location == new Point(12, 155)))
             {
                 this.Hide();
                 this.BackgroundImage = Resources.home_menu_ui_lower_line;
@@ -561,7 +568,7 @@ namespace SystemTrayApp
                 this.btnCopyManufacturer.Location = new Point(204, 368 + 17);
                 this.Show();
             }
-            
+
         }
         public void MoveTextUp()
         {
@@ -603,6 +610,10 @@ namespace SystemTrayApp
             txtAssetModelNumber.Text = await Global.GetAssetModelNo();
             txtAssetUUID.Text = await Global.GetAssetUUID();
         }
-        
+
+        private void txtAssetTag_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

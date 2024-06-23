@@ -454,6 +454,7 @@
             txtAssetTag.Size = new Size(174, 23);
             txtAssetTag.TabIndex = 42;
             txtAssetTag.UseSystemPasswordChar = true;
+            txtAssetTag.TextChanged += txtAssetTag_TextChanged;
             // 
             // txtAssetCategory
             // 

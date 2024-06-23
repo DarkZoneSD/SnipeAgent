@@ -22,44 +22,50 @@ namespace SystemTrayApp.src
             string modelId = Global.ModelID;
             string statusId = Global.StatusID;
             // Debugging statements
-            Console.WriteLine($"API_URL: {baseUrl}\nAPI_TOKEN: {apiToken}\nMODEL: {modelId}");
-
-            var client = new HttpClient();
-
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
-
-            if (mac.Contains('-')) mac = mac.Replace('-', ':');
-
-            var asset = new
+            try
             {
-                name = asset_name,
-                model_id = modelId, // Use the modelId read from the .env file
-                serial = serial_number,
-                status_id = statusId, // Assuming 2 corresponds to 'Ready to Deploy'
-                _snipeit_mac_address_1 = mac,
-                _snipeit_uuid_2 = uuid
-            };
+                Console.WriteLine($"API_URL: {baseUrl}\nAPI_TOKEN: {apiToken}\nMODEL: {modelId}");
 
-            var json = Newtonsoft.Json.JsonConvert.SerializeObject(asset);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var client = new HttpClient();
 
-            HttpResponseMessage response = await client.PostAsync(baseUrl, content);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
 
-            if (response.IsSuccessStatusCode)
+                if (mac.Contains('-')) mac = mac.Replace('-', ':');
+
+                var asset = new
+                {
+                    name = asset_name,
+                    model_id = modelId, // Use the modelId read from the .env file
+                    serial = serial_number,
+                    status_id = statusId, // Assuming 2 corresponds to 'Ready to Deploy'
+                    _snipeit_mac_address_1 = mac,
+                    _snipeit_uuid_2 = uuid
+                };
+
+                var json = Newtonsoft.Json.JsonConvert.SerializeObject(asset);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await client.PostAsync(baseUrl, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    //if (responseBody.Contains("_snipeit_uuid_2"))
+                    //{
+                    //    MessageBox.Show(@$"The UUID already exists in the Database. Delete the asset from the database or update the UUID by resetting it in" +
+                    //        " the settings or deleting the Appdata\\SnipeAgent folder to regenerate the files.");
+                    //}
+                    Console.WriteLine("Asset created successfully. Response: " + responseBody);
+                }
+                else
+                {
+                    Console.WriteLine("Error: " + response.StatusCode);
+                }
+            }catch (Exception ex)
             {
-                string responseBody = await response.Content.ReadAsStringAsync();
-                //if (responseBody.Contains("_snipeit_uuid_2"))
-                //{
-                //    MessageBox.Show(@$"The UUID already exists in the Database. Delete the asset from the database or update the UUID by resetting it in" +
-                //        " the settings or deleting the Appdata\\SnipeAgent folder to regenerate the files.");
-                //}
-                Console.WriteLine("Asset created successfully. Response: " + responseBody);
-            }
-            else
-            {
-                Console.WriteLine("Error: " + response.StatusCode);
+                Console.Write(ex.ToString());
             }
         }
         public static async Task<bool> GetAssetByUuid(string uuid)
@@ -74,29 +80,37 @@ namespace SystemTrayApp.src
 
             string url = $"{baseUrl}?search={uuid}";
 
-            HttpResponseMessage response = await client.GetAsync(url);
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                string responseBody = await response.Content.ReadAsStringAsync();
-                var jsonResponse = JObject.Parse(responseBody);
+                HttpResponseMessage response = await client.GetAsync(url);
 
-                // Check if the payload contains any rows
-                var rows = jsonResponse["rows"];
-                if (rows != null && rows.HasValues)
+                if (response.IsSuccessStatusCode)
                 {
-                    Console.WriteLine("Asset retrieved successfully. Response: " + responseBody);
-                    return true;
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    var jsonResponse = JObject.Parse(responseBody);
+
+                    // Check if the payload contains any rows
+                    var rows = jsonResponse["rows"];
+                    if (rows != null && rows.HasValues)
+                    {
+                        Console.WriteLine("Asset retrieved successfully. Response: " + responseBody);
+                        return true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Asset not found.");
+                        return false;
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Asset not found.");
+                    Console.WriteLine("Error: " + response.StatusCode);
                     return false;
                 }
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine("Error: " + response.StatusCode);
+                Console.WriteLine(ex.Message);
                 return false;
             }
         }
@@ -154,59 +168,54 @@ namespace SystemTrayApp.src
             if (!assetExists) SnipeIT.CreateAsset(Global.HostName, Global.SerialNumber, "", Global.Uuid);
         }
         //TODO: be able to retrieve nested JSON objects
-        //public static async Task<string> GetAssetNestedProperties(string uuid, string[] keys)
-        //{
-        //    Console.WriteLine($"Retrieving data for property:");
-        //    foreach(string key in keys)
-        //    {
-        //        Console.Write(key);
-        //    }
-        //    Console.WriteLine("of the asset with UUID:{uuid}");
-        //    string baseUrl = Global.ApiUrl;
-        //    string apiToken = Global.ApiToken;
-        //    var client = new HttpClient();
+        public static async Task<string> GetAssetNestedProperties(string uuid, string key)
+        {
+            Console.WriteLine($"Retrieving data for property: {key} of the asset with UUID:{uuid}");
+            string baseUrl = Global.ApiUrl;
+            string apiToken = Global.ApiToken;
+            var client = new HttpClient();
 
-        //    client.DefaultRequestHeaders.Accept.Clear();
-        //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        //    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
 
-        //    string url = $"{baseUrl}?search={uuid}";
+            string url = $"{baseUrl}?search={uuid}";
 
-        //    HttpResponseMessage response = await client.GetAsync(url);
+            HttpResponseMessage response = await client.GetAsync(url);
 
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        string responseBody = await response.Content.ReadAsStringAsync();
-        //        var jsonResponse = JObject.Parse(responseBody);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JObject.Parse(responseBody);
 
-        //        // Check if the payload contains any rows
-        //        var rows = jsonResponse["rows"];
-        //        if (rows != null && rows.HasValues)
-        //        {
-        //            Console.WriteLine("Asset retrieved successfully.\n");
+                // Check if the payload contains any rows
+                var rows = jsonResponse["rows"];
+                if (rows != null && rows.HasValues)
+                {
+                    Console.WriteLine("Asset retrieved successfully.\n");
 
-        //            // Retrieve the value from the JSON object where the key matches
-        //            foreach (var row in rows)
-        //            {
-        //                var value = row[keys[0]]?.ToString();
-        //                if (value != null)
-        //                {
-        //                    return value;
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            Console.WriteLine("Asset not found.");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("Error: " + response.StatusCode);
-        //    }
+                    // Retrieve the value from the JSON object where the key matches
+                    foreach (var row in rows)
+                    {
+                        var value = row[key]?.ToString();
+                        if (value != null)
+                        {
+                            return value;
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Asset not found.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Error: " + response.StatusCode);
+            }
 
-        //    return null;
-        //}
+            return null;
+        }
     }
 }
 

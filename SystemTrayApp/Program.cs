@@ -20,7 +20,13 @@ namespace SystemTrayApp
             {
                 EnvFile.Update("FIRST_RUN", "False");
             }
-            SnipeIT.CheckAsset();
+            try
+            {
+                SnipeIT.CheckAsset();
+            }catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
             ApplicationConfiguration.Initialize();
             Application.Run(new Form1());
         }
