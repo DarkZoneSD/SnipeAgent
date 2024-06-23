@@ -91,10 +91,6 @@ namespace SystemTrayApp.src
                 else
                 {
                     Console.WriteLine("Asset not found.");
-
-                    //Create asset if no asset with your uuid is found
-                    Home_Form home_Form = new Home_Form();
-                    home_Form.RunCreateAsset();
                     return false;
                 }
             }
@@ -104,8 +100,9 @@ namespace SystemTrayApp.src
                 return false;
             }
         }
-        public static async Task<bool> FillOutAssetFieldsInForm(string uuid)
+        public static async Task<string> GetAssetProperties(string uuid, string key)
         {
+            Console.WriteLine($"Retrieving data for property: {key} of the asset with UUID:{uuid}");
             string baseUrl = Global.ApiUrl;
             string apiToken = Global.ApiToken;
             var client = new HttpClient();
@@ -127,18 +124,89 @@ namespace SystemTrayApp.src
                 var rows = jsonResponse["rows"];
                 if (rows != null && rows.HasValues)
                 {
-                    Console.WriteLine("Asset retrieved successfully. Response: " + responseBody);
-                    return true;
+                    Console.WriteLine("Asset retrieved successfully.\n");
+
+                    // Retrieve the value from the JSON object where the key matches
+                    foreach (var row in rows)
+                    {
+                        var value = row[key]?.ToString();
+                        if (value != null)
+                        {
+                            return value;
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Asset not found.");
                 }
             }
             else
             {
                 Console.WriteLine("Error: " + response.StatusCode);
-                return false;
             }
 
-            //TODO Retrieve the values from the Snipe-IT Database and return them (maybe implement in global as new env vars?
+            return null;
         }
+        public static async void CheckAsset()
+        {
+            bool assetExists = await Task.Run(() => SnipeIT.GetAssetByUuid(Global.Uuid));
+            if (!assetExists) SnipeIT.CreateAsset(Global.HostName, Global.SerialNumber, "", Global.Uuid);
+        }
+        //TODO: be able to retrieve nested JSON objects
+        //public static async Task<string> GetAssetNestedProperties(string uuid, string[] keys)
+        //{
+        //    Console.WriteLine($"Retrieving data for property:");
+        //    foreach(string key in keys)
+        //    {
+        //        Console.Write(key);
+        //    }
+        //    Console.WriteLine("of the asset with UUID:{uuid}");
+        //    string baseUrl = Global.ApiUrl;
+        //    string apiToken = Global.ApiToken;
+        //    var client = new HttpClient();
+
+        //    client.DefaultRequestHeaders.Accept.Clear();
+        //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        //    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
+
+        //    string url = $"{baseUrl}?search={uuid}";
+
+        //    HttpResponseMessage response = await client.GetAsync(url);
+
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        string responseBody = await response.Content.ReadAsStringAsync();
+        //        var jsonResponse = JObject.Parse(responseBody);
+
+        //        // Check if the payload contains any rows
+        //        var rows = jsonResponse["rows"];
+        //        if (rows != null && rows.HasValues)
+        //        {
+        //            Console.WriteLine("Asset retrieved successfully.\n");
+
+        //            // Retrieve the value from the JSON object where the key matches
+        //            foreach (var row in rows)
+        //            {
+        //                var value = row[keys[0]]?.ToString();
+        //                if (value != null)
+        //                {
+        //                    return value;
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            Console.WriteLine("Asset not found.");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine("Error: " + response.StatusCode);
+        //    }
+
+        //    return null;
+        //}
     }
 }
 

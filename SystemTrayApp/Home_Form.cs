@@ -35,6 +35,8 @@ namespace SystemTrayApp
             txtApiKey.Text = Global.ApiToken;
             txtApiUrlValue.Text = Global.ApiUrl;
 
+            UseAssetProperties();
+
             btnRefresh.MouseEnter += OnMouseEnterBtnRefresh;
             btnRefresh.MouseLeave += OnMouseLeaveBtnRefresh;
             btnSaveServerConfig.MouseEnter += OnMouseEnterBtnSaveServerConfig;
@@ -561,11 +563,6 @@ namespace SystemTrayApp
             }
             
         }
-        public void RunCreateAsset()
-        {
-            MessageBox.Show("Creating a new asset");
-            Task.Run(() => SnipeIT.CreateAsset(Global.HostName, Global.SerialNumber, txtAssetMAC.Text, Global.Uuid));
-        }
         public void MoveTextUp()
         {
             if (!(lblHostMachineName.Location == new Point(12, 138)))
@@ -595,6 +592,16 @@ namespace SystemTrayApp
                 this.btnCopyManufacturer.Location = new Point(204, 368);
                 this.Show();
             }
+        }
+        public async Task UseAssetProperties()
+        {
+            txtAssetTag.Text = await Global.GetAssetTag();
+            txtAssetName.Text = await Global.GetAssetName();
+            //txtAssetCategory.Text = await Global.GetAssetCategory();
+            txtAssetSerial.Text = await Global.GetAssetSerial();
+            txtAssetModel.Text = await Global.GetAssetModel();
+            txtAssetModelNumber.Text = await Global.GetAssetModelNo();
+            txtAssetUUID.Text = await Global.GetAssetUUID();
         }
         
     }

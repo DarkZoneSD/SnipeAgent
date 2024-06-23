@@ -73,6 +73,113 @@ namespace SystemTrayApp
             get { return system_model; }
             set { system_model = value; }
         }
+
+        #region AssetTag
+        public static string asset_tag;
+        public static string AssetTag
+        {
+            get { return asset_tag; }
+            set { asset_tag = value; }
+        }
+        public async static Task<String> GetAssetTag()
+        {
+            return await SnipeIT.GetAssetProperties(Global.Uuid, "asset_tag");
+        }
+        #endregion
+
+        #region AssetName
+        private static string asset_name; // Private field to store the asset name
+
+        public static string AssetName
+        {
+            get { return asset_name; }
+            set { asset_name = value; }
+        }
+        public async static Task<string> GetAssetName()
+        {
+            return await SnipeIT.GetAssetProperties(Global.Uuid, "name");
+        }
+        #endregion
+
+        #region AssetCategory
+        public static string asset_category;
+        public static string AssetCategory
+        {
+            get { return asset_category; }
+            set { asset_category = value; }
+        }
+        public async static Task<String> GetAssetCategory()
+        {
+            return await SnipeIT.GetAssetProperties(Global.Uuid, "");
+        }
+        #endregion
+
+        #region AssetSerial
+        public static string asset_serial;
+        public static string AssetSerial
+        {
+            get { return asset_serial; }
+            set { asset_serial = value; }
+        }
+        public async static Task<String> GetAssetSerial()
+        {
+            return await SnipeIT.GetAssetProperties(Global.Uuid, "serial");
+        }
+        #endregion
+
+        #region AssetModel
+        public static string asset_model;
+        public static string AssetModel
+        {
+            get { return asset_model; }
+            set { asset_model = value; }
+        }
+        public async static Task<String> GetAssetModel()
+        {
+            return await SnipeIT.GetAssetProperties(Global.Uuid, "model.name");
+        }
+        #endregion
+
+        #region AssetModelNo
+        public static string asset_model_no;
+        public static string AssetModelNo
+        {
+            get { return asset_model_no; }
+            set { asset_model_no = value; }
+        }
+        public async static Task<String> GetAssetModelNo()
+        {
+            return await SnipeIT.GetAssetProperties(Global.Uuid, "model_number");
+        }
+        #endregion
+
+        #region AssetMAC
+        public static string asset_mac;
+        public static string AssetMAC
+        {
+            get { return asset_mac; }
+            set { asset_mac = value; }
+        }
+        public async static Task<String> GetAssetMAC()
+        {
+            return await SnipeIT.GetAssetProperties(Global.Uuid, "custom_fields.MAC Address.value");
+        }
+        #endregion
+
+        #region AssetUUID
+        public static string asset_uuid;
+        public static string AssetUUID
+        {
+            get { return asset_uuid; }
+            set { asset_uuid = value; }
+        }
+
+        public async static Task<String> GetAssetUUID()
+        {
+            string[] keys = new string[3] {"custom_field", "UUID", "value" };
+            return await SnipeIT.GetAssetProperties(Global.Uuid, "custom_field.UUID.value");
+        }
+        #endregion
     }
 
     public class RetrieveMethods
@@ -107,6 +214,5 @@ namespace SystemTrayApp
             DotNetEnv.Env.Load($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\SnipeAgent\.Env");
             return DotNetEnv.Env.GetString("STATUS_ID");
         }
-
     }
 }

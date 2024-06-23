@@ -20,7 +20,7 @@ namespace SystemTrayApp
             {
                 EnvFile.Update("FIRST_RUN", "False");
             }
-            Task.Run(() => SnipeIT.GetAssetByUuid(Global.Uuid));
+            SnipeIT.CheckAsset();
             ApplicationConfiguration.Initialize();
             Application.Run(new Form1());
         }
