@@ -82,6 +82,7 @@
             btnCopyModel = new Button();
             btnCopyManufacturer = new Button();
             btnCopyMac = new Button();
+            txtAssetTagValue = new TextBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbServerConnectionStatus).BeginInit();
@@ -448,7 +449,7 @@
             txtAssetTag.BackColor = Color.Gray;
             txtAssetTag.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtAssetTag.ForeColor = SystemColors.HighlightText;
-            txtAssetTag.Location = new Point(295, 281);
+            txtAssetTag.Location = new Point(0, 0);
             txtAssetTag.Name = "txtAssetTag";
             txtAssetTag.ReadOnly = true;
             txtAssetTag.Size = new Size(174, 23);
@@ -731,6 +732,16 @@
             btnCopyMac.UseVisualStyleBackColor = false;
             btnCopyMac.Click += btnCopyMac_Click;
             // 
+            // txtAssetTagValue
+            // 
+            txtAssetTagValue.BackColor = Color.Gray;
+            txtAssetTagValue.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtAssetTagValue.ForeColor = SystemColors.HighlightText;
+            txtAssetTagValue.Location = new Point(295, 281);
+            txtAssetTagValue.Name = "txtAssetTagValue";
+            txtAssetTagValue.Size = new Size(174, 23);
+            txtAssetTagValue.TabIndex = 63;
+            // 
             // Home_Form
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -739,6 +750,7 @@
             BackgroundImage = Properties.Resources.home_menu_ui;
             BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(664, 505);
+            Controls.Add(txtAssetTagValue);
             Controls.Add(btnCopyMac);
             Controls.Add(btnCopyManufacturer);
             Controls.Add(btnCopyModel);
@@ -861,5 +873,6 @@
         private Button btnCopyModel;
         private Button btnCopyManufacturer;
         private Button btnCopyMac;
+        private TextBox txtAssetTagValue;
     }
 }

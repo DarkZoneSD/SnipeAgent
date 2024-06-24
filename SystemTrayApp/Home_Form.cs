@@ -103,10 +103,6 @@ namespace SystemTrayApp
             UpdateInterfaceSelectionPosition();
 
             rotateImage(btnNextInterface);
-
-            //TODO: For some reason this txtfield has password chars when it shouldnt
-            txtAssetTag.ReadOnly = false;
-            txtAssetTag.PasswordChar = '\0';
         }
         private void UpdateInterfaceSelectionPosition()
         {
@@ -380,7 +376,7 @@ namespace SystemTrayApp
                 pbServerConnectionStatus.Image = Properties.Resources.server_connection_status_icon_connected;
                 lblServerConnectionStatus.Text = statusMessage;
                 lblServerConnectionStatus.ForeColor = Color.FromArgb(58, 255, 88);
-                if(txtAssetTag.Text.Length == 0) 
+                if(txtAssetTagValue.Text.Length == 0) 
                 {
                     UseAssetProperties();
                 }
@@ -564,9 +560,9 @@ namespace SystemTrayApp
         }
         public async Task UseAssetProperties()
         {
-            txtAssetTag.Text = await Global.GetAssetTag();
+            txtAssetTagValue.Text = await Global.GetAssetTag();
             txtAssetName.Text = await Global.GetAssetName();
-            //txtAssetCategory.Text = await Global.GetAssetCategory();
+            txtAssetCategory.Text = await Global.GetAssetCategory();
             txtAssetSerial.Text = await Global.GetAssetSerial();
             txtAssetModel.Text = await Global.GetAssetModel();
             txtAssetModelNumber.Text = await Global.GetAssetModelNo();

@@ -165,9 +165,18 @@ namespace SystemTrayApp.src
             bool assetExists = await Task.Run(() => SnipeIT.GetAssetByUuid(Global.Uuid));
             if (!assetExists) SnipeIT.CreateAsset(Global.HostName, Global.SerialNumber, "", Global.Uuid);
         }
+        //TODO: Fix category retrieval
         public static async Task<string> GetAssetNestedProperties(string uuid, string[] key)
         {
-            Console.WriteLine($"Retrieving data for property: {key} of the asset with UUID:{uuid}");
+            Console.WriteLine($"Retrieving data for property:");
+            for(int i = 0; i < key.Length; i++)
+            {
+                Console.BackgroundColor = ConsoleColor.Blue;
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write($"{key[i]} ");
+                Console.ResetColor();
+            }
+            Console.Write($"of the asset with UUID:{uuid}");
             string baseUrl = Global.ApiUrl;
             string apiToken = Global.ApiToken;
             var client = new HttpClient();
@@ -196,23 +205,50 @@ namespace SystemTrayApp.src
                         {
                             switch (key.Length)
                             {
-                                case 2:
-
-                                    break;
                                 case > 2:
                                     string value = row[key[0]][key[1]][key[2]]?.ToString();
                                     if (value != null)
                                     {
-                                        Console.WriteLine($"Value: {value}");
+                                        Console.WriteLine($"Value: ");
+                                        for (int i = 0; i < key.Length; i++)
+                                        {
+                                            Console.BackgroundColor = ConsoleColor.Blue;
+                                            Console.ForegroundColor = ConsoleColor.White;
+                                            Console.Write($"{key[i]} ");
+                                            Console.ResetColor();
+                                        }
+                                        Console.WriteLine("\n");
                                         return value;
+                                    }
+                                    else
+                                    {
+                                        Console.BackgroundColor = ConsoleColor.Blue;
+                                        Console.ForegroundColor = ConsoleColor.White;
+                                        Console.Write($"NULL VALUE");
+                                        Console.ResetColor();
                                     }
                                     break;
                                 default:
                                     string value1 = row[key[0]][key[1]]?.ToString();
                                     if (value1 != null)
                                     {
-                                        Console.WriteLine($"Value: {value1}");
+                                        Console.WriteLine($"Value: ");
+                                        for(int i =0; i < key.Length; i++)
+                                        {
+                                            Console.BackgroundColor = ConsoleColor.Blue;
+                                            Console.ForegroundColor = ConsoleColor.White;
+                                            Console.Write($"{ key[i]} ");
+                                            Console.ResetColor();
+                                        }
+                                        Console.WriteLine("\n");
                                         return value1;
+                                    }
+                                    else
+                                    {
+                                        Console.BackgroundColor = ConsoleColor.Blue;
+                                        Console.ForegroundColor = ConsoleColor.White;
+                                        Console.Write($"NULL VALUE");
+                                        Console.ResetColor();
                                     }
                                     break;
                             }
