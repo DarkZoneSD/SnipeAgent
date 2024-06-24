@@ -165,8 +165,7 @@ namespace SystemTrayApp.src
             bool assetExists = await Task.Run(() => SnipeIT.GetAssetByUuid(Global.Uuid));
             if (!assetExists) SnipeIT.CreateAsset(Global.HostName, Global.SerialNumber, "", Global.Uuid);
         }
-        //TODO: be able to retrieve nested JSON objects
-        public static async Task<string> GetAssetThreeNestedProperties(string uuid, string key, string sub_key, string sub_sub_key)
+        public static async Task<string> GetAssetNestedProperties(string uuid, string[] key)
         {
             Console.WriteLine($"Retrieving data for property: {key} of the asset with UUID:{uuid}");
             string baseUrl = Global.ApiUrl;
@@ -193,60 +192,38 @@ namespace SystemTrayApp.src
                     {
                         Console.WriteLine("Asset retrieved successfully.\n");
 
-                        string value = row[key][sub_key][sub_sub_key]?.ToString();
-                        if (value != null)
+                        if(key.Length > 0)
                         {
-                            Console.WriteLine($"Value: {value}");
-                            return value;
+                            switch (key.Length)
+                            {
+                                case 2:
+
+                                    break;
+                                case > 2:
+                                    string value = row[key[0]][key[1]][key[2]]?.ToString();
+                                    if (value != null)
+                                    {
+                                        Console.WriteLine($"Value: {value}");
+                                        return value;
+                                    }
+                                    break;
+                                default:
+                                    string value1 = row[key[0]][key[1]]?.ToString();
+                                    if (value1 != null)
+                                    {
+                                        Console.WriteLine($"Value: {value1}");
+                                        return value1;
+                                    }
+                                    break;
+                            }
                         }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Asset not found.");
-                    }
-                }
-                
-            }
-            else
-            {
-                Console.WriteLine("Error: " + response.StatusCode);
-            }
-
-            return null;
-        }
-        public static async Task<string> GetAssetTwoNestedProperties(string uuid, string key, string sub_key)
-        {
-            Console.WriteLine($"Retrieving data for property: {key} of the asset with UUID:{uuid}");
-            string baseUrl = Global.ApiUrl;
-            string apiToken = Global.ApiToken;
-            var client = new HttpClient();
-
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
-
-            string url = $"{baseUrl}?search={uuid}";
-
-            HttpResponseMessage response = await client.GetAsync(url);
-
-            if (response.IsSuccessStatusCode)
-            {
-                string responseBody = await response.Content.ReadAsStringAsync();
-                var jsonResponse = JObject.Parse(responseBody);
-
-                var rows = jsonResponse["rows"];
-                foreach (var row in rows)
-                {
-                    if (rows != null && rows.HasValues)
-                    {
-                        Console.WriteLine("Asset retrieved successfully.\n");
-
-                        string value = row[key][sub_key]?.ToString();
-                        if (value != null)
+                        else
                         {
-                            Console.WriteLine($"Value: {value}");
-                            return value;
+
+                            Console.WriteLine("Asset not found.");
+                            return null;
                         }
+                        
                     }
                     else
                     {
