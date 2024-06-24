@@ -20,17 +20,16 @@ namespace SystemTrayApp
             btnOpenGithub.MouseEnter += OnMouseEnterBtnOpenGitHub;
             btnOpenGithub.MouseLeave += OnMouseLeaveBtnOpenGitHub;
 
-            btnOpenGithub.FlatStyle = FlatStyle.Flat;
-            btnOpenGithub.FlatAppearance.BorderSize = 0;
-            btnOpenGithub.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
-
             btnOpenAppdataFolder.MouseEnter += OnMouseEnterBtnOpenAppdataFolder;
             btnOpenAppdataFolder.MouseLeave += OnMouseLeaveBtnOpenAppdataFolder;
 
-            btnOpenAppdataFolder.FlatStyle = FlatStyle.Flat;
-            btnOpenAppdataFolder.FlatAppearance.BorderSize = 0;
-            btnOpenAppdataFolder.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
-
+            foreach (Button btn in this.Controls.OfType<Button>())
+            {
+                btn.TabStop = false;
+                btn.FlatStyle = FlatStyle.Flat;
+                btn.FlatAppearance.BorderSize = 0;
+                btn.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255); //Transparent
+            }
         }
 
         private void OnMouseEnterBtnOpenGitHub(object sender, EventArgs e)

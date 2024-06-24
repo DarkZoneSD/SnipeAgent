@@ -59,6 +59,8 @@ namespace SystemTrayApp
             btnCopyManufacturer.MouseLeave += OnMouseLeaveBtnCopyManufacturer;
             btnCopyMac.MouseEnter += OnMouseEnterBtnCopyMac;
             btnCopyMac.MouseLeave += OnMouseLeaveBtnCopyMac;
+            btnUpdateAssetData.MouseEnter += OnMouseEnterBtnUpdateAssetData;
+            btnUpdateAssetData.MouseLeave += OnMouseLeaveBtnUpdateAssetData;
 
             this.BackColor = Color.DimGray;
             this.TransparencyKey = Color.DimGray;
@@ -124,68 +126,20 @@ namespace SystemTrayApp
         }
         private void Home_Form_Load(object sender, EventArgs e)
         {
-            lblServerConnectionStatus.ForeColor = Color.FromArgb(255, 165, 0);
-            txtApiKey.BackColor = Color.FromArgb(27, 27, 27);
-
-            txtApiUrlValue.BackColor = Color.FromArgb(27, 27, 27);
-            txtAssetCategory.BackColor = Color.FromArgb(27, 27, 27);
-            txtAssetMAC.BackColor = Color.FromArgb(27, 27, 27);
-            txtAssetModel.BackColor = Color.FromArgb(27, 27, 27);
-            txtAssetModelNumber.BackColor = Color.FromArgb(27, 27, 27);
-            txtAssetName.BackColor = Color.FromArgb(27, 27, 27);
-            txtAssetSerial.BackColor = Color.FromArgb(27, 27, 27);
-            txtAssetTag.BackColor = Color.FromArgb(27, 27, 27);
-            txtAssetUUID.BackColor = Color.FromArgb(27, 27, 27);
-            btnRefresh.FlatStyle = FlatStyle.Flat;
-            btnRefresh.FlatAppearance.BorderSize = 0;
-            btnRefresh.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255); //Transparent
             lblMAC.Text = getMacAddress(selectedInterfaceIndex);
+            lblServerConnectionStatus.ForeColor = Color.FromArgb(255, 165, 0);
 
-
-            btnUAC.FlatStyle = FlatStyle.Flat;
-            btnUAC.FlatAppearance.BorderSize = 0;
-            btnUAC.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
-
-            btnUpdateAssetData.FlatStyle = FlatStyle.Flat;
-            btnUpdateAssetData.FlatAppearance.BorderSize = 0;
-            btnUpdateAssetData.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
-
-            btnSaveServerConfig.FlatStyle = FlatStyle.Flat;
-            btnSaveServerConfig.FlatAppearance.BorderSize = 0;
-            btnSaveServerConfig.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
-
-            btnNextInterface.FlatStyle = FlatStyle.Flat;
-            btnNextInterface.FlatAppearance.BorderSize = 0;
-            btnNextInterface.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
-
-            btnLastInterface.FlatStyle = FlatStyle.Flat;
-            btnLastInterface.FlatAppearance.BorderSize = 0;
-            btnLastInterface.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
-
-            btnCopyHostMachine.FlatStyle = FlatStyle.Flat;
-            btnCopyHostMachine.FlatAppearance.BorderSize = 0;
-            btnCopyHostMachine.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
-
-            btnCopySerial.FlatStyle = FlatStyle.Flat;
-            btnCopySerial.FlatAppearance.BorderSize = 0;
-            btnCopySerial.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
-
-            btnCopyUuid.FlatStyle = FlatStyle.Flat;
-            btnCopyUuid.FlatAppearance.BorderSize = 0;
-            btnCopyUuid.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
-
-            btnCopyModel.FlatStyle = FlatStyle.Flat;
-            btnCopyModel.FlatAppearance.BorderSize = 0;
-            btnCopyModel.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
-
-            btnCopyManufacturer.FlatStyle = FlatStyle.Flat;
-            btnCopyManufacturer.FlatAppearance.BorderSize = 0;
-            btnCopyManufacturer.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
-
-            btnCopyMac.FlatStyle = FlatStyle.Flat;
-            btnCopyMac.FlatAppearance.BorderSize = 0;
-            btnCopyMac.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
-
+            foreach (TextBox tb in this.Controls.OfType<TextBox>())
+            {
+                tb.BackColor = Color.FromArgb(27, 27, 27);
+            }
+            foreach (Button btn in this.Controls.OfType<Button>())
+            {
+                btn.FlatStyle = FlatStyle.Flat;
+                btn.FlatAppearance.BorderSize = 0;
+                btn.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255); //Transparent
+            }
+         
         }
         private void OnMouseEnterBtnRefresh(object sender, EventArgs e)
         {
@@ -270,6 +224,14 @@ namespace SystemTrayApp
         private void OnMouseLeaveBtnCopyMac(object sender, EventArgs e)
         {
             btnCopyMac.BackgroundImage = Resources.copy_button_untriggered;
+        }
+        private void OnMouseEnterBtnUpdateAssetData(object sender, EventArgs e)
+        {
+            btnUpdateAssetData.BackgroundImage = Resources.save_button_triggered;
+        }
+        private void OnMouseLeaveBtnUpdateAssetData(object sender, EventArgs e)
+        {
+            btnUpdateAssetData.BackgroundImage = Resources.save_button_untriggered;
         }
         private void OnMouseEnterBtnNextInterface(object sender, EventArgs e)
         {

@@ -171,22 +171,14 @@ namespace SystemTrayApp
         private void Form1_Load(object sender, EventArgs e)
         {
             notifyIcon1.Visible = false;
-            btnCloseApp.TabStop = false;
-            btnCloseApp.FlatStyle = FlatStyle.Flat;
-            btnCloseApp.FlatAppearance.BorderSize = 0;
-            btnCloseApp.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255); //Transparent
-            btnMinimizeApp.TabStop = false;
-            btnMinimizeApp.FlatStyle = FlatStyle.Flat;
-            btnMinimizeApp.FlatAppearance.BorderSize = 0;
-            btnMinimizeApp.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255); //Transparent
-            btnSettings.TabStop = false;
-            btnSettings.FlatStyle = FlatStyle.Flat;
-            btnSettings.FlatAppearance.BorderSize = 0;
-            btnSettings.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255); //Transparent
-            btnHome.TabStop = false;
-            btnHome.FlatStyle = FlatStyle.Flat;
-            btnHome.FlatAppearance.BorderSize = 0;
-            btnHome.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255); //Transparent
+           
+            foreach(Button btn in this.Controls.OfType<Button>())
+            {
+                btn.TabStop = false;
+                btn.FlatStyle = FlatStyle.Flat;
+                btn.FlatAppearance.BorderSize = 0;
+                btn.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255); //Transparent
+            }
         }
 
         private void btnCloseApp_Click(object sender, EventArgs e)
