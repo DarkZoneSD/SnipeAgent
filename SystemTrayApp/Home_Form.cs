@@ -463,7 +463,8 @@ namespace SystemTrayApp
 
         private void btnUpdateAssetData_Click(object sender, EventArgs e)
         {
-            
+            Context_Menu_Form ctmForm = new Context_Menu_Form();
+            ctmForm.Show();
         }
 
         private void btnCopyHostMachien_Click(object sender, EventArgs e)

@@ -83,6 +83,56 @@ namespace SystemTrayApp.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap context_menu {
+            get {
+                object obj = ResourceManager.GetObject("context_menu", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap context_menu_close_button_triggered {
+            get {
+                object obj = ResourceManager.GetObject("context_menu_close_button_triggered", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap context_menu_close_button_untriggered {
+            get {
+                object obj = ResourceManager.GetObject("context_menu_close_button_untriggered", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap context_menu_open_button_triggered {
+            get {
+                object obj = ResourceManager.GetObject("context_menu_open_button_triggered", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap context_menu_open_button_untriggered {
+            get {
+                object obj = ResourceManager.GetObject("context_menu_open_button_untriggered", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap copy_button_triggered {
             get {
                 object obj = ResourceManager.GetObject("copy_button_triggered", resourceCulture);
