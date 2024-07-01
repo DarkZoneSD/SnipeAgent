@@ -31,9 +31,6 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             notifyIcon1 = new NotifyIcon(components);
-            contextMenuStrip1 = new ContextMenuStrip(components);
-            openToolStripMenuItem = new ToolStripMenuItem();
-            exitToolStripMenuItem = new ToolStripMenuItem();
             btnCloseApp = new Button();
             btnMinimizeApp = new Button();
             btnSettings = new Button();
@@ -42,9 +39,12 @@
             lblAppName = new Label();
             btnHome = new Button();
             flpCurrentMenu = new FlowLayoutPanel();
-            contextMenuStrip1.SuspendLayout();
+            openToolStripMenuItem = new ToolStripMenuItem();
+            exitToolStripMenuItem = new ToolStripMenuItem();
+            contextMenuStrip1 = new ContextMenuStrip(components);
             pnlDragAndDrop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbAppIcon).BeginInit();
+            contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // notifyIcon1
@@ -52,26 +52,7 @@
             notifyIcon1.Icon = (Icon)resources.GetObject("notifyIcon1.Icon");
             notifyIcon1.Text = "SystemTrayApp";
             notifyIcon1.Visible = true;
-            // 
-            // contextMenuStrip1
-            // 
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { openToolStripMenuItem, exitToolStripMenuItem });
-            contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(104, 48);
-            // 
-            // openToolStripMenuItem
-            // 
-            openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new Size(103, 22);
-            openToolStripMenuItem.Text = "Open";
-            openToolStripMenuItem.Click += openToolStripMenuItem_Click;
-            // 
-            // exitToolStripMenuItem
-            // 
-            exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(103, 22);
-            exitToolStripMenuItem.Text = "Exit";
-            exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
+            notifyIcon1.MouseDoubleClick += notifyIcon1_MouseDoubleClick;
             // 
             // btnCloseApp
             // 
@@ -163,6 +144,26 @@
             flpCurrentMenu.Size = new Size(668, 505);
             flpCurrentMenu.TabIndex = 6;
             // 
+            // openToolStripMenuItem
+            // 
+            openToolStripMenuItem.Name = "openToolStripMenuItem";
+            openToolStripMenuItem.Size = new Size(180, 22);
+            openToolStripMenuItem.Text = "Open";
+            openToolStripMenuItem.Click += openToolStripMenuItem_Click;
+            // 
+            // exitToolStripMenuItem
+            // 
+            exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            exitToolStripMenuItem.Size = new Size(180, 22);
+            exitToolStripMenuItem.Text = "Exit";
+            exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
+            // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { openToolStripMenuItem, exitToolStripMenuItem });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(181, 70);
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -182,19 +183,16 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "SystemTrayApp";
             Load += Form1_Load;
-            contextMenuStrip1.ResumeLayout(false);
             pnlDragAndDrop.ResumeLayout(false);
             pnlDragAndDrop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbAppIcon).EndInit();
+            contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
         private NotifyIcon notifyIcon1;
-        private ContextMenuStrip contextMenuStrip1;
-        private ToolStripMenuItem openToolStripMenuItem;
-        private ToolStripMenuItem exitToolStripMenuItem;
         private Button btnCloseApp;
         private Button btnMinimizeApp;
         private Button btnSettings;
@@ -203,5 +201,8 @@
         private PictureBox pbAppIcon;
         private Button btnHome;
         private FlowLayoutPanel flpCurrentMenu;
+        private ToolStripMenuItem openToolStripMenuItem;
+        private ToolStripMenuItem exitToolStripMenuItem;
+        private ContextMenuStrip contextMenuStrip1;
     }
 }

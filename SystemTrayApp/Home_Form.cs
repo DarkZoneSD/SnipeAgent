@@ -16,6 +16,8 @@ using System.Timers;
 using System.Windows.Forms;
 using SystemTrayApp.Properties;
 using SystemTrayApp.src;
+using SnipeSharp;
+using SnipeSharp.Endpoints.Models;
 
 namespace SystemTrayApp
 {
@@ -399,15 +401,13 @@ namespace SystemTrayApp
         }
         private async void CheckApiStatus(object sender, ElapsedEventArgs e)
         {
-            string url = Global.ApiUrl;
-            string apiKey = Global.ApiToken;
             using (HttpClient client = new HttpClient())
             {
                 try
                 {
-                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Global.ApiToken}");
 
-                    HttpResponseMessage response = await client.GetAsync(url);
+                    HttpResponseMessage response = await client.GetAsync(Global.ApiUrl);
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -432,6 +432,7 @@ namespace SystemTrayApp
 
         private void btnSaveServerConfig_Click(object sender, EventArgs e)
         {
+            //TODO: stop current apiRequests and restart with new apiKey
             EnvFile.Update("API_URL", txtApiUrlValue.Text);
             EnvFile.Update("API_TOKEN", txtApiKey.Text);
         }
@@ -463,8 +464,17 @@ namespace SystemTrayApp
 
         private void btnUpdateAssetData_Click(object sender, EventArgs e)
         {
-            Context_Menu_Form ctmForm = new Context_Menu_Form();
-            ctmForm.Show();
+            //Context_Menu_Form ctmForm = new Context_Menu_Form();
+            //ctmForm.Show();
+            Dictionary<string, object> updates = new Dictionary<string, object>
+            {
+                { "_snipeit_mac_address_1", txtAssetMAC.Text.Replace('-',':') },
+                { "name",txtAssetName.Text},
+                { "_snipeit_uuid_2", txtAssetUUID.Text},
+                { "model_id", txtAssetModelNumber.Text },
+                {"serial", txtAssetSerial.Text }
+            };
+            UpdateAsset(updates);
         }
 
         private void btnCopyHostMachien_Click(object sender, EventArgs e)
@@ -559,6 +569,12 @@ namespace SystemTrayApp
                 this.Show();
             }
         }
+        public async Task UpdateAsset(Dictionary<string, object> propertiesToUpdate)
+        {
+            int numericId = int.Parse(txtAssetTagValue.Text);
+            string trimmedId = numericId.ToString();
+            await SnipeIT.UpdateHardwareAssetProperty( trimmedId ,propertiesToUpdate);
+        }
         public async Task UseAssetProperties()
         {
             txtAssetTagValue.Text = await Global.GetAssetTag();
@@ -568,6 +584,7 @@ namespace SystemTrayApp
             txtAssetModel.Text = await Global.GetAssetModel();
             txtAssetModelNumber.Text = await Global.GetAssetModelNo();
             txtAssetUUID.Text = await Global.GetAssetUUID();
+            txtAssetMAC.Text = await Global.GetAssetMAC();
         }
 
         private void txtAssetTag_TextChanged(object sender, EventArgs e)

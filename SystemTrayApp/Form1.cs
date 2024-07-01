@@ -21,6 +21,7 @@ namespace SystemTrayApp
             InitializeComponent();
             //TODO https://www.youtube.com/watch?v=2h69Ce4MZiQ Costum ContextMenuStrip for COOOOOLER Design
             notifyIcon1.ContextMenuStrip = contextMenuStrip1;
+            
             this.openToolStripMenuItem.Click += showToolStripMenuItem_Click;
             this.exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
 
@@ -171,8 +172,8 @@ namespace SystemTrayApp
         private void Form1_Load(object sender, EventArgs e)
         {
             notifyIcon1.Visible = false;
-           
-            foreach(Button btn in this.Controls.OfType<Button>())
+
+            foreach (Button btn in this.Controls.OfType<Button>())
             {
                 btn.TabStop = false;
                 btn.FlatStyle = FlatStyle.Flat;
@@ -193,7 +194,7 @@ namespace SystemTrayApp
 
         private void btnHome_Click(object sender, EventArgs e)
         {
-            if(!homeIsShowing)
+            if (!homeIsShowing)
             {
                 settingsIsClicked = false;
                 btnSettings.BackgroundImage = Resources.settings_button_untriggered;
@@ -232,10 +233,14 @@ namespace SystemTrayApp
                 homeIsShowing = false;
                 settingsIsShowing = true;
             }
-            
+
         }
 
         private void pnlDragAndDrop_Paint(object sender, PaintEventArgs e) { }
-        
+
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+
+        }
     }
 }

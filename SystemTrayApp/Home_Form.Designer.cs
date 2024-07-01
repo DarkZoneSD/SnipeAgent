@@ -58,7 +58,6 @@
             lblSystemModel = new Label();
             lblManufacturerValue = new Label();
             lblManufacturer = new Label();
-            txtAssetTag = new TextBox();
             txtAssetCategory = new TextBox();
             label1 = new Label();
             label2 = new Label();
@@ -444,19 +443,6 @@
             lblManufacturer.Text = "Manufacturer";
             lblManufacturer.TextAlign = ContentAlignment.TopCenter;
             // 
-            // txtAssetTag
-            // 
-            txtAssetTag.BackColor = Color.Gray;
-            txtAssetTag.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtAssetTag.ForeColor = SystemColors.HighlightText;
-            txtAssetTag.Location = new Point(0, 0);
-            txtAssetTag.Name = "txtAssetTag";
-            txtAssetTag.ReadOnly = true;
-            txtAssetTag.Size = new Size(174, 23);
-            txtAssetTag.TabIndex = 42;
-            txtAssetTag.UseSystemPasswordChar = true;
-            txtAssetTag.TextChanged += txtAssetTag_TextChanged;
-            // 
             // txtAssetCategory
             // 
             txtAssetCategory.BackColor = Color.Gray;
@@ -771,7 +757,6 @@
             Controls.Add(label4);
             Controls.Add(txtAssetSerial);
             Controls.Add(txtAssetName);
-            Controls.Add(txtAssetTag);
             Controls.Add(txtAssetCategory);
             Controls.Add(label1);
             Controls.Add(label2);
@@ -849,7 +834,6 @@
         private Label lblSystemModel;
         private Label lblManufacturerValue;
         private Label lblManufacturer;
-        private TextBox txtAssetTag;
         private TextBox txtAssetCategory;
         private Label label1;
         private Label label2;

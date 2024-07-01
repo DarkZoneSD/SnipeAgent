@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 using DotNetEnv;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SnipeSharp;
 
 namespace SystemTrayApp.src
 {
     public class SnipeIT
-    {
+    {        
         //TODO FIX WRITING TO DB
         public static async Task CreateAsset(string asset_name, string serial_number, string mac, string uuid)
         {
@@ -39,7 +40,7 @@ namespace SystemTrayApp.src
                     name = asset_name,
                     model_id = modelId, // Use the modelId read from the .env file
                     serial = serial_number,
-                    status_id = statusId, // Assuming 2 corresponds to 'Ready to Deploy'
+                    status_id = statusId,
                     _snipeit_mac_address_1 = mac,
                     _snipeit_uuid_2 = uuid,
                     category = 2
@@ -274,6 +275,87 @@ namespace SystemTrayApp.src
             }
 
             return null;
+        }
+        public static async Task UpdateHardwareAssetProperty(string id, Dictionary<string, object> propertiesToUpdate)
+        {
+            string baseUrl = Global.ApiUrl; // Ensure this matches the base URL you used in Yaade
+            string apiToken = Global.ApiToken; // Ensure this matches the token you used in Yaade
+
+            try
+            {
+                Console.WriteLine($"Attempting to update hardware asset with ID: {id}");
+                Console.WriteLine($"API_URL: {baseUrl}/{id}\n");
+
+                var client = new HttpClient();
+
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
+
+                string url = $"{baseUrl}/{id}"; // Matches the URL structure used in Yaade
+
+                Console.WriteLine($"Constructed URL: {url}\n");
+                Console.WriteLine($"API Token: {apiToken}\n");
+
+                // Convert the dictionary of properties to JSON
+                var json = Newtonsoft.Json.JsonConvert.SerializeObject(propertiesToUpdate);
+                Console.WriteLine($"Request Body: {json}");
+
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await client.PutAsync(url, content); // Using PUT request as successful in Yaade
+
+                Console.WriteLine($"Response Status Code: {response.StatusCode}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("Hardware asset property updated successfully.");
+                    Console.WriteLine($"Response Body: {responseBody}");
+                }
+                else
+                {
+                    Console.WriteLine($"Error updating hardware asset. Status Code: {response.StatusCode}");
+                    string responseBody = await response.Content.ReadAsStringAsync(); // Read response body even if the request fails
+                    Console.WriteLine($"Response Body: {responseBody}");
+
+                    // Log response headers for additional debugging information
+                    foreach (var header in response.Headers)
+                    {
+                        Console.WriteLine($"{header.Key}: {string.Join(", ", header.Value)}");
+                    }
+
+                    // Log content headers
+                    foreach (var header in response.Content.Headers.ContentType.Parameters)
+                    {
+                        Console.WriteLine($"Content-Type Parameter: {header.Name}={header.Value}");
+                    }
+
+                    // Attempt to deserialize the error response for more detailed error messages
+                    try
+                    {
+                        var errorResponse = JsonConvert.DeserializeObject<JObject>(responseBody);
+                        Console.WriteLine($"Error Response: {errorResponse}");
+                    }
+                    catch (JsonReaderException)
+                    {
+                        // If the response body isn't valid JSON, just print it out directly
+                        Console.WriteLine($"Raw Error Response: {responseBody}");
+                    }
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine($"Request failed: {ex.Message}");
+            }
+            catch (TaskCanceledException ex)
+            {
+                Console.WriteLine($"Request timed out or was canceled: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+            }
         }
     }
 }
