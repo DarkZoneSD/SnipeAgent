@@ -571,9 +571,15 @@ namespace SystemTrayApp
         }
         public async Task UpdateAsset(Dictionary<string, object> propertiesToUpdate)
         {
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
             int numericId = int.Parse(txtAssetTagValue.Text);
             string trimmedId = numericId.ToString();
             await SnipeIT.UpdateHardwareAssetProperty( trimmedId ,propertiesToUpdate);
+            this.Hide();
+            await UseAssetProperties();
+
+            this.Show();
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
         }
         public async Task UseAssetProperties()
         {

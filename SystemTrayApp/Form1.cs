@@ -64,7 +64,7 @@ namespace SystemTrayApp
             home_form.Show();
             btnHome_Click(new object(), new EventArgs());
         }
-
+        
         private bool allowVisible;     // ContextMenu's Show command used
         private bool allowClose;       // ContextMenu's Exit command used
 
