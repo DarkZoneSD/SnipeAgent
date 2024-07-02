@@ -435,6 +435,7 @@ namespace SystemTrayApp
             //TODO: stop current apiRequests and restart with new apiKey
             EnvFile.Update("API_URL", txtApiUrlValue.Text);
             EnvFile.Update("API_TOKEN", txtApiKey.Text);
+            Application.Restart();
         }
 
         private void btnLastInterface_Click(object sender, EventArgs e)

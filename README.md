@@ -2,7 +2,7 @@
 
 ## Overview
 
-SnipeAgent is a work-in-progress project, currently about 60% complete. It aims to provide efficient and automated asset creation and manual asset updating. It still has a long way to go..
+SnipeAgent is a work-in-progress project, currently about 65% complete. It aims to provide efficient and automated asset creation and manual asset updating. It still has a long way to go..
 
 ![Agent Working](github/res/Agent-Working.png)
 
@@ -16,9 +16,13 @@ SnipeAgent is a work-in-progress project, currently about 60% complete. It aims 
 -  **A Running Snipe-IT instance**
 - **A Valid API Key**
 
-### Installation
+### Build
 
-TODO
+git clone https://github.com/DarkZoneSD/SnipeAgent.git 
+
+Edit the EnvVariables.txt file with your environment variables
+
+Dotnet Build
 
 ### Goals
 
