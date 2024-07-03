@@ -18,6 +18,7 @@ using SystemTrayApp.Properties;
 using SystemTrayApp.src;
 using SnipeSharp;
 using SnipeSharp.Endpoints.Models;
+using System.Net.Http.Headers;
 
 namespace SystemTrayApp
 {
@@ -137,7 +138,7 @@ namespace SystemTrayApp
                 btn.FlatAppearance.BorderSize = 0;
                 btn.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255); //Transparent
             }
-         
+
         }
         private void OnMouseEnterBtnRefresh(object sender, EventArgs e)
         {
@@ -378,7 +379,7 @@ namespace SystemTrayApp
                 pbServerConnectionStatus.Image = Properties.Resources.server_connection_status_icon_connected;
                 lblServerConnectionStatus.Text = statusMessage;
                 lblServerConnectionStatus.ForeColor = Color.FromArgb(58, 255, 88);
-                if(txtAssetTagValue.Text.Length == 0) 
+                if (txtAssetTagValue.Text.Length == 0)
                 {
                     UseAssetProperties();
                 }
@@ -401,21 +402,42 @@ namespace SystemTrayApp
         }
         private async void CheckApiStatus(object sender, ElapsedEventArgs e)
         {
-            using (HttpClient client = new HttpClient())
+            DotNetEnv.Env.Load($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\SnipeAgent\.Env");
+            string apiToken = DotNetEnv.Env.GetString("API_TOKEN");
+            string apiUrl = DotNetEnv.Env.GetString("API_URL");
+
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Checking API Status:");
+            Console.ResetColor();
+            Console.WriteLine("---------------------------------------------------------------");
+            using (client)
             {
                 try
                 {
-                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Global.ApiToken}");
-
-                    HttpResponseMessage response = await client.GetAsync(Global.ApiUrl);
+                    HttpResponseMessage response = await client.GetAsync(apiUrl);
 
                     if (response.IsSuccessStatusCode)
                     {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Request was successful, StatusCode:");
+                        Console.WriteLine($"{response.StatusCode}");
+
                         UpdateStatus("Request was successful.", true);
+                        Console.ResetColor();
                     }
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Request failed, StatusCode:");
+                        Console.WriteLine($"{response.StatusCode}");
+
                         UpdateStatus($"Request failed. HTTP Status: {response.StatusCode}", false);
+                        Console.ResetColor();
                     }
                 }
                 catch (HttpRequestException ex)
@@ -423,6 +445,7 @@ namespace SystemTrayApp
                     UpdateStatus($"Request error: {ex.Message}", false);
                 }
             }
+            Console.WriteLine("---------------------------------------------------------------");
         }
 
         private void kcbNICs_SelectedIndexChanged(object sender, EventArgs e)
@@ -435,7 +458,6 @@ namespace SystemTrayApp
             //TODO: stop current apiRequests and restart with new apiKey
             EnvFile.Update("API_URL", txtApiUrlValue.Text);
             EnvFile.Update("API_TOKEN", txtApiKey.Text);
-            Application.Restart();
         }
 
         private void btnLastInterface_Click(object sender, EventArgs e)
@@ -575,7 +597,7 @@ namespace SystemTrayApp
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
             int numericId = int.Parse(txtAssetTagValue.Text);
             string trimmedId = numericId.ToString();
-            await SnipeIT.UpdateHardwareAssetProperty( trimmedId ,propertiesToUpdate);
+            await SnipeIT.UpdateHardwareAssetProperty(trimmedId, propertiesToUpdate);
             this.Hide();
             await UseAssetProperties();
 

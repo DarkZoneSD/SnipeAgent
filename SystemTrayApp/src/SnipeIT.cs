@@ -172,8 +172,7 @@ namespace SystemTrayApp.src
             Console.WriteLine($"Retrieving data for property:");
             for(int i = 0; i < key.Length; i++)
             {
-                Console.BackgroundColor = ConsoleColor.Blue;
-                Console.ForegroundColor = ConsoleColor.White;
+                Console.ForegroundColor = ConsoleColor.Blue;
                 Console.Write($"{key[i]} ");
                 Console.ResetColor();
             }
@@ -213,8 +212,7 @@ namespace SystemTrayApp.src
                                         Console.WriteLine($"Value: ");
                                         for (int i = 0; i < key.Length; i++)
                                         {
-                                            Console.BackgroundColor = ConsoleColor.Blue;
-                                            Console.ForegroundColor = ConsoleColor.White;
+                                            Console.ForegroundColor = ConsoleColor.Blue;
                                             Console.Write($"{key[i]} ");
                                             Console.ResetColor();
                                         }
@@ -223,8 +221,7 @@ namespace SystemTrayApp.src
                                     }
                                     else
                                     {
-                                        Console.BackgroundColor = ConsoleColor.Blue;
-                                        Console.ForegroundColor = ConsoleColor.White;
+                                        Console.ForegroundColor = ConsoleColor.Blue;
                                         Console.Write($"NULL VALUE");
                                         Console.ResetColor();
                                     }
@@ -236,8 +233,7 @@ namespace SystemTrayApp.src
                                         Console.WriteLine($"Value: ");
                                         for(int i =0; i < key.Length; i++)
                                         {
-                                            Console.BackgroundColor = ConsoleColor.Blue;
-                                            Console.ForegroundColor = ConsoleColor.White;
+                                            Console.ForegroundColor = ConsoleColor.Blue;
                                             Console.Write($"{ key[i]} ");
                                             Console.ResetColor();
                                         }
@@ -246,8 +242,7 @@ namespace SystemTrayApp.src
                                     }
                                     else
                                     {
-                                        Console.BackgroundColor = ConsoleColor.Blue;
-                                        Console.ForegroundColor = ConsoleColor.White;
+                                        Console.ForegroundColor = ConsoleColor.Blue;
                                         Console.Write($"NULL VALUE");
                                         Console.ResetColor();
                                     }
