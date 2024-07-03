@@ -12,6 +12,7 @@ namespace SystemTrayApp
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
+
             string fileName = "EnvVariables.txt";
             string baseDirectory = GetBaseDirectory("SnipeAgent");
             string value = "";
@@ -34,6 +35,13 @@ namespace SystemTrayApp
 
             AppdataFolder.Create();
             AppdataFolder.CreateReadMe();
+
+            string tempPath = Path.GetTempPath();
+            string logFilePath = $@"{tempPath}\SnipeAgent\SnipeAgentLog.txt";
+            if (!Directory.Exists($@"{tempPath}\SnipeAgent\")) Directory.CreateDirectory($@"{tempPath}\SnipeAgent\");
+            LogWriter logWriter = new LogWriter(logFilePath);
+            Console.SetOut(logWriter);
+
             EnvFile.Create(value);
             if (DotNetEnv.Env.GetBool("FIRST_RUN"))
             {
