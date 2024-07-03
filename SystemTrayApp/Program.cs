@@ -20,9 +20,7 @@ namespace SystemTrayApp
                 string filePath = Path.Combine(baseDirectory, fileName);
                 if (File.Exists(filePath))
                 {
-                    Console.WriteLine("File content:");
                     value = File.ReadAllText(filePath);
-                    Console.WriteLine(value);
                 }
                 else
                 {

@@ -19,7 +19,7 @@ namespace SystemTrayApp
         {
             settingsIsShowing = true;
             InitializeComponent();
-            //TODO https://www.youtube.com/watch?v=2h69Ce4MZiQ Costum ContextMenuStrip for COOOOOLER Design
+            //TODO https://www.youtube.com/watch?v=2h69Ce4MZiQ Costum ContextMenuStrip for COOOOOLER Design (maybe)
             notifyIcon1.ContextMenuStrip = contextMenuStrip1;
             
             this.openToolStripMenuItem.Click += showToolStripMenuItem_Click;

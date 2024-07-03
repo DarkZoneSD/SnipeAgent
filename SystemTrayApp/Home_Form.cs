@@ -411,10 +411,10 @@ namespace SystemTrayApp
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
 
+            Console.WriteLine("---------------------------------------------------------------");
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Checking API Status:");
             Console.ResetColor();
-            Console.WriteLine("---------------------------------------------------------------");
             using (client)
             {
                 try
@@ -455,7 +455,6 @@ namespace SystemTrayApp
 
         private void btnSaveServerConfig_Click(object sender, EventArgs e)
         {
-            //TODO: stop current apiRequests and restart with new apiKey
             EnvFile.Update("API_URL", txtApiUrlValue.Text);
             EnvFile.Update("API_TOKEN", txtApiKey.Text);
         }
@@ -597,9 +596,9 @@ namespace SystemTrayApp
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
             int numericId = int.Parse(txtAssetTagValue.Text);
             string trimmedId = numericId.ToString();
-            await SnipeIT.UpdateHardwareAssetProperty(trimmedId, propertiesToUpdate);
+            await SnipeIT.UpdateHardwareAssetProperty(trimmedId, propertiesToUpdate); //updates  the asset
             this.Hide();
-            await UseAssetProperties();
+            await UseAssetProperties(); //displays it in the form
 
             this.Show();
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
