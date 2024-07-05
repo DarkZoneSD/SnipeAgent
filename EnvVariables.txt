@@ -3,3 +3,5 @@ API_TOKEN=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZWIzZjNkO
 FIRST_RUN=True
 MODEL_ID=1
 STATUS_ID=2
+MAC_CUSTOM_FIELD=_snipeit_mac_address_1
+UUID_CUSTOM_FIELD=_snipeit_uuid_2

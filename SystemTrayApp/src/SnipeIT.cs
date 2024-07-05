@@ -12,9 +12,12 @@ using SnipeSharp;
 namespace SystemTrayApp.src
 {
     public class SnipeIT
-    {        
+    {
         public static async Task CreateAsset(string asset_name, string serial_number, string mac, string uuid)
         {
+            DotNetEnv.Env.Load($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\SnipeAgent\.Env");
+            string macCustomField = DotNetEnv.Env.GetString("MAC_CUSTOM_FIELD");
+            string uuidCustomField = DotNetEnv.Env.GetString("UUID_CUSTOM_FIELD");
             string baseUrl = Global.ApiUrl;
             string apiToken = Global.ApiToken;
             string modelId = Global.ModelID;
@@ -30,16 +33,19 @@ namespace SystemTrayApp.src
 
                 if (mac.Contains('-')) mac = mac.Replace('-', ':');
 
-                var asset = new
+                // Initialize the asset as a Dictionary to allow dynamic property names
+                var asset = new Dictionary<string, object>
                 {
-                    name = asset_name,
-                    model_id = modelId, 
-                    serial = serial_number,
-                    status_id = statusId,
-                    _snipeit_mac_address_1 = mac,
-                    _snipeit_uuid_2 = uuid,
-                    category = 2
+                    ["name"] = asset_name,
+                    ["model_id"] = modelId,
+                    ["serial"] = serial_number,
+                    ["status_id"] = statusId,
+                    ["category"] = 2 // Assuming 'category' is a fixed property, adjust as necessary
                 };
+
+                // Dynamically add the custom fields using the environment variable names
+                asset[macCustomField] = mac;
+                asset[uuidCustomField] = uuid;
 
                 var json = Newtonsoft.Json.JsonConvert.SerializeObject(asset);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -56,11 +62,13 @@ namespace SystemTrayApp.src
                 {
                     Console.WriteLine("Error: " + response.StatusCode);
                 }
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 Console.Write(ex.ToString());
             }
         }
+
         public static async Task<bool> CheckIfModelExists()
         {
             string modelNumber = Global.SystemModel;
@@ -204,8 +212,9 @@ namespace SystemTrayApp.src
         }
         public static async Task CreateAssetWithModel(string asset_name, int model_id, string serial_number, string mac, string uuid, string category)
         {
-            DotNetEnv.Env.Load(".env");
-
+            DotNetEnv.Env.Load($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\SnipeAgent\.Env");
+            string macCustomField = DotNetEnv.Env.GetString("MAC_CUSTOM_FIELD");
+            string uuidCustomField = DotNetEnv.Env.GetString("UUID_CUSTOM_FIELD");
             string baseUrl = Global.ApiUrl;
             string apiToken = Global.ApiToken;
             string statusId = Global.StatusID;
@@ -220,16 +229,19 @@ namespace SystemTrayApp.src
 
                 if (mac.Contains('-')) mac = mac.Replace('-', ':');
 
-                var asset = new
+                // Initialize the asset as a Dictionary to allow dynamic property names
+                var asset = new Dictionary<string, object>
                 {
-                    name = asset_name,
-                    model_id = model_id,
-                    serial = serial_number,
-                    status_id = statusId,
-                    _snipeit_mac_address_1 = mac,
-                    _snipeit_uuid_2 = uuid,
-                    category = category
+                    ["name"] = asset_name,
+                    ["model_id"] = model_id,
+                    ["serial"] = serial_number,
+                    ["status_id"] = statusId,
+                    ["category"] = category
                 };
+
+                // Dynamically add the custom fields using the environment variable names
+                asset[macCustomField] = mac;
+                asset[uuidCustomField] = uuid;
 
                 var json = Newtonsoft.Json.JsonConvert.SerializeObject(asset);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -368,11 +380,6 @@ namespace SystemTrayApp.src
                 int model_id = await SnipeIT.GetSystemModelID();
                 if (model_exists)
                 {
-                    string creatingAsset = $@"
-Creating Asset with this data:
-{Global.HostName},{model_id},{Global.SerialNumber}, MAC, {Global.Uuid},{category}";
-                    Console.WriteLine("model exists, ");
-                    Console.Write(creatingAsset);
                     SnipeIT.CreateAssetWithModel(Global.HostName, model_id, Global.SerialNumber, "", Global.Uuid, category);
                 } else
                 {
