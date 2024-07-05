@@ -297,6 +297,7 @@ namespace SystemTrayApp.src
             if (!assetExists)
             {
                 bool model_exists = await SnipeIT.CheckIfModelExists(Global.SerialNumber);
+                //TODO: Replace "2" with the actual product number of the device. if it doesnt exist, default to the placeholder model
                 if (model_exists) SnipeIT.CreateAssetWithModel(Global.HostName, "2", Global.SerialNumber, "", Global.Uuid, await SnipeIT.GetCategory("2"));
                 else SnipeIT.CreateAsset(Global.HostName, Global.SerialNumber, "", Global.Uuid);
             }

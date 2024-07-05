@@ -620,5 +620,10 @@ namespace SystemTrayApp
         {
 
         }
+
+        private void txtAssetModel_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
