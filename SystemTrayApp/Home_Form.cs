@@ -19,6 +19,7 @@ using SystemTrayApp.src;
 using SnipeSharp;
 using SnipeSharp.Endpoints.Models;
 using System.Net.Http.Headers;
+using System.Management;
 
 namespace SystemTrayApp
 {
@@ -37,7 +38,6 @@ namespace SystemTrayApp
 
             txtApiKey.Text = Global.ApiToken;
             txtApiUrlValue.Text = Global.ApiUrl;
-
             UseAssetProperties();
 
             btnRefresh.MouseEnter += OnMouseEnterBtnRefresh;
@@ -486,8 +486,9 @@ namespace SystemTrayApp
 
         private async void btnUpdateAssetData_Click(object sender, EventArgs e)
         {
-            Context_Menu_Form ctmForm = new Context_Menu_Form();
-            ctmForm.Show();
+            //Context_Menu_Form ctmForm = new Context_Menu_Form();
+            //ctmForm.Show();
+
             Dictionary<string, object> updates = new Dictionary<string, object>
             {
                 { "_snipeit_mac_address_1", txtAssetMAC.Text.Replace('-',':') },
@@ -497,7 +498,6 @@ namespace SystemTrayApp
                 {"serial", txtAssetSerial.Text }
             };
             UpdateAsset(updates);
-
         }
 
         private void btnCopyHostMachien_Click(object sender, EventArgs e)

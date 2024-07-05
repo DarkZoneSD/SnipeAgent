@@ -61,8 +61,9 @@ namespace SystemTrayApp.src
                 Console.Write(ex.ToString());
             }
         }
-        public static async Task<bool> CheckIfModelExists(string modelNumber)
+        public static async Task<bool> CheckIfModelExists()
         {
+            string modelNumber = Global.SystemModel;
             string baseUrl = Global.ApiUrl;
             string apiToken = Global.ApiToken;
             string models_url = $"{baseUrl.Substring(0, baseUrl.LastIndexOf("/"))}/models";
@@ -84,19 +85,83 @@ namespace SystemTrayApp.src
 
                     foreach (var row in models.rows)
                     {
-                        if (row.model_number == modelNumber)
+                        // Check if row is not null before accessing its properties
+                        if (row != null)
                         {
-                            return true;
+                            Console.WriteLine($"Model from JSON: {row.model_number?.ToString()}"); // Use null-conditional operator to safely access ToString
+                            Console.WriteLine($"Model from local machine: {modelNumber}");
+
+                            // Trim both strings to ensure no leading/trailing whitespaces affect the comparison
+                            if (row.model_number == modelNumber.Trim())
+                            {
+                                Console.WriteLine("returning true");
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Row is null.");
                         }
                     }
                 }
-
+                Console.WriteLine("returning false");
                 return false;
             }
             catch (Exception ex)
             {
                 Console.Write(ex.ToString());
                 return false;
+            }
+        }
+        public static async Task<int> GetSystemModelID()
+        {
+            string modelNumber = Global.SystemModel;
+            string baseUrl = Global.ApiUrl;
+            string apiToken = Global.ApiToken;
+            string models_url = $"{baseUrl.Substring(0, baseUrl.LastIndexOf("/"))}/models";
+
+            try
+            {
+                using var client = new HttpClient();
+
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
+
+                HttpResponseMessage response = await client.GetAsync(models_url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonString = await response.Content.ReadAsStringAsync();
+                    var models = JsonConvert.DeserializeObject<dynamic>(jsonString);
+
+                    foreach (var row in models.rows)
+                    {
+                        // Check if row is not null before accessing its properties
+                        if (row != null)
+                        {
+                            Console.WriteLine($"Model from JSON: {row.model_number?.ToString()}"); // Use null-conditional operator to safely access ToString
+                            Console.WriteLine($"Model from local machine: {modelNumber}");
+
+                            // Trim both strings to ensure no leading/trailing whitespaces affect the comparison
+                            if (row.model_number == modelNumber.Trim())
+                            {
+                                return (int)row.id;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Row is null.");
+                        }
+                    }
+                }
+                Console.WriteLine("returning false");
+                return int.Parse(Global.ModelID);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString());
+                return int.Parse(Global.ModelID);
             }
         }
         public static async Task<string> GetCategory(string modelNumber)
@@ -137,7 +202,7 @@ namespace SystemTrayApp.src
                 return string.Empty;
             }
         }
-        public static async Task CreateAssetWithModel(string asset_name, string model_id, string serial_number, string mac, string uuid, string category)
+        public static async Task CreateAssetWithModel(string asset_name, int model_id, string serial_number, string mac, string uuid, string category)
         {
             DotNetEnv.Env.Load(".env");
 
@@ -296,10 +361,23 @@ namespace SystemTrayApp.src
             bool assetExists = await Task.Run(() => SnipeIT.GetAssetByUuid(Global.Uuid));
             if (!assetExists)
             {
-                bool model_exists = await SnipeIT.CheckIfModelExists(Global.SerialNumber);
+                bool model_exists = await SnipeIT.CheckIfModelExists();
                 //TODO: Replace "2" with the actual product number of the device. if it doesnt exist, default to the placeholder model
-                if (model_exists) SnipeIT.CreateAssetWithModel(Global.HostName, "2", Global.SerialNumber, "", Global.Uuid, await SnipeIT.GetCategory("2"));
-                else SnipeIT.CreateAsset(Global.HostName, Global.SerialNumber, "", Global.Uuid);
+                
+                string category = await SnipeIT.GetCategory(Global.SystemModel);
+                int model_id = await SnipeIT.GetSystemModelID();
+                if (model_exists)
+                {
+                    string creatingAsset = $@"
+Creating Asset with this data:
+{Global.HostName},{model_id},{Global.SerialNumber}, MAC, {Global.Uuid},{category}";
+                    Console.WriteLine("model exists, ");
+                    Console.Write(creatingAsset);
+                    SnipeIT.CreateAssetWithModel(Global.HostName, model_id, Global.SerialNumber, "", Global.Uuid, category);
+                } else
+                {
+                    SnipeIT.CreateAsset(Global.HostName, Global.SerialNumber, "", Global.Uuid);
+                }
             }
             
         }

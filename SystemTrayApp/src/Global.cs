@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Management;
 using DotNetEnv;
 using SystemTrayApp.src;
+using System.ComponentModel;
 namespace SystemTrayApp
 {
     public class Global
@@ -176,5 +177,6 @@ namespace SystemTrayApp
             DotNetEnv.Env.Load($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\SnipeAgent\.Env");
             return DotNetEnv.Env.GetString("STATUS_ID");
         }
+     
     }
 }
