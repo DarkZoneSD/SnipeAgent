@@ -27,7 +27,7 @@ namespace SystemTrayApp
                 {
                     Console.WriteLine("File not found.");
                 }
-            }
+            } 
             else
             {
                 Console.WriteLine("Base directory 'SnipeAgent' not found.");

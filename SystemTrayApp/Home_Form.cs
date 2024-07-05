@@ -486,14 +486,18 @@ namespace SystemTrayApp
 
         private async void btnUpdateAssetData_Click(object sender, EventArgs e)
         {
+            //TODO: Accidentally broke the update assets function. cant retrieve mac address to textbox for some reason
             //Context_Menu_Form ctmForm = new Context_Menu_Form();
             //ctmForm.Show();
+            DotNetEnv.Env.Load($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\SnipeAgent\.Env");
+            string macCustomField = DotNetEnv.Env.GetString("MAC_CUSTOM_FIELD");
+            string uuidCustomField = DotNetEnv.Env.GetString("UUID_CUSTOM_FIELD");
 
             Dictionary<string, object> updates = new Dictionary<string, object>
             {
-                { "_snipeit_mac_address_1", txtAssetMAC.Text.Replace('-',':') },
+                { macCustomField, txtAssetMAC.Text.Replace('-',':') },
                 { "name",txtAssetName.Text},
-                { "_snipeit_uuid_2", txtAssetUUID.Text},
+                { uuidCustomField, txtAssetUUID.Text},
                 { "model_id", txtAssetModelNumber.Text },
                 {"serial", txtAssetSerial.Text }
             };
