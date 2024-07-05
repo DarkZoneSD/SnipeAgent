@@ -484,10 +484,10 @@ namespace SystemTrayApp
             else MoveTextUp();
         }
 
-        private void btnUpdateAssetData_Click(object sender, EventArgs e)
+        private async void btnUpdateAssetData_Click(object sender, EventArgs e)
         {
-            //Context_Menu_Form ctmForm = new Context_Menu_Form();
-            //ctmForm.Show();
+            Context_Menu_Form ctmForm = new Context_Menu_Form();
+            ctmForm.Show();
             Dictionary<string, object> updates = new Dictionary<string, object>
             {
                 { "_snipeit_mac_address_1", txtAssetMAC.Text.Replace('-',':') },
@@ -497,6 +497,7 @@ namespace SystemTrayApp
                 {"serial", txtAssetSerial.Text }
             };
             UpdateAsset(updates);
+
         }
 
         private void btnCopyHostMachien_Click(object sender, EventArgs e)

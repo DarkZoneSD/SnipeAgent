@@ -15,8 +15,6 @@ namespace SystemTrayApp.src
     {        
         public static async Task CreateAsset(string asset_name, string serial_number, string mac, string uuid)
         {
-            DotNetEnv.Env.Load(".env");
-
             string baseUrl = Global.ApiUrl;
             string apiToken = Global.ApiToken;
             string modelId = Global.ModelID;
@@ -59,6 +57,132 @@ namespace SystemTrayApp.src
                     Console.WriteLine("Error: " + response.StatusCode);
                 }
             }catch (Exception ex)
+            {
+                Console.Write(ex.ToString());
+            }
+        }
+        public static async Task<bool> CheckIfModelExists(string modelNumber)
+        {
+            string baseUrl = Global.ApiUrl;
+            string apiToken = Global.ApiToken;
+            string models_url = $"{baseUrl.Substring(0, baseUrl.LastIndexOf("/"))}/models";
+
+            try
+            {
+                using var client = new HttpClient();
+
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
+
+                HttpResponseMessage response = await client.GetAsync(models_url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonString = await response.Content.ReadAsStringAsync();
+                    var models = JsonConvert.DeserializeObject<dynamic>(jsonString);
+
+                    foreach (var row in models.rows)
+                    {
+                        if (row.model_number == modelNumber)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString());
+                return false;
+            }
+        }
+        public static async Task<string> GetCategory(string modelNumber)
+        {
+            string baseUrl = Global.ApiUrl;
+            string apiToken = Global.ApiToken;
+            string models_url = $"{baseUrl.Substring(0, baseUrl.LastIndexOf("/"))}/models";
+
+            try
+            {
+                using var client = new HttpClient();
+
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
+
+                HttpResponseMessage response = await client.GetAsync(models_url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonString = await response.Content.ReadAsStringAsync();
+                    var models = JsonConvert.DeserializeObject<dynamic>(jsonString); 
+
+                    foreach (var row in models.rows)
+                    {
+                        if (row.model_number == modelNumber)
+                        {
+                            return row.category.id.ToString();
+                        }
+                    }
+                }
+
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString());
+                return string.Empty;
+            }
+        }
+        public static async Task CreateAssetWithModel(string asset_name, string model_id, string serial_number, string mac, string uuid, string category)
+        {
+            DotNetEnv.Env.Load(".env");
+
+            string baseUrl = Global.ApiUrl;
+            string apiToken = Global.ApiToken;
+            string statusId = Global.StatusID;
+
+            try
+            {
+                var client = new HttpClient();
+
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
+
+                if (mac.Contains('-')) mac = mac.Replace('-', ':');
+
+                var asset = new
+                {
+                    name = asset_name,
+                    model_id = model_id,
+                    serial = serial_number,
+                    status_id = statusId,
+                    _snipeit_mac_address_1 = mac,
+                    _snipeit_uuid_2 = uuid,
+                    category = category
+                };
+
+                var json = Newtonsoft.Json.JsonConvert.SerializeObject(asset);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await client.PostAsync(baseUrl, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseBody = await response.Content.ReadAsStringAsync();
+
+                    Console.WriteLine("Asset created successfully. Response: " + responseBody);
+                }
+                else
+                {
+                    Console.WriteLine("Error: " + response.StatusCode);
+                }
+            }
+            catch (Exception ex)
             {
                 Console.Write(ex.ToString());
             }
@@ -170,8 +294,15 @@ namespace SystemTrayApp.src
         public static async void CheckAsset()
         {
             bool assetExists = await Task.Run(() => SnipeIT.GetAssetByUuid(Global.Uuid));
-            if (!assetExists) SnipeIT.CreateAsset(Global.HostName, Global.SerialNumber, "", Global.Uuid);
+            if (!assetExists)
+            {
+                bool model_exists = await SnipeIT.CheckIfModelExists(Global.SerialNumber);
+                if (model_exists) SnipeIT.CreateAssetWithModel(Global.HostName, "2", Global.SerialNumber, "", Global.Uuid, await SnipeIT.GetCategory("2"));
+                else SnipeIT.CreateAsset(Global.HostName, Global.SerialNumber, "", Global.Uuid);
+            }
+            
         }
+        //TODO: Retrieval fails if the model ID has changed
         public static async Task<string> GetAssetNestedProperties(string uuid, string[] key)
         {
             Console.WriteLine("--------------------------------------------------------------");
