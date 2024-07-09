@@ -377,6 +377,8 @@ namespace SystemTrayApp
             if (isConnected)
             {
                 pbServerConnectionStatus.Image = Properties.Resources.server_connection_status_icon_connected;
+                pbServerConnectionStatus.Size = new Size(16, 16);
+                pbServerConnectionStatus.Location = new Point(482, 21);
                 lblServerConnectionStatus.Text = statusMessage;
                 lblServerConnectionStatus.ForeColor = Color.FromArgb(58, 255, 88);
                 if (txtAssetTagValue.Text.Length == 0)
@@ -419,7 +421,7 @@ namespace SystemTrayApp
             {
                 try
                 {
-                    HttpResponseMessage response = await client.GetAsync(apiUrl);
+                    HttpResponseMessage response = await client.GetAsync($"{apiUrl}/hardware");
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -489,6 +491,7 @@ namespace SystemTrayApp
             //TODO: Accidentally broke the update assets function. cant retrieve mac address to textbox for some reason
             //Context_Menu_Form ctmForm = new Context_Menu_Form();
             //ctmForm.Show();
+
             DotNetEnv.Env.Load($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\SnipeAgent\.Env");
             string macCustomField = DotNetEnv.Env.GetString("MAC_CUSTOM_FIELD");
             string uuidCustomField = DotNetEnv.Env.GetString("UUID_CUSTOM_FIELD");
@@ -502,6 +505,8 @@ namespace SystemTrayApp
                 {"serial", txtAssetSerial.Text }
             };
             UpdateAsset(updates);
+
+            //await SnipeIT.AssignAssetToUser();
         }
 
         private void btnCopyHostMachien_Click(object sender, EventArgs e)

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using DotNetEnv;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -50,7 +51,7 @@ namespace SystemTrayApp.src
                 var json = Newtonsoft.Json.JsonConvert.SerializeObject(asset);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await client.PostAsync(baseUrl, content);
+                HttpResponseMessage response = await client.PostAsync($"{baseUrl}/hardware", content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -74,7 +75,7 @@ namespace SystemTrayApp.src
             string modelNumber = Global.SystemModel;
             string baseUrl = Global.ApiUrl;
             string apiToken = Global.ApiToken;
-            string models_url = $"{baseUrl.Substring(0, baseUrl.LastIndexOf("/"))}/models";
+            string models_url = $"{baseUrl}/models";
 
             try
             {
@@ -126,7 +127,7 @@ namespace SystemTrayApp.src
             string modelNumber = Global.SystemModel;
             string baseUrl = Global.ApiUrl;
             string apiToken = Global.ApiToken;
-            string models_url = $"{baseUrl.Substring(0, baseUrl.LastIndexOf("/"))}/models";
+            string models_url = $"{baseUrl}/models";
 
             try
             {
@@ -176,7 +177,7 @@ namespace SystemTrayApp.src
         {
             string baseUrl = Global.ApiUrl;
             string apiToken = Global.ApiToken;
-            string models_url = $"{baseUrl.Substring(0, baseUrl.LastIndexOf("/"))}/models";
+            string models_url = $"{baseUrl}/models";
 
             try
             {
@@ -215,7 +216,6 @@ namespace SystemTrayApp.src
             DotNetEnv.Env.Load($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\SnipeAgent\.Env");
             string macCustomField = DotNetEnv.Env.GetString("MAC_CUSTOM_FIELD");
             string uuidCustomField = DotNetEnv.Env.GetString("UUID_CUSTOM_FIELD");
-            string baseUrl = Global.ApiUrl;
             string apiToken = Global.ApiToken;
             string statusId = Global.StatusID;
 
@@ -246,7 +246,7 @@ namespace SystemTrayApp.src
                 var json = Newtonsoft.Json.JsonConvert.SerializeObject(asset);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await client.PostAsync(baseUrl, content);
+                HttpResponseMessage response = await client.PostAsync(Global.ApiUrl, content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -274,7 +274,7 @@ namespace SystemTrayApp.src
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
 
-            string url = $"{baseUrl}?search={uuid}";
+            string url = $"{baseUrl}/hardware?search={uuid}";
 
             try
             {
@@ -322,7 +322,7 @@ namespace SystemTrayApp.src
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
 
-            string url = $"{baseUrl}?search={uuid}";
+            string url = $"{baseUrl}/hardware?search={uuid}";
 
             try
             {
@@ -408,7 +408,7 @@ namespace SystemTrayApp.src
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
 
-            string url = $"{baseUrl}?search={uuid}";
+            string url = $"{baseUrl}/hardware?search={uuid}";
 
             try
             {
@@ -496,7 +496,7 @@ namespace SystemTrayApp.src
             {
                 Console.WriteLine("--------------------------------------------------------------");
                 Console.WriteLine($"Attempting to update hardware asset with ID: {id}");
-                Console.WriteLine($"API_URL: {baseUrl}/{id}");
+                Console.WriteLine($"API_URL: {baseUrl}/hardware/{id}");
 
                 var client = new HttpClient();
 
@@ -555,7 +555,97 @@ namespace SystemTrayApp.src
             }
             Console.WriteLine("--------------------------------------------------------------");
         }
+        public static async Task<int> GetUserID(string username)
+        {
+            Console.WriteLine("--------------------------------------------------------------");
+            Console.WriteLine($"Retrieving User ID for the username: {username}");
+            string baseUrl = Global.ApiUrl;
+            string apiToken = Global.ApiToken;
+            var client = new HttpClient();
+
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
+
+            string url = $"{baseUrl}/users?search={username}";
+
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    var jsonResponse = JObject.Parse(responseBody);
+
+                    // Check if the payload contains any rows
+                    var rows = jsonResponse["rows"] as JArray;
+                    if (rows != null && rows.Count > 0)
+                    {
+                        // Access the first element in the rows array
+                        var firstRow = rows[0];
+                        var id = firstRow["id"];
+                        if (id != null)
+                        {
+                            Console.WriteLine($"ID: {id}");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("User not found.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Error: " + response.StatusCode);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(ex.ToString());
+                Console.ResetColor();
+            }
+            Console.WriteLine("--------------------------------------------------------------");
+            return 0;
+        }
+        public static async Task AssignAssetToUser()
+        {
+            int user_id = await GetUserID(Environment.UserName);
+            string asset_tag = await Global.GetAssetTag();
+            asset_tag = asset_tag.TrimStart('0');
+            string url = $"{Global.ApiUrl}/hardware/{asset_tag}/checkout";
+
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Global.ApiToken);
+
+            var payload = new
+            {
+                status = 2,
+                checkout_to_type = "user",
+                assigned_user = user_id
+            };
+
+            string jsonPayload = JsonConvert.SerializeObject(payload);
+            var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await client.PostAsync(url, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine(response.Content);
+            }
+            else
+            {
+                Console.WriteLine("Error: " + response.StatusCode);
+                string errorResponse = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("Error Details: " + errorResponse);
+            }
+        }
     }
-    //TODO: Method to give user asset automatically if user exists 
+    //TODO: Method to give user asset automatically if user exists (still leading 0s in the asset_tag)
+   
 }
 

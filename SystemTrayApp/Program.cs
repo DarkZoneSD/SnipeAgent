@@ -50,6 +50,7 @@ namespace SystemTrayApp
             try
             {
                 SnipeIT.CheckAsset();
+                SnipeIT.AssignAssetToUser();
             }catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);

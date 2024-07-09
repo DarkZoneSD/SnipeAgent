@@ -286,8 +286,8 @@
             // pbServerConnectionStatus
             // 
             pbServerConnectionStatus.BackColor = Color.Transparent;
-            pbServerConnectionStatus.BackgroundImage = Properties.Resources.server_connection_status_icon_pending;
             pbServerConnectionStatus.BackgroundImageLayout = ImageLayout.Center;
+            pbServerConnectionStatus.Image = Properties.Resources.server_connection_status_icon_pending;
             pbServerConnectionStatus.Location = new Point(482, 21);
             pbServerConnectionStatus.Name = "pbServerConnectionStatus";
             pbServerConnectionStatus.Size = new Size(16, 16);
