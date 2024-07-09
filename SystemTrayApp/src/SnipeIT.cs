@@ -556,5 +556,6 @@ namespace SystemTrayApp.src
             Console.WriteLine("--------------------------------------------------------------");
         }
     }
+    //TODO: Method to give user asset automatically if user exists 
 }
 

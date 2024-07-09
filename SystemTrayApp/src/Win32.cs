@@ -12,21 +12,33 @@ namespace SystemTrayApp
     public class Win32
     {
         public List<String> GetSerialNumber()
+
         {
+
             List<String> list = new List<String>();
+
             ManagementObjectSearcher searcher =
-                new ManagementObjectSearcher("SELECT Product, SerialNumber FROM Win32_BaseBoard");
-            
+
+                new ManagementObjectSearcher("SELECT SerialNumber FROM Win32_BIOS");
+
+
+
             ManagementObjectCollection information = searcher.Get();
-            foreach(ManagementObject obj in information)
+
+            foreach (ManagementObject obj in information)
+
             {
-                foreach(PropertyData data in obj.Properties)
-                {
-                    list.Add(data.Name);
-                }
+
+                list.Add(obj["SerialNumber"].ToString());
+
+                break;  // Only take the first result
+
             }
+
             searcher.Dispose();
+
             return list;
+
         }
         public static string GetSystemUUID()
         {
@@ -48,13 +60,10 @@ namespace SystemTrayApp
                 ManagementScope scope = new ManagementScope(@"\\.\root\cimv2");
                 scope.Connect();
 
-                ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_ComputerSystem");
+                ObjectQuery query = new ObjectQuery("SELECT SystemSKUNumber FROM Win32_ComputerSystem");
                 ManagementObjectSearcher searcher = new ManagementObjectSearcher(scope, query);
 
-                foreach (ManagementObject mo in searcher.Get())
-                {
-                    return  mo["Model"].ToString();
-                }
+                foreach (ManagementObject obj in searcher.Get()) return obj["SystemSKUNumber"].ToString();
             }
             catch (UnauthorizedAccessException e)
             {
