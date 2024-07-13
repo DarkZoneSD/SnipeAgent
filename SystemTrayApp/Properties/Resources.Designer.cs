@@ -61,6 +61,24 @@ namespace SystemTrayApp.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die API_TOKEN=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZWIzZjNkODJhNGNjZmU0YWRiMjg1ZmQzZjYyMDZkNjk0Y2EzNzk0NWE3MGIyNjIzZGFkMTY4NTRkZDBiMTBlZjVlMTZmZmU4YTllMGNjZDkiLCJpYXQiOjE3MTczNDQ4MzYuMDIyMjU2LCJuYmYiOjE3MTczNDQ4MzYuMDIyMjU5LCJleHAiOjIzNDg0OTY4MzYuMDE2NjE1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.RV4daNQpfdqAsbTMrXn6erzltSd7nCy7zH1mxZZ9ObEf8ZoN9cXnJ28Ldric28lZRHtPYzKXvcVpcjOFw2TdJgkNQYqmYz4cXUiosQov707IBvpJowSwbLlHC_COHkVdq0Lt1FlwcM8rpv_wG5LX6jkteMJABqKbh2q71U-OtS3g2vvPnNagCO_En-PqcXG9BjiJgs_vozXhV [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        internal static string api_token {
+            get {
+                return ResourceManager.GetString("api_token", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die API_URL=http://localhost:8000/api/v1 ähnelt.
+        /// </summary>
+        internal static string api_url {
+            get {
+                return ResourceManager.GetString("api_url", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap asset_data_icon_64_64 {
@@ -191,6 +209,15 @@ namespace SystemTrayApp.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die FIRST_RUN=True ähnelt.
+        /// </summary>
+        internal static string first_run {
+            get {
+                return ResourceManager.GetString("first_run", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap folder_button_triggered {
@@ -311,6 +338,15 @@ namespace SystemTrayApp.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die MAC_CUSTOM_FIELD=_snipeit_mac_address_1 ähnelt.
+        /// </summary>
+        internal static string mac_custom_field {
+            get {
+                return ResourceManager.GetString("mac_custom_field", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap minimize_button_triggered {
@@ -327,6 +363,15 @@ namespace SystemTrayApp.Properties {
             get {
                 object obj = ResourceManager.GetObject("minimize_button_untriggered", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die MODEL_ID=1 ähnelt.
+        /// </summary>
+        internal static string model_id {
+            get {
+                return ResourceManager.GetString("model_id", resourceCulture);
             }
         }
         
@@ -441,6 +486,15 @@ namespace SystemTrayApp.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die STATUS_ID=2 ähnelt.
+        /// </summary>
+        internal static string status_id {
+            get {
+                return ResourceManager.GetString("status_id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap uac_button_triggered {
@@ -457,6 +511,15 @@ namespace SystemTrayApp.Properties {
             get {
                 object obj = ResourceManager.GetObject("uac_button_untriggered", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die UUID_CUSTOM_FIELD=_snipeit_uuid_2 ähnelt.
+        /// </summary>
+        internal static string uuid_custom_field {
+            get {
+                return ResourceManager.GetString("uuid_custom_field", resourceCulture);
             }
         }
         

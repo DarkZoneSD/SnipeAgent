@@ -9,6 +9,7 @@ using DotNetEnv;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SnipeSharp;
+using RestSharp;
 
 namespace SystemTrayApp.src
 {
@@ -374,7 +375,6 @@ namespace SystemTrayApp.src
             if (!assetExists)
             {
                 bool model_exists = await SnipeIT.CheckIfModelExists();
-                //TODO: Replace "2" with the actual product number of the device. if it doesnt exist, default to the placeholder model
                 
                 string category = await SnipeIT.GetCategory(Global.SystemModel);
                 int model_id = await SnipeIT.GetSystemModelID();
@@ -504,14 +504,16 @@ namespace SystemTrayApp.src
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
 
-                string url = $"{baseUrl}/{id}"; 
+                string url = $"{baseUrl}/hardware/{id}";
 
                 var json = Newtonsoft.Json.JsonConvert.SerializeObject(propertiesToUpdate);
                 Console.WriteLine($"Request Body: {json}");
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await client.PutAsync(url, content); 
+                Console.WriteLine(content);
+
+                HttpResponseMessage response = await client.PutAsync(url, content);
 
                 Console.WriteLine($"Response Status Code: {response.StatusCode}");
 
@@ -523,7 +525,7 @@ namespace SystemTrayApp.src
                 else
                 {
                     Console.WriteLine($"Error updating hardware asset. Status Code: {response.StatusCode}");
-                    string responseBody = await response.Content.ReadAsStringAsync(); 
+                    string responseBody = await response.Content.ReadAsStringAsync();
 
                     // Log response headers for additional debugging information
                     foreach (var header in response.Headers)

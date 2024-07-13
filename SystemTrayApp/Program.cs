@@ -32,7 +32,7 @@ namespace SystemTrayApp
             {
                 Console.WriteLine("Base directory 'SnipeAgent' not found.");
             }
-
+            //TODO: remove EnvVariables.txt and replace with assembly resources
             AppdataFolder.Create();
             AppdataFolder.CreateReadMe();
 
@@ -50,7 +50,7 @@ namespace SystemTrayApp
             try
             {
                 SnipeIT.CheckAsset();
-                SnipeIT.AssignAssetToUser();
+               // SnipeIT.AssignAssetToUser();
             }catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);

@@ -241,4 +241,25 @@
   <data name="context_menu_close_button_untriggered" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\context_menu_close_button_untriggered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="api_token" xml:space="preserve">
+    <value>API_TOKEN=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZWIzZjNkODJhNGNjZmU0YWRiMjg1ZmQzZjYyMDZkNjk0Y2EzNzk0NWE3MGIyNjIzZGFkMTY4NTRkZDBiMTBlZjVlMTZmZmU4YTllMGNjZDkiLCJpYXQiOjE3MTczNDQ4MzYuMDIyMjU2LCJuYmYiOjE3MTczNDQ4MzYuMDIyMjU5LCJleHAiOjIzNDg0OTY4MzYuMDE2NjE1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.RV4daNQpfdqAsbTMrXn6erzltSd7nCy7zH1mxZZ9ObEf8ZoN9cXnJ28Ldric28lZRHtPYzKXvcVpcjOFw2TdJgkNQYqmYz4cXUiosQov707IBvpJowSwbLlHC_COHkVdq0Lt1FlwcM8rpv_wG5LX6jkteMJABqKbh2q71U-OtS3g2vvPnNagCO_En-PqcXG9BjiJgs_vozXhVqOV-uaar0mdlbQdyo9E0XbI1StWTejpoPUf0sC6OO-fwRWtX7RDtsTSNOHYwTsluCKK2x7YEgni-DDsmyo-zOAOSmLn0SeRJMEcEP7m0wEVvieTRCY3tGX-afXoRf7gigMjh8hAbgTFWHf0jG26Kdl7tOHW2ei8sGwhvS5T1y_CHZeAKwQ84zOkDqdRzrsaWqfZGT291F4F6jHyvPpFLzEXH9tcG2TqeKGSP1d81WbvaEb1Rt9D-5g1clTl6UFJJhz5Zf8fdCu5FnsvBwvvrfgO_BpBE0mrDS9fNKQEhyXPO7IDC_1IPvVzZa2JedKghoWoQ6lKZ01LoVxT6iUMEKMw8DS8_Fh9rkSO0eTONq5GG-Q44hXwR5JM5wERBMELViDgWZHtgq4-_TMAatlrESdYAV43IdBubStZrmHdasdbM6IjOPdzcgD45pTEF3NgkE9Lt2OZVdroVTlOGkotk2m3IIpFqtU</value>
+  </data>
+  <data name="api_url" xml:space="preserve">
+    <value>API_URL=http://localhost:8000/api/v1</value>
+  </data>
+  <data name="first_run" xml:space="preserve">
+    <value>FIRST_RUN=True</value>
+  </data>
+  <data name="mac_custom_field" xml:space="preserve">
+    <value>MAC_CUSTOM_FIELD=_snipeit_mac_address_1</value>
+  </data>
+  <data name="model_id" xml:space="preserve">
+    <value>MODEL_ID=1</value>
+  </data>
+  <data name="status_id" xml:space="preserve">
+    <value>STATUS_ID=2</value>
+  </data>
+  <data name="uuid_custom_field" xml:space="preserve">
+    <value>UUID_CUSTOM_FIELD=_snipeit_uuid_2</value>
+  </data>
 </root>
