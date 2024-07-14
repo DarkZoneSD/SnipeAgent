@@ -407,16 +407,12 @@ namespace SystemTrayApp
             DotNetEnv.Env.Load($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\SnipeAgent\.Env");
             string apiToken = DotNetEnv.Env.GetString("API_TOKEN");
             string apiUrl = DotNetEnv.Env.GetString("API_URL");
-
+            string successOrFail = "";
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
 
-            Console.WriteLine("---------------------------------------------------------------");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Checking API Status:");
-            Console.ResetColor();
             using (client)
             {
                 try
@@ -425,29 +421,36 @@ namespace SystemTrayApp
 
                     if (response.IsSuccessStatusCode)
                     {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine("Request was successful, StatusCode:");
-                        Console.WriteLine($"{response.StatusCode}");
-
+                        successOrFail = $"Request was successful, StatusCode: {response.StatusCode}";
                         UpdateStatus("Request was successful.", true);
-                        Console.ResetColor();
                     }
                     else
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Request failed, StatusCode:");
-                        Console.WriteLine($"{response.StatusCode}");
-
+                        successOrFail = $"Request failed, StatusCode: {response.StatusCode}";
                         UpdateStatus($"Request failed. HTTP Status: {response.StatusCode}", false);
-                        Console.ResetColor();
                     }
                 }
                 catch (HttpRequestException ex)
                 {
+                    successOrFail = $"Request error: {ex.Message}";
                     UpdateStatus($"Request error: {ex.Message}", false);
                 }
             }
-            Console.WriteLine("---------------------------------------------------------------");
+            if (successOrFail.Contains("OK"))
+            {
+                Console.WriteLine("---------------------------------------------------------------\n" +
+                                  "\u001b[33mChecking API Status:\u001b[0m\n" +
+                                  "\u001b[32m" + successOrFail + "\n" + "\u001b[0m" +
+                                  "---------------------------------------------------------------");
+            }
+            else
+            {
+                Console.WriteLine("---------------------------------------------------------------\n" +
+                  "\u001b[33mChecking API Status:\u001b[0m\n" +
+                  "\u001b[31m" + successOrFail + "\n" + "\u001b[0m" +
+                  "---------------------------------------------------------------");
+            }
+            
         }
 
         private void kcbNICs_SelectedIndexChanged(object sender, EventArgs e)

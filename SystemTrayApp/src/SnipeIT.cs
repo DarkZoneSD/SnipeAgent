@@ -36,7 +36,6 @@ namespace SystemTrayApp.src
 
                 if (mac.Contains('-')) mac = mac.Replace('-', ':');
 
-                // Initialize the asset as a Dictionary to allow dynamic property names
                 var asset = new Dictionary<string, object>
                 {
                     ["name"] = asset_name,
@@ -96,26 +95,20 @@ namespace SystemTrayApp.src
 
                     foreach (var row in models.rows)
                     {
-                        // Check if row is not null before accessing its properties
                         if (row != null)
                         {
-                            Console.WriteLine($"Model from JSON: {row.model_number?.ToString()}"); // Use null-conditional operator to safely access ToString
-                            Console.WriteLine($"Model from local machine: {modelNumber}");
-
-                            // Trim both strings to ensure no leading/trailing whitespaces affect the comparison
                             if (row.model_number == modelNumber.Trim())
                             {
-                                Console.WriteLine("returning true");
+                                Console.WriteLine($"Model from JSON: {row.model_number?.ToString()}\n Model from local machine: {modelNumber} \n returning true");
                                 return true;
                             }
                         }
                         else
                         {
-                            Console.WriteLine("Row is null.");
+                            Console.WriteLine($"Model from JSON: {row.model_number?.ToString()}\n Model from local machine: {modelNumber} \n Row is null.");
                         }
                     }
                 }
-                Console.WriteLine("returning false");
                 return false;
             }
             catch (Exception ex)
@@ -148,13 +141,10 @@ namespace SystemTrayApp.src
 
                     foreach (var row in models.rows)
                     {
-                        // Check if row is not null before accessing its properties
                         if (row != null)
                         {
-                            Console.WriteLine($"Model from JSON: {row.model_number?.ToString()}"); // Use null-conditional operator to safely access ToString
-                            Console.WriteLine($"Model from local machine: {modelNumber}");
+                            Console.WriteLine($"Model from JSON: {row.model_number?.ToString()}\n Model from local machine: {modelNumber}"); 
 
-                            // Trim both strings to ensure no leading/trailing whitespaces affect the comparison
                             if (row.model_number == modelNumber.Trim())
                             {
                                 return (int)row.id;
@@ -277,7 +267,6 @@ namespace SystemTrayApp.src
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
 
             string url = $"{baseUrl}/hardware?search={uuid}";
-
             try
             {
                 HttpResponseMessage response = await client.GetAsync(url);
@@ -314,8 +303,7 @@ namespace SystemTrayApp.src
         }
         public static async Task<string> GetAssetProperties(string uuid, string key)
         {
-            Console.WriteLine("--------------------------------------------------------------");
-            Console.WriteLine($"Retrieving data for property: {key} of the asset with UUID:{uuid}");
+            string resp = "";
             string baseUrl = Global.ApiUrl;
             string apiToken = Global.ApiToken;
             var client = new HttpClient();
@@ -335,13 +323,9 @@ namespace SystemTrayApp.src
                     string responseBody = await response.Content.ReadAsStringAsync();
                     var jsonResponse = JObject.Parse(responseBody);
 
-                    // Check if the payload contains any rows
                     var rows = jsonResponse["rows"];
                     if (rows != null && rows.HasValues)
                     {
-                        Console.WriteLine("Asset retrieved successfully.\n");
-
-                        // Retrieve the value from the JSON object where the key matches
                         foreach (var row in rows)
                         {
                             var value = row[key]?.ToString();
@@ -351,15 +335,16 @@ namespace SystemTrayApp.src
                                 return value;
                             }
                         }
+                        resp = "Asset retrieved successfully.\n";
                     }
                     else
                     {
-                        Console.WriteLine("Asset not found.");
+                        resp = "Asset not found.";
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Error: " + response.StatusCode);
+                    resp = "Error: " + response.StatusCode;
                 }
             }catch(Exception ex)
             {
@@ -367,7 +352,15 @@ namespace SystemTrayApp.src
                 Console.WriteLine(ex.ToString());
                 Console.ResetColor();
             }
-            Console.WriteLine("--------------------------------------------------------------");
+
+            string codeResponse = $"Response: {resp}";
+            string consoleOutput = @$"--------------------------------------------------------------
+Retrieving data for property: {key} of the asset with UUID:{uuid}
+{codeResponse}
+--------------------------------------------------------------";
+            Console.ForegroundColor= ConsoleColor.Blue;
+            Console.WriteLine(consoleOutput);
+            Console.ResetColor();
             return null;
         }
         public static async void CheckAsset()
@@ -389,18 +382,14 @@ namespace SystemTrayApp.src
             }
             
         }
-        //TODO: Retrieval fails if the model ID has changed
         public static async Task<string> GetAssetNestedProperties(string uuid, string[] key)
         {
-            Console.WriteLine("--------------------------------------------------------------");
-            Console.Write($"Retrieving data for property: ");
-            for(int i = 0; i < key.Length; i++)
-            {
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.Write($"{key[i]} ");
-                Console.ResetColor();
-            }
-            Console.Write($"of the asset with UUID:{uuid}");
+            Console.WriteLine("--------------------------------------------------------------\n" +
+            "\u001b[0mRetrieving data for property: " +
+            string.Join(" ", key.Select(k => "\u001b[34m" + k + "\u001b[0m")) +
+            "\u001b[0m of the asset with UUID: \u001b[34m" + uuid + "\u001b[0m");
+
+
             string baseUrl = Global.ApiUrl;
             string apiToken = Global.ApiToken;
             var client = new HttpClient();
@@ -432,37 +421,15 @@ namespace SystemTrayApp.src
                                 switch (key.Length)
                                 {
                                     case > 2:
-                                        string value = row[key[0]][key[1]][key[2]]?.ToString();
-                                        
-                                        Console.Write($"Value: ");
-                                        for (int i = 0; i < key.Length; i++)
-                                        {
-                                            Console.ForegroundColor = ConsoleColor.Blue;
-                                            Console.Write($"{key[i]} ");
-                                            Console.ResetColor();
-                                        }
-                                        Console.WriteLine("\n");
-                                        return value;
-
+                                        return row[key[0]][key[1]][key[2]]?.ToString();
                                         break;
                                     default:
-                                        string value1 = row[key[0]][key[1]]?.ToString();
-                                      
-                                        Console.Write($"Value: ");
-                                        for (int i = 0; i < key.Length; i++)
-                                        {
-                                            Console.ForegroundColor = ConsoleColor.Blue;
-                                            Console.Write($"{key[i]} ");
-                                            Console.ResetColor();
-                                        }
-                                        Console.WriteLine("\n");
-                                        return value1;
+                                        return row[key[0]][key[1]]?.ToString();
                                         break;
                                 }
                             }
                             else
                             {
-
                                 Console.WriteLine("Asset not found.");
                                 return null;
                             }
@@ -501,39 +468,21 @@ namespace SystemTrayApp.src
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
 
+                string status_string = "";
                 string url = $"{baseUrl}/hardware/{id}";
-
-                Console.WriteLine("--------------------------------------------------------------");
-                Console.WriteLine($"Attempting to update hardware asset with ID: {id}");
-                Console.WriteLine($"API_URL: {url}");
-
                 var json = Newtonsoft.Json.JsonConvert.SerializeObject(propertiesToUpdate);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                Console.BackgroundColor = ConsoleColor.Yellow;
-                Console.ForegroundColor = ConsoleColor.Black;
-                Console.WriteLine($"Request Body: {json}");
-                Console.ResetColor();
 
                 HttpResponseMessage response = await client.PutAsync(url, content);
 
                 if (response.IsSuccessStatusCode)
                 {
-
-                    Console.BackgroundColor = ConsoleColor.Green;
-                    Console.ForegroundColor = ConsoleColor.Black;
-                    Console.WriteLine($"Response Status Code: {response.StatusCode}");
                     string responseBody = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine("Hardware asset property updated successfully.");
+                    status_string = "Hardware asset property updated successfully.";
                 }
                 else
                 {
-
-                    Console.BackgroundColor = ConsoleColor.Red;
-
-                    Console.ForegroundColor = ConsoleColor.Black;
-                    Console.WriteLine($"Response Status Code: {response.StatusCode}");
-                    Console.WriteLine($"Error updating hardware asset. Status Code: {response.StatusCode}");
+                    status_string = $"Error updating hardware asset. Status Code: {response.StatusCode}";
                     string responseBody = await response.Content.ReadAsStringAsync();
 
                     // Log response headers for additional debugging information
@@ -541,30 +490,34 @@ namespace SystemTrayApp.src
                     {
                         Console.WriteLine($"{header.Key}: {string.Join(", ", header.Value)}");
                     }
-                    try
-                    {
-                        var errorResponse = JsonConvert.DeserializeObject<JObject>(responseBody);
-                        Console.WriteLine($"Error Response: {errorResponse}");
-                    }
-                    catch (JsonReaderException)
-                    {
-                        Console.WriteLine($"Raw Error Response: {responseBody}");
-                    }
                 }
+                Console.WriteLine("--------------------------------------------------------------\n" +
+                  "Attempting to update hardware asset with ID:" +
+                  "\u001b[34m" + id + "\u001b[0m\n" +
+                  "API_URL: \u001b[34m" + url + "\u001b[0m\n\n" +
+                  "Request Body:\u001b[43;30m" + json + "\u001b[0m\n\n" +
+                  "Status: " + status_string + "\n" +
+                  "--------------------------------------------------------------");
             }
             catch (HttpRequestException ex)
             {
-                Console.WriteLine($"Request failed: {ex.Message}");
+                Console.WriteLine(@$"--------------------------------------------------------------
+Request failed: {ex.Message}
+--------------------------------------------------------------");
             }
             catch (TaskCanceledException ex)
             {
-                Console.WriteLine($"Request timed out or was canceled: {ex.Message}");
+                Console.WriteLine(@$"--------------------------------------------------------------
+Request timed out or was canceled: {ex.Message}
+--------------------------------------------------------------");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+                Console.WriteLine(@$"--------------------------------------------------------------
+An unexpected error occurred: {ex.Message}
+--------------------------------------------------------------");
             }
-            Console.WriteLine("--------------------------------------------------------------");
+
         }
         public static async Task<int> GetUserID(string username)
         {
