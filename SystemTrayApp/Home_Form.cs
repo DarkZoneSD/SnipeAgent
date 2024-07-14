@@ -506,7 +506,7 @@ namespace SystemTrayApp
             };
             UpdateAsset(updates);
 
-            //await SnipeIT.AssignAssetToUser();
+            await SnipeIT.AssignAssetToUser();
         }
 
         private void btnCopyHostMachien_Click(object sender, EventArgs e)

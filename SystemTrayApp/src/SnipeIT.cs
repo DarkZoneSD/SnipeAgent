@@ -539,7 +539,7 @@ An unexpected error occurred: {ex.Message}
                 {
                     string responseBody = await response.Content.ReadAsStringAsync();
                     var jsonResponse = JObject.Parse(responseBody);
-
+                    string string_id = "";
                     // Check if the payload contains any rows
                     var rows = jsonResponse["rows"] as JArray;
                     if (rows != null && rows.Count > 0)
@@ -550,6 +550,13 @@ An unexpected error occurred: {ex.Message}
                         if (id != null)
                         {
                             Console.WriteLine($"ID: {id}");
+                            string_id = id.ToString();
+                            return int.Parse(string_id);
+                        }
+                        else
+                        {
+                            MessageBox.Show("No user with the current Username: " + Environment.UserName + " in the database!", "No user found!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return 0;
                         }
                     }
                     else
@@ -571,6 +578,8 @@ An unexpected error occurred: {ex.Message}
             Console.WriteLine("--------------------------------------------------------------");
             return 0;
         }
+
+        //TODO: Method to give user asset automatically if user exists (still leading 0s in the asset_tag)
         public static async Task AssignAssetToUser()
         {
             int user_id = await GetUserID(Environment.UserName);
@@ -595,15 +604,20 @@ An unexpected error occurred: {ex.Message}
 
             HttpResponseMessage response = await client.PostAsync(url, content);
 
-            if (response.IsSuccessStatusCode)
+            try
             {
-                Console.WriteLine(response.Content);
-            }
-            else
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Assigning asset to user: "+ Environment.UserName + "\n" + response.StatusCode);
+                }
+                else
+                {
+                    string errorResponse = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("Assigning asset to user: "+ Environment.UserName + "\n" + "Error: " + response.StatusCode + "\n" + "Error Details: " + errorResponse);
+                }
+            }catch (Exception ex)
             {
-                Console.WriteLine("Error: " + response.StatusCode);
-                string errorResponse = await response.Content.ReadAsStringAsync();
-                Console.WriteLine("Error Details: " + errorResponse);
+                Console.WriteLine("Error assigning asset to user: " + Environment.UserName + "\n" + ex.ToString());
             }
         }
         private static string getMacAddress(int index)
@@ -631,7 +645,6 @@ An unexpected error occurred: {ex.Message}
             return list;
         }
     }
-    //TODO: Method to give user asset automatically if user exists (still leading 0s in the asset_tag)
    
 }
 
