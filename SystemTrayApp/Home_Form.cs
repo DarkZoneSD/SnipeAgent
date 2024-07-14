@@ -488,7 +488,6 @@ namespace SystemTrayApp
 
         private async void btnUpdateAssetData_Click(object sender, EventArgs e)
         {
-            //TODO: Accidentally broke the update assets function. cant retrieve mac address to textbox for some reason
             //Context_Menu_Form ctmForm = new Context_Menu_Form();
             //ctmForm.Show();
 

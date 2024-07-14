@@ -61,7 +61,7 @@ namespace SystemTrayApp.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die API_TOKEN=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZWIzZjNkODJhNGNjZmU0YWRiMjg1ZmQzZjYyMDZkNjk0Y2EzNzk0NWE3MGIyNjIzZGFkMTY4NTRkZDBiMTBlZjVlMTZmZmU4YTllMGNjZDkiLCJpYXQiOjE3MTczNDQ4MzYuMDIyMjU2LCJuYmYiOjE3MTczNDQ4MzYuMDIyMjU5LCJleHAiOjIzNDg0OTY4MzYuMDE2NjE1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.RV4daNQpfdqAsbTMrXn6erzltSd7nCy7zH1mxZZ9ObEf8ZoN9cXnJ28Ldric28lZRHtPYzKXvcVpcjOFw2TdJgkNQYqmYz4cXUiosQov707IBvpJowSwbLlHC_COHkVdq0Lt1FlwcM8rpv_wG5LX6jkteMJABqKbh2q71U-OtS3g2vvPnNagCO_En-PqcXG9BjiJgs_vozXhV [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die API_TOKEN=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYzNkNzNkNmMzMzQ2NmMyZGVhMTQ1NzdhMDkzMDFiMzkzMTZiZTdkNGM5YmViZjIxZTRmZDk1ZjFmYTEyMDMzMTlkMjg4YzQyZTk3ZThjMTkiLCJpYXQiOjE3MjA5NTM5NjcuNDE5NDMsIm5iZiI6MTcyMDk1Mzk2Ny40MTk0MzIsImV4cCI6MjM1MjEwNTk2Ny40MTE3NzYsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.pAWmpjesQS0z7S1PraOfUrz4AeGGc-tpkisvU7O_o1BpiNQOjRBH9j-fg99g2IfhhmnuVhjCkqejA-3PQF0FF0TtXWB0tgH1LvWk4lLiESYiqwBe3rtGaTmSAhQIulOpE3jWGQudu8fCmwl4pXHGkxBemm2sLcdQtUiW9ou_wZOTykOlj2oWGNreHzdjacsdbDZ6G5TZNT3RaA [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string api_token {
             get {

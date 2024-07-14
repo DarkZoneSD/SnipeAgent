@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SnipeSharp;
 using RestSharp;
+using System.Net.NetworkInformation;
 
 namespace SystemTrayApp.src
 {
@@ -380,10 +381,10 @@ namespace SystemTrayApp.src
                 int model_id = await SnipeIT.GetSystemModelID();
                 if (model_exists)
                 {
-                    SnipeIT.CreateAssetWithModel(Global.HostName, model_id, Global.SerialNumber, "", Global.Uuid, category);
+                    SnipeIT.CreateAssetWithModel(Global.HostName, model_id, Global.SerialNumber, getMacAddress(0), Global.Uuid, category);
                 } else
                 {
-                    SnipeIT.CreateAsset(Global.HostName, Global.SerialNumber, "", Global.Uuid);
+                    SnipeIT.CreateAsset(Global.HostName, Global.SerialNumber, getMacAddress(0), Global.Uuid);
                 }
             }
             
@@ -494,10 +495,6 @@ namespace SystemTrayApp.src
 
             try
             {
-                Console.WriteLine("--------------------------------------------------------------");
-                Console.WriteLine($"Attempting to update hardware asset with ID: {id}");
-                Console.WriteLine($"API_URL: {baseUrl}/hardware/{id}");
-
                 var client = new HttpClient();
 
                 client.DefaultRequestHeaders.Accept.Clear();
@@ -506,24 +503,36 @@ namespace SystemTrayApp.src
 
                 string url = $"{baseUrl}/hardware/{id}";
 
-                var json = Newtonsoft.Json.JsonConvert.SerializeObject(propertiesToUpdate);
-                Console.WriteLine($"Request Body: {json}");
+                Console.WriteLine("--------------------------------------------------------------");
+                Console.WriteLine($"Attempting to update hardware asset with ID: {id}");
+                Console.WriteLine($"API_URL: {url}");
 
+                var json = Newtonsoft.Json.JsonConvert.SerializeObject(propertiesToUpdate);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                Console.WriteLine(content);
+                Console.BackgroundColor = ConsoleColor.Yellow;
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.WriteLine($"Request Body: {json}");
+                Console.ResetColor();
 
                 HttpResponseMessage response = await client.PutAsync(url, content);
 
-                Console.WriteLine($"Response Status Code: {response.StatusCode}");
-
                 if (response.IsSuccessStatusCode)
                 {
+
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.WriteLine($"Response Status Code: {response.StatusCode}");
                     string responseBody = await response.Content.ReadAsStringAsync();
                     Console.WriteLine("Hardware asset property updated successfully.");
                 }
                 else
                 {
+
+                    Console.BackgroundColor = ConsoleColor.Red;
+
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.WriteLine($"Response Status Code: {response.StatusCode}");
                     Console.WriteLine($"Error updating hardware asset. Status Code: {response.StatusCode}");
                     string responseBody = await response.Content.ReadAsStringAsync();
 
@@ -645,6 +654,30 @@ namespace SystemTrayApp.src
                 string errorResponse = await response.Content.ReadAsStringAsync();
                 Console.WriteLine("Error Details: " + errorResponse);
             }
+        }
+        private static string getMacAddress(int index)
+        {
+            string mac = getAllNetworkInterfaces()[index].GetPhysicalAddress().ToString();
+            var s = mac;
+            var list = Enumerable
+                .Range(0, s.Length / 2)
+                .Select(i => s.Substring(i * 2, 2));
+            var res = string.Join("-", list);
+            return res;
+        }
+        private static List<NetworkInterface> getAllNetworkInterfaces()
+        {
+            List<NetworkInterface> list = new List<NetworkInterface>();
+            NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
+
+            foreach (NetworkInterface nic in interfaces)
+            {
+                if (nic.NetworkInterfaceType != NetworkInterfaceType.Loopback)
+                {
+                    list.Add(nic);
+                }
+            }
+            return list;
         }
     }
     //TODO: Method to give user asset automatically if user exists (still leading 0s in the asset_tag)
