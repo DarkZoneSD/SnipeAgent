@@ -2,7 +2,8 @@
 
 ## Overview
 
-SnipeAgent is a work-in-progress project, currently about 65% complete. It aims to provide efficient and automated asset creation and manual asset updating. It still has a long way to go..
+SnipeAgent is a System Tray App for Windows. On  First run it takes data from the local machine to create a uniqe asset in your Snipe-IT instance. It interacts with your Snipe-IT instance via the API provided by the Snipe-IT Server. 
+
 
 ![Agent Working](github/res/Agent-Working.png)
 
@@ -10,7 +11,8 @@ SnipeAgent is a work-in-progress project, currently about 65% complete. It aims 
 
 - Creates Asset automatically on first run
 - Is able to update the asset it is associated with in the database
-- Defaults to default asset model if no corresponding model is found in database
+- Defaults to default asset model if no corresponding product number of your device is found in database
+- Assigns the asset to the user that is currently logged in while running the program, if the user is not found it will default to the "assigned" state
 
 ### Prerequisites
 
@@ -24,13 +26,13 @@ SnipeAgent is a work-in-progress project, currently about 65% complete. It aims 
 
 ### Build
 
-git clone https://github.com/DarkZoneSD/SnipeAgent.git 
+```git clone https://github.com/DarkZoneSD/SnipeAgent.git```
 
 Edit the variables declared in the solution Resources
 
-Dotnet Build
+```Dotnet Build```
 
-### Goals
+### To Do
+Add a light mode, selectable in the settings
 
-- **Simplify the installation process**
-- **easier use of the .env file**
+create a  deployment script  for the application
