@@ -16,8 +16,6 @@ using System.Timers;
 using System.Windows.Forms;
 using SystemTrayApp.Properties;
 using SystemTrayApp.src;
-using SnipeSharp;
-using SnipeSharp.Endpoints.Models;
 using System.Net.Http.Headers;
 using System.Management;
 

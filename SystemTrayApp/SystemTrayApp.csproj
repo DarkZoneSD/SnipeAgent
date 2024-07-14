@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
@@ -16,8 +16,6 @@
   <ItemGroup>
     <PackageReference Include="DotNetEnv" Version="3.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="RestSharp" Version="111.3.0" />
-    <PackageReference Include="SnipeSharp-cn" Version="0.3.1" />
     <PackageReference Include="System.Management" Version="8.0.0" />
   </ItemGroup>
 

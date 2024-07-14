@@ -8,8 +8,6 @@ using System.Windows.Forms;
 using DotNetEnv;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SnipeSharp;
-using RestSharp;
 using System.Net.NetworkInformation;
 
 namespace SystemTrayApp.src

@@ -26,7 +26,7 @@ SnipeAgent is a work-in-progress project, currently about 65% complete. It aims 
 
 git clone https://github.com/DarkZoneSD/SnipeAgent.git 
 
-Edit the EnvVariables.txt file with your environment variables
+Edit the variables declared in the solution Resources
 
 Dotnet Build
 
