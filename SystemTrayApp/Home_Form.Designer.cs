@@ -82,6 +82,8 @@
             btnCopyManufacturer = new Button();
             btnCopyMac = new Button();
             txtAssetTagValue = new TextBox();
+            txtAssetUsername = new TextBox();
+            lblAssignedUser = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbServerConnectionStatus).BeginInit();
@@ -448,7 +450,7 @@
             txtAssetCategory.BackColor = Color.Gray;
             txtAssetCategory.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtAssetCategory.ForeColor = Color.DarkOrchid;
-            txtAssetCategory.Location = new Point(295, 327);
+            txtAssetCategory.Location = new Point(482, 327);
             txtAssetCategory.Name = "txtAssetCategory";
             txtAssetCategory.ReadOnly = true;
             txtAssetCategory.Size = new Size(174, 23);
@@ -460,7 +462,7 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.ControlLight;
-            label1.Location = new Point(295, 304);
+            label1.Location = new Point(482, 304);
             label1.Name = "label1";
             label1.Size = new Size(73, 20);
             label1.TabIndex = 40;
@@ -473,7 +475,7 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = SystemColors.ControlLight;
-            label2.Location = new Point(295, 258);
+            label2.Location = new Point(482, 258);
             label2.Name = "label2";
             label2.Size = new Size(77, 20);
             label2.TabIndex = 39;
@@ -485,7 +487,7 @@
             txtAssetName.BackColor = Color.Gray;
             txtAssetName.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtAssetName.ForeColor = SystemColors.HighlightText;
-            txtAssetName.Location = new Point(478, 281);
+            txtAssetName.Location = new Point(295, 281);
             txtAssetName.Name = "txtAssetName";
             txtAssetName.Size = new Size(174, 23);
             txtAssetName.TabIndex = 43;
@@ -495,7 +497,7 @@
             txtAssetSerial.BackColor = Color.Gray;
             txtAssetSerial.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtAssetSerial.ForeColor = SystemColors.HighlightText;
-            txtAssetSerial.Location = new Point(482, 327);
+            txtAssetSerial.Location = new Point(295, 327);
             txtAssetSerial.Name = "txtAssetSerial";
             txtAssetSerial.Size = new Size(174, 23);
             txtAssetSerial.TabIndex = 44;
@@ -505,7 +507,7 @@
             txtAssetModel.BackColor = Color.Gray;
             txtAssetModel.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtAssetModel.ForeColor = Color.DarkOrchid;
-            txtAssetModel.Location = new Point(295, 373);
+            txtAssetModel.Location = new Point(482, 373);
             txtAssetModel.Name = "txtAssetModel";
             txtAssetModel.ReadOnly = true;
             txtAssetModel.Size = new Size(174, 23);
@@ -517,7 +519,7 @@
             txtAssetMAC.BackColor = Color.Gray;
             txtAssetMAC.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtAssetMAC.ForeColor = SystemColors.HighlightText;
-            txtAssetMAC.Location = new Point(482, 419);
+            txtAssetMAC.Location = new Point(295, 419);
             txtAssetMAC.Name = "txtAssetMAC";
             txtAssetMAC.Size = new Size(174, 23);
             txtAssetMAC.TabIndex = 47;
@@ -528,7 +530,7 @@
             label3.BackColor = Color.Transparent;
             label3.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = SystemColors.ControlLight;
-            label3.Location = new Point(482, 396);
+            label3.Location = new Point(295, 396);
             label3.Name = "label3";
             label3.Size = new Size(104, 20);
             label3.TabIndex = 46;
@@ -541,7 +543,7 @@
             label4.BackColor = Color.Transparent;
             label4.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.ForeColor = SystemColors.ControlLight;
-            label4.Location = new Point(295, 350);
+            label4.Location = new Point(482, 350);
             label4.Name = "label4";
             label4.Size = new Size(53, 20);
             label4.TabIndex = 45;
@@ -553,7 +555,7 @@
             txtAssetModelNumber.BackColor = Color.Gray;
             txtAssetModelNumber.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtAssetModelNumber.ForeColor = SystemColors.HighlightText;
-            txtAssetModelNumber.Location = new Point(482, 373);
+            txtAssetModelNumber.Location = new Point(295, 373);
             txtAssetModelNumber.Name = "txtAssetModelNumber";
             txtAssetModelNumber.Size = new Size(174, 23);
             txtAssetModelNumber.TabIndex = 54;
@@ -563,7 +565,7 @@
             txtAssetUUID.BackColor = Color.Gray;
             txtAssetUUID.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtAssetUUID.ForeColor = Color.DarkOrchid;
-            txtAssetUUID.Location = new Point(295, 419);
+            txtAssetUUID.Location = new Point(482, 419);
             txtAssetUUID.Name = "txtAssetUUID";
             txtAssetUUID.ReadOnly = true;
             txtAssetUUID.Size = new Size(174, 23);
@@ -575,7 +577,7 @@
             label5.BackColor = Color.Transparent;
             label5.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.ForeColor = SystemColors.ControlLight;
-            label5.Location = new Point(295, 396);
+            label5.Location = new Point(482, 396);
             label5.Name = "label5";
             label5.Size = new Size(102, 20);
             label5.TabIndex = 52;
@@ -588,7 +590,7 @@
             label6.BackColor = Color.Transparent;
             label6.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label6.ForeColor = SystemColors.ControlLight;
-            label6.Location = new Point(482, 350);
+            label6.Location = new Point(295, 350);
             label6.Name = "label6";
             label6.Size = new Size(82, 20);
             label6.TabIndex = 51;
@@ -601,7 +603,7 @@
             label7.BackColor = Color.Transparent;
             label7.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label7.ForeColor = SystemColors.ControlLight;
-            label7.Location = new Point(482, 304);
+            label7.Location = new Point(295, 304);
             label7.Name = "label7";
             label7.Size = new Size(47, 20);
             label7.TabIndex = 50;
@@ -614,7 +616,7 @@
             label8.BackColor = Color.Transparent;
             label8.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label8.ForeColor = SystemColors.ControlLight;
-            label8.Location = new Point(482, 258);
+            label8.Location = new Point(295, 258);
             label8.Name = "label8";
             label8.Size = new Size(94, 20);
             label8.TabIndex = 49;
@@ -727,11 +729,34 @@
             txtAssetTagValue.BackColor = Color.Gray;
             txtAssetTagValue.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtAssetTagValue.ForeColor = Color.DarkOrchid;
-            txtAssetTagValue.Location = new Point(295, 281);
+            txtAssetTagValue.Location = new Point(482, 281);
             txtAssetTagValue.Name = "txtAssetTagValue";
             txtAssetTagValue.ReadOnly = true;
             txtAssetTagValue.Size = new Size(174, 23);
             txtAssetTagValue.TabIndex = 63;
+            // 
+            // txtAssetUsername
+            // 
+            txtAssetUsername.BackColor = Color.Gray;
+            txtAssetUsername.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtAssetUsername.ForeColor = SystemColors.HighlightText;
+            txtAssetUsername.Location = new Point(295, 465);
+            txtAssetUsername.Name = "txtAssetUsername";
+            txtAssetUsername.Size = new Size(174, 23);
+            txtAssetUsername.TabIndex = 65;
+            // 
+            // lblAssignedUser
+            // 
+            lblAssignedUser.AutoSize = true;
+            lblAssignedUser.BackColor = Color.Transparent;
+            lblAssignedUser.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblAssignedUser.ForeColor = SystemColors.ControlLight;
+            lblAssignedUser.Location = new Point(295, 442);
+            lblAssignedUser.Name = "lblAssignedUser";
+            lblAssignedUser.Size = new Size(109, 20);
+            lblAssignedUser.TabIndex = 64;
+            lblAssignedUser.Text = "Assigned User";
+            lblAssignedUser.TextAlign = ContentAlignment.TopCenter;
             // 
             // Home_Form
             // 
@@ -741,6 +766,8 @@
             BackgroundImage = Properties.Resources.home_menu_ui;
             BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(664, 505);
+            Controls.Add(txtAssetUsername);
+            Controls.Add(lblAssignedUser);
             Controls.Add(txtAssetTagValue);
             Controls.Add(btnCopyMac);
             Controls.Add(btnCopyManufacturer);
@@ -863,5 +890,7 @@
         private Button btnCopyManufacturer;
         private Button btnCopyMac;
         private TextBox txtAssetTagValue;
+        private TextBox txtAssetUsername;
+        private Label lblAssignedUser;
     }
 }

@@ -9,6 +9,7 @@ using DotNetEnv;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net.NetworkInformation;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace SystemTrayApp.src
 {
@@ -43,7 +44,6 @@ namespace SystemTrayApp.src
                     ["category"] = 2 // Assuming 'category' is a fixed property, adjust as necessary
                 };
 
-                // Dynamically add the custom fields using the environment variable names
                 asset[macCustomField] = mac;
                 asset[uuidCustomField] = uuid;
 
@@ -57,6 +57,7 @@ namespace SystemTrayApp.src
                     string responseBody = await response.Content.ReadAsStringAsync();
 
                     Console.WriteLine("Asset created successfully. Response: " + responseBody);
+                    AssignAssetToUser(false); //false because when creating the asset the asset is not checked out currently, if it were it would be true
                 }
                 else
                 {
@@ -229,7 +230,6 @@ namespace SystemTrayApp.src
                     ["category"] = category
                 };
 
-                // Dynamically add the custom fields using the environment variable names
                 asset[macCustomField] = mac;
                 asset[uuidCustomField] = uuid;
 
@@ -455,8 +455,8 @@ Retrieving data for property: {key} of the asset with UUID:{uuid}
         }
         public static async Task UpdateHardwareAssetProperty(string id, Dictionary<string, object> propertiesToUpdate)
         {
-            string baseUrl = Global.ApiUrl; // Ensure this matches the base URL you used in Yaade
-            string apiToken = Global.ApiToken; // Ensure this matches the token you used in Yaade
+            string baseUrl = Global.ApiUrl;
+            string apiToken = Global.ApiToken; 
 
             try
             {
@@ -540,11 +540,10 @@ An unexpected error occurred: {ex.Message}
                     string responseBody = await response.Content.ReadAsStringAsync();
                     var jsonResponse = JObject.Parse(responseBody);
                     string string_id = "";
-                    // Check if the payload contains any rows
+
                     var rows = jsonResponse["rows"] as JArray;
                     if (rows != null && rows.Count > 0)
                     {
-                        // Access the first element in the rows array
                         var firstRow = rows[0];
                         var id = firstRow["id"];
                         if (id != null)
@@ -579,10 +578,14 @@ An unexpected error occurred: {ex.Message}
             return 0;
         }
 
-        //TODO: Method to give user asset automatically if user exists (still leading 0s in the asset_tag)
-        public static async Task AssignAssetToUser()
+        public static async Task AssignAssetToUser(bool asset_is_already_checked_out, string username = null)
         {
-            int user_id = await GetUserID(Environment.UserName);
+            if(username == null)
+            {
+                username = Environment.UserName;
+            }
+            Console.WriteLine("ASSIGNING TO USER: " + username);
+            int user_id = await GetUserID(username);
             string asset_tag = await Global.GetAssetTag();
             asset_tag = asset_tag.TrimStart('0');
             string url = $"{Global.ApiUrl}/hardware/{asset_tag}/checkout";
@@ -592,6 +595,11 @@ An unexpected error occurred: {ex.Message}
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Global.ApiToken);
 
+            if (asset_is_already_checked_out)
+            {
+                await CheckInAsset(asset_tag);
+            }
+            
             var payload = new
             {
                 status = 2,
@@ -602,22 +610,23 @@ An unexpected error occurred: {ex.Message}
             string jsonPayload = JsonConvert.SerializeObject(payload);
             var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await client.PostAsync(url, content);
-
             try
             {
+
+                HttpResponseMessage response = await client.PostAsync(url, content);
+
                 if (response.IsSuccessStatusCode)
                 {
-                    Console.WriteLine("Assigning asset to user: "+ Environment.UserName + "\n" + response.StatusCode);
+                    Console.WriteLine("Assigning asset to user: "+ username + "\n" + response.StatusCode);
                 }
                 else
                 {
                     string errorResponse = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine("Assigning asset to user: "+ Environment.UserName + "\n" + "Error: " + response.StatusCode + "\n" + "Error Details: " + errorResponse);
+                    Console.WriteLine("Assigning asset to user: "+ username + "\n" + "Error: " + response.StatusCode + "\n" + "Error Details: " + errorResponse);
                 }
             }catch (Exception ex)
             {
-                Console.WriteLine("Error assigning asset to user: " + Environment.UserName + "\n" + ex.ToString());
+                Console.WriteLine("Error assigning asset to user: " + username + "\n" + ex.ToString());
             }
         }
         private static string getMacAddress(int index)
@@ -643,6 +652,44 @@ An unexpected error occurred: {ex.Message}
                 }
             }
             return list;
+        }
+        private static async Task CheckInAsset(string asset_tag)
+        {
+            asset_tag = asset_tag.TrimStart('0');
+            string url = $"{Global.ApiUrl}/hardware/{asset_tag}/checkin";
+
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Global.ApiToken);
+
+            var payload = new
+            {
+                status = asset_tag,
+                status_id = 2
+            };
+
+            string jsonPayload = JsonConvert.SerializeObject(payload);
+            var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+
+            try
+            {
+
+                HttpResponseMessage response = await client.PostAsync(url, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Checking in asset: " + asset_tag + "\n" + response.StatusCode);
+                }
+                else
+                {
+                    string errorResponse = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("Checking in asset: " + asset_tag + "\n" + "Error: " + response.StatusCode + "\n" + "Error Details: " + errorResponse);
+                }
+            }catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
     }
    

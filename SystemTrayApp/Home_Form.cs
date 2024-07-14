@@ -506,7 +506,7 @@ namespace SystemTrayApp
             };
             UpdateAsset(updates);
 
-            await SnipeIT.AssignAssetToUser();
+            SnipeIT.AssignAssetToUser(true, txtAssetUsername.Text);
         }
 
         private void btnCopyHostMachien_Click(object sender, EventArgs e)
@@ -607,10 +607,9 @@ namespace SystemTrayApp
             int numericId = int.Parse(txtAssetTagValue.Text);
             string trimmedId = numericId.ToString();
             await SnipeIT.UpdateHardwareAssetProperty(trimmedId, propertiesToUpdate); //updates  the asset
-            this.Hide();
+
             await UseAssetProperties(); //displays it in the form
 
-            this.Show();
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
         }
         public async Task UseAssetProperties()
@@ -623,6 +622,7 @@ namespace SystemTrayApp
             txtAssetModelNumber.Text = await Global.GetAssetModelNo();
             txtAssetUUID.Text = await Global.GetAssetUUID();
             txtAssetMAC.Text = await Global.GetAssetMAC();
+            txtAssetUsername.Text = await Global.GetAssetUser();
         }
 
         private void txtAssetTag_TextChanged(object sender, EventArgs e)

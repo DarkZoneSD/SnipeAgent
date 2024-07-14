@@ -129,7 +129,12 @@ namespace SystemTrayApp
             return await SnipeIT.GetAssetNestedProperties(Global.Uuid, new string[] { "custom_fields", "MAC Address", "value" });
         }
         #endregion
-
+        #region AssetUser
+        public async static Task<String> GetAssetUser()
+        {
+            return await SnipeIT.GetAssetNestedProperties(Global.Uuid, new string[] { "assigned_to","username" });
+        }
+        #endregion
         #region AssetUUID
         public static string asset_uuid;
         public static string AssetUUID
