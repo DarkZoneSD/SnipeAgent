@@ -57,6 +57,7 @@ namespace SystemTrayApp.src
                     string responseBody = await response.Content.ReadAsStringAsync();
 
                     Console.WriteLine("Asset created successfully. Response: " + responseBody);
+                    Task.Delay(200);
                     AssignAssetToUser(false); //false because when creating the asset the asset is not checked out currently, if it were it would be true
                 }
                 else
@@ -71,57 +72,75 @@ namespace SystemTrayApp.src
         }
 
         public static async Task<bool> CheckIfModelExists()
+    {
+        string modelNumber = Global.SystemModel;
+        string baseUrl = Global.ApiUrl;
+        string apiToken = Global.ApiToken;
+        string url = $"{baseUrl}/models?search={modelNumber}";
+
+        using (var client = new HttpClient())
         {
-            string modelNumber = Global.SystemModel;
-            string baseUrl = Global.ApiUrl;
-            string apiToken = Global.ApiToken;
-            string models_url = $"{baseUrl}/models";
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
 
             try
             {
-                using var client = new HttpClient();
-
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
-
-                HttpResponseMessage response = await client.GetAsync(models_url);
+                HttpResponseMessage response = await client.GetAsync(url);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var jsonString = await response.Content.ReadAsStringAsync();
-                    var models = JsonConvert.DeserializeObject<dynamic>(jsonString);
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    var jsonResponse = JObject.Parse(responseBody);
 
-                    foreach (var row in models.rows)
+                    var rows = jsonResponse["rows"];
+                    if (rows != null && rows.HasValues)
                     {
-                        if (row != null)
+                        foreach (var row in rows)
                         {
-                            if (row.model_number == modelNumber.Trim())
+                            if (row != null && row["model_number"]?.ToString().Trim() == modelNumber.Trim())
                             {
-                                Console.WriteLine($"Model from JSON: {row.model_number?.ToString()}\n Model from local machine: {modelNumber} \n returning true");
+                                Console.WriteLine($"Model from JSON: {row["model_number"]?.ToString()}\nModel from local machine: {modelNumber}\nReturning true");
                                 return true;
                             }
                         }
-                        else
-                        {
-                            Console.WriteLine($"Model from JSON: {row.model_number?.ToString()}\n Model from local machine: {modelNumber} \n Row is null.");
-                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Model not found. Defaulting to the placeholder model: {Global.ModelID}\n");
+                        return false;
                     }
                 }
+                else
+                {
+                    Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}\n");
+                    return false;
+                }
+            }
+            catch (HttpRequestException httpRequestException)
+            {
+                Console.WriteLine($"Request error: {httpRequestException.Message}\n");
+                return false;
+            }
+            catch (TaskCanceledException taskCanceledException)
+            {
+                Console.WriteLine($"Request timeout: {taskCanceledException.Message}\n");
                 return false;
             }
             catch (Exception ex)
             {
-                Console.Write(ex.ToString());
+                Console.WriteLine($"Unexpected error: {ex.Message}\n");
                 return false;
             }
+            return false;
         }
+    }
         public static async Task<int> GetSystemModelID()
         {
             string modelNumber = Global.SystemModel;
             string baseUrl = Global.ApiUrl;
             string apiToken = Global.ApiToken;
-            string models_url = $"{baseUrl}/models";
+            string models_url = $"{baseUrl}/models?search={modelNumber}";
 
             try
             {
@@ -168,7 +187,7 @@ namespace SystemTrayApp.src
         {
             string baseUrl = Global.ApiUrl;
             string apiToken = Global.ApiToken;
-            string models_url = $"{baseUrl}/models";
+            string models_url = $"{baseUrl}/models?search={modelNumber}";
 
             try
             {
@@ -255,16 +274,18 @@ namespace SystemTrayApp.src
             }
         }
         public static async Task<bool> GetAssetByUuid(string uuid)
+    {
+        string baseUrl = Global.ApiUrl;
+        string apiToken = Global.ApiToken;
+
+        using (var client = new HttpClient())
         {
-            string baseUrl = Global.ApiUrl;
-            string apiToken = Global.ApiToken;
-            var client = new HttpClient();
+            string url = $"{baseUrl}/hardware?search={uuid}";
 
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
 
-            string url = $"{baseUrl}/hardware?search={uuid}";
             try
             {
                 HttpResponseMessage response = await client.GetAsync(url);
@@ -278,7 +299,7 @@ namespace SystemTrayApp.src
                     var rows = jsonResponse["rows"];
                     if (rows != null && rows.HasValues)
                     {
-                        Console.WriteLine("Asset retrieved successfully.\n");
+                        Console.WriteLine($"Asset exists with the uuid: {uuid}.\n");
                         return true;
                     }
                     else
@@ -289,16 +310,27 @@ namespace SystemTrayApp.src
                 }
                 else
                 {
-                    Console.WriteLine($"Error: {response.StatusCode}\n");
+                    Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}\n");
                     return false;
                 }
             }
+            catch (HttpRequestException httpRequestException)
+            {
+                Console.WriteLine($"Request error: {httpRequestException.Message}\n");
+                return false;
+            }
+            catch (TaskCanceledException taskCanceledException)
+            {
+                Console.WriteLine($"Request timeout: {taskCanceledException.Message}\n");
+                return false;
+            }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"Unexpected error: {ex.Message}\n");
                 return false;
             }
         }
+    }
         public static async Task<string> GetAssetProperties(string uuid, string key)
         {
             string resp = "";
@@ -367,9 +399,11 @@ Retrieving data for property: {key} of the asset with UUID:{uuid}
             if (!assetExists)
             {
                 bool model_exists = await SnipeIT.CheckIfModelExists();
-                
+                Task.Delay(100);
                 string category = await SnipeIT.GetCategory(Global.SystemModel);
+                Task.Delay(100);
                 int model_id = await SnipeIT.GetSystemModelID();
+                Task.Delay(100);
                 if (model_exists)
                 {
                     SnipeIT.CreateAssetWithModel(Global.HostName, model_id, Global.SerialNumber, getMacAddress(0), Global.Uuid, category);
@@ -419,10 +453,14 @@ Retrieving data for property: {key} of the asset with UUID:{uuid}
                                 switch (key.Length)
                                 {
                                     case > 2:
-                                        return row[key[0]][key[1]][key[2]]?.ToString();
+                                        string key_value_length_two = row[key[0]][key[1]][key[2]]?.ToString();
+                                        Console.WriteLine($"Value: {key_value_length_two}");
+                                        return key_value_length_two;
                                         break;
                                     default:
-                                        return row[key[0]][key[1]]?.ToString();
+                                        string key_value_length_tree = row[key[0]][key[1]]?.ToString();
+                                        Console.WriteLine($"Value: {key_value_length_tree}");
+                                        return key_value_length_tree;
                                         break;
                                 }
                             }

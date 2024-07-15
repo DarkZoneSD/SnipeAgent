@@ -40,8 +40,6 @@ namespace SystemTrayApp
 
             string tempPath = Path.GetTempPath();
             if (!Directory.Exists($@"{tempPath}\SnipeAgent\")) Directory.CreateDirectory($@"{tempPath}\SnipeAgent\");
-            //LogWriter logWriter = new LogWriter(logFilePath);
-            //Console.SetOut(logWriter);
 
             EnvFile.Create(value);
             if (DotNetEnv.Env.GetBool("FIRST_RUN"))
@@ -51,7 +49,6 @@ namespace SystemTrayApp
             try
             {
                 SnipeIT.CheckAsset();
-               // SnipeIT.AssignAssetToUser();
             }catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);

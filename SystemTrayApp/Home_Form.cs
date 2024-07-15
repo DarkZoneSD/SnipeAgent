@@ -36,7 +36,6 @@ namespace SystemTrayApp
 
             txtApiKey.Text = Global.ApiToken;
             txtApiUrlValue.Text = Global.ApiUrl;
-            UseAssetProperties();
 
             btnRefresh.MouseEnter += OnMouseEnterBtnRefresh;
             btnRefresh.MouseLeave += OnMouseLeaveBtnRefresh;
@@ -381,6 +380,9 @@ namespace SystemTrayApp
                 lblServerConnectionStatus.ForeColor = Color.FromArgb(58, 255, 88);
                 if (txtAssetTagValue.Text.Length == 0)
                 {
+                    Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                    Console.WriteLine("Loading data from Snipe-IT into textboxes:\n");
+                    Console.ResetColor();
                     UseAssetProperties();
                 }
             }
