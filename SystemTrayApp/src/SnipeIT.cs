@@ -228,7 +228,7 @@ namespace SystemTrayApp.src
             string uuidCustomField = DotNetEnv.Env.GetString("UUID_CUSTOM_FIELD");
             string apiToken = Global.ApiToken;
             string statusId = Global.StatusID;
-
+            string url = $"{Global.ApiUrl}/hardware";
             try
             {
                 var client = new HttpClient();
@@ -255,7 +255,7 @@ namespace SystemTrayApp.src
                 var json = Newtonsoft.Json.JsonConvert.SerializeObject(asset);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await client.PostAsync(Global.ApiUrl, content);
+                HttpResponseMessage response = await client.PostAsync(url, content);
 
                 if (response.IsSuccessStatusCode)
                 {
