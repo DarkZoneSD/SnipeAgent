@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -16,7 +16,14 @@
   <ItemGroup>
     <PackageReference Include="DotNetEnv" Version="3.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Siticone.Desktop.UI" Version="2.1.1" />
     <PackageReference Include="System.Management" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Siticone.UI">
+      <HintPath>C:\Users\Florian\Downloads\Siticone.UI\Siticone.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

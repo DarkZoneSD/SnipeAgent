@@ -30,6 +30,7 @@
         {
             btnOpenGithub = new Button();
             btnOpenAppdataFolder = new Button();
+            sButton1 = new Styling_Toggle_Button.SButton();
             SuspendLayout();
             // 
             // btnOpenGithub
@@ -58,6 +59,26 @@
             btnOpenAppdataFolder.UseVisualStyleBackColor = false;
             btnOpenAppdataFolder.Click += btnOpenAppdataFolder_Click;
             // 
+            // sButton1
+            // 
+            sButton1.Appearance = Appearance.Button;
+            sButton1.AutoSize = true;
+            sButton1.BackColor = Color.Purple;
+            sButton1.BackgroundImage = Properties.Resources.context_menu;
+            sButton1.Checked = true;
+            sButton1.CheckState = CheckState.Checked;
+            sButton1.ForeColor = Color.DimGray;
+            sButton1.Location = new Point(12, 12);
+            sButton1.MinimumSize = new Size(45, 22);
+            sButton1.Name = "sButton1";
+            sButton1.OffBackColor = Color.Gray;
+            sButton1.OffToggleColor = Color.Gainsboro;
+            sButton1.OnBackColor = Color.MediumSlateBlue;
+            sButton1.OnToggleColor = Color.WhiteSmoke;
+            sButton1.Size = new Size(45, 22);
+            sButton1.TabIndex = 65;
+            sButton1.UseVisualStyleBackColor = false;
+            // 
             // Settings_Form
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -66,6 +87,7 @@
             BackgroundImage = Properties.Resources.settings_menu_ui;
             BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(664, 505);
+            Controls.Add(sButton1);
             Controls.Add(btnOpenAppdataFolder);
             Controls.Add(btnOpenGithub);
             FormBorderStyle = FormBorderStyle.None;
@@ -73,11 +95,13 @@
             Text = "Settings_Form";
             Load += Settings_Form_Load;
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private Button btnOpenGithub;
         private Button btnOpenAppdataFolder;
+        private Styling_Toggle_Button.SButton sButton1;
     }
 }
