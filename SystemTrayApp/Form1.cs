@@ -88,14 +88,14 @@ namespace SystemTrayApp
             base.OnFormClosing(e);
         }
 
-        private void showToolStripMenuItem_Click(object sender, EventArgs e)
+        private void showToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             allowVisible = true;
             Show();
             WindowState = FormWindowState.Normal;
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void exitToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             allowClose = true;
             this.Close();
@@ -112,7 +112,7 @@ namespace SystemTrayApp
         private const int WM_NCLBUTTONDOWN = 0xA1;
         private const int HTCAPTION = 0x2;
 
-        private void DragAndDropMouseDown(object sender, MouseEventArgs e)
+        private void DragAndDropMouseDown(object? sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -123,7 +123,7 @@ namespace SystemTrayApp
 
         //End Drag and Drop Form
 
-        private void Form1_Resize(object sender, EventArgs e)
+        private void Form1_Resize(object? sender, EventArgs e)
         {
             if (this.WindowState == FormWindowState.Minimized)
             {
@@ -131,36 +131,36 @@ namespace SystemTrayApp
                 notifyIcon1.Visible = true;
             }
         }
-        private void OnMouseEnterBtnCloseApp(object sender, EventArgs e)
+        private void OnMouseEnterBtnCloseApp(object? sender, EventArgs e)
         {
             btnCloseApp.BackgroundImage = Resources.exit_button_triggered;
         }
-        private void OnMouseLeaveBtnCloseApp(object sender, EventArgs e)
+        private void OnMouseLeaveBtnCloseApp(object? sender, EventArgs e)
         {
             btnCloseApp.BackgroundImage = Resources.exit_button_untriggered;
         }
-        private void OnMouseEnterBtnMinimizeApp(object sender, EventArgs e)
+        private void OnMouseEnterBtnMinimizeApp(object? sender, EventArgs e)
         {
             btnMinimizeApp.BackgroundImage = Resources.minimize_button_triggered;
         }
-        private void OnMouseLeaveBtnMinimizeApp(object sender, EventArgs e)
+        private void OnMouseLeaveBtnMinimizeApp(object? sender, EventArgs e)
         {
             btnMinimizeApp.BackgroundImage = Resources.minimize_button_untriggered;
         }
         //Settings Button
-        private void OnMouseEnterBtnSettings(object sender, EventArgs e)
+        private void OnMouseEnterBtnSettings(object? sender, EventArgs e)
         {
             btnSettings.BackgroundImage = Resources.settings_button_triggered;
         }
-        private void OnMouseLeaveBtnSettings(object sender, EventArgs e)
+        private void OnMouseLeaveBtnSettings(object? sender, EventArgs e)
         {
             if (!settingsIsClicked) btnSettings.BackgroundImage = Resources.settings_button_untriggered;
         }
-        private void OnMouseEnterBtnHome(object sender, EventArgs e)
+        private void OnMouseEnterBtnHome(object? sender, EventArgs e)
         {
             btnHome.BackgroundImage = Resources.home_button_triggered;
         }
-        private void OnMouseLeaveBtnHome(object sender, EventArgs e)
+        private void OnMouseLeaveBtnHome(object? sender, EventArgs e)
         {
             if (!homeIsClicked) btnHome.BackgroundImage = Resources.home_button_untriggered;
         }
@@ -169,7 +169,7 @@ namespace SystemTrayApp
             Show();
             BringToFront();
         }
-        private void Form1_Load(object sender, EventArgs e)
+        private void Form1_Load(object? sender, EventArgs e)
         {
             notifyIcon1.Visible = false;
 
@@ -182,17 +182,17 @@ namespace SystemTrayApp
             }
         }
 
-        private void btnCloseApp_Click(object sender, EventArgs e)
+        private void btnCloseApp_Click(object? sender, EventArgs e)
         {
             Environment.Exit(0);
         }
 
-        private void btnMinimizeApp_Click(object sender, EventArgs e)
+        private void btnMinimizeApp_Click(object? sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
         }
 
-        private void btnHome_Click(object sender, EventArgs e)
+        private void btnHome_Click(object? sender, EventArgs e)
         {
             if (!homeIsShowing)
             {
@@ -213,7 +213,7 @@ namespace SystemTrayApp
             }
         }
 
-        private void btnSettings_Click(object sender, EventArgs e)
+        private void btnSettings_Click(object? sender, EventArgs e)
         {
             if (!settingsIsShowing)
             {
@@ -236,9 +236,9 @@ namespace SystemTrayApp
 
         }
 
-        private void pnlDragAndDrop_Paint(object sender, PaintEventArgs e) { }
+        private void pnlDragAndDrop_Paint(object? sender, PaintEventArgs e) { }
 
-        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void notifyIcon1_MouseDoubleClick(object? sender, MouseEventArgs e)
         {
 
         }

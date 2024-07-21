@@ -101,6 +101,16 @@ namespace SystemTrayApp.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap background_ui_light {
+            get {
+                object obj = ResourceManager.GetObject("background_ui_light", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap context_menu {
             get {
                 object obj = ResourceManager.GetObject("context_menu", resourceCulture);
@@ -471,6 +481,16 @@ namespace SystemTrayApp.Properties {
         internal static System.Drawing.Bitmap settings_menu_ui {
             get {
                 object obj = ResourceManager.GetObject("settings_menu_ui", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap settings_menu_ui_light {
+            get {
+                object obj = ResourceManager.GetObject("settings_menu_ui_light", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
