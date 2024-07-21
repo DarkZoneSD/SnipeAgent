@@ -137,104 +137,104 @@ namespace SystemTrayApp
             }
 
         }
-        private void OnMouseEnterBtnRefresh(object sender, EventArgs e)
+        private void OnMouseEnterBtnRefresh(object? sender, EventArgs e)
         {
             btnRefresh.BackgroundImage = Resources.refresh_button_triggered;
         }
-        private void OnMouseLeaveBtnRefresh(object sender, EventArgs e)
+        private void OnMouseLeaveBtnRefresh(object? sender, EventArgs e)
         {
             btnRefresh.BackgroundImage = Resources.refresh_button_untriggered;
         }
-        private void OnMouseEnterBtnSaveServerConfig(object sender, EventArgs e)
+        private void OnMouseEnterBtnSaveServerConfig(object? sender, EventArgs e)
         {
             btnSaveServerConfig.BackgroundImage = Resources.save_button_triggered;
         }
-        private void OnMouseLeaveBtnSaveServerConfig(object sender, EventArgs e)
+        private void OnMouseLeaveBtnSaveServerConfig(object? sender, EventArgs e)
         {
             btnSaveServerConfig.BackgroundImage = Resources.save_button_untriggered;
         }
-        private void OnMouseEnterBtnUAC(object sender, EventArgs e)
+        private void OnMouseEnterBtnUAC(object? sender, EventArgs e)
         {
             btnUAC.BackgroundImage = Resources.uac_button_triggered;
         }
-        private void OnMouseLeaveBtnUAC(object sender, EventArgs e)
+        private void OnMouseLeaveBtnUAC(object? sender, EventArgs e)
         {
             btnUAC.BackgroundImage = Resources.uac_button_untriggered;
         }
-        private void OnMouseEnterBtnLastInterface(object sender, EventArgs e)
+        private void OnMouseEnterBtnLastInterface(object? sender, EventArgs e)
         {
             btnLastInterface.BackgroundImage = Resources.direction_button_triggered;
         }
-        private void OnMouseLeaveBtnLastInterface(object sender, EventArgs e)
+        private void OnMouseLeaveBtnLastInterface(object? sender, EventArgs e)
         {
             btnLastInterface.BackgroundImage = Resources.direction_button_untriggered;
         }
-        private void OnMouseEnterBtnCopyHostMachine(object sender, EventArgs e)
+        private void OnMouseEnterBtnCopyHostMachine(object? sender, EventArgs e)
         {
             btnCopyHostMachine.BackgroundImage = Resources.copy_button_triggered;
         }
-        private void OnMouseLeaveBtnCopyHostMachine(object sender, EventArgs e)
+        private void OnMouseLeaveBtnCopyHostMachine(object? sender, EventArgs e)
         {
             btnCopyHostMachine.BackgroundImage = Resources.copy_button_untriggered;
         }
 
-        private void OnMouseEnterBtnCopySerial(object sender, EventArgs e)
+        private void OnMouseEnterBtnCopySerial(object? sender, EventArgs e)
         {
             btnCopySerial.BackgroundImage = Resources.copy_button_triggered;
         }
-        private void OnMouseLeaveBtnCopySerial(object sender, EventArgs e)
+        private void OnMouseLeaveBtnCopySerial(object? sender, EventArgs e)
         {
             btnCopySerial.BackgroundImage = Resources.copy_button_untriggered;
         }
 
-        private void OnMouseEnterBtnCopyUuid(object sender, EventArgs e)
+        private void OnMouseEnterBtnCopyUuid(object? sender, EventArgs e)
         {
             btnCopyUuid.BackgroundImage = Resources.copy_button_triggered;
         }
-        private void OnMouseLeaveBtnCopyUuid(object sender, EventArgs e)
+        private void OnMouseLeaveBtnCopyUuid(object? sender, EventArgs e)
         {
             btnCopyUuid.BackgroundImage = Resources.copy_button_untriggered;
         }
 
-        private void OnMouseEnterBtnCopyModel(object sender, EventArgs e)
+        private void OnMouseEnterBtnCopyModel(object? sender, EventArgs e)
         {
             btnCopyModel.BackgroundImage = Resources.copy_button_triggered;
         }
-        private void OnMouseLeaveBtnCopyModel(object sender, EventArgs e)
+        private void OnMouseLeaveBtnCopyModel(object? sender, EventArgs e)
         {
             btnCopyModel.BackgroundImage = Resources.copy_button_untriggered;
         }
 
-        private void OnMouseEnterBtnCopyManufacturer(object sender, EventArgs e)
+        private void OnMouseEnterBtnCopyManufacturer(object? sender, EventArgs e)
         {
             btnCopyManufacturer.BackgroundImage = Resources.copy_button_triggered;
         }
-        private void OnMouseLeaveBtnCopyManufacturer(object sender, EventArgs e)
+        private void OnMouseLeaveBtnCopyManufacturer(object? sender, EventArgs e)
         {
             btnCopyManufacturer.BackgroundImage = Resources.copy_button_untriggered;
         }
-        private void OnMouseEnterBtnCopyMac(object sender, EventArgs e)
+        private void OnMouseEnterBtnCopyMac(object? sender, EventArgs e)
         {
             btnCopyMac.BackgroundImage = Resources.copy_button_triggered;
         }
-        private void OnMouseLeaveBtnCopyMac(object sender, EventArgs e)
+        private void OnMouseLeaveBtnCopyMac(object? sender, EventArgs e)
         {
             btnCopyMac.BackgroundImage = Resources.copy_button_untriggered;
         }
-        private void OnMouseEnterBtnUpdateAssetData(object sender, EventArgs e)
+        private void OnMouseEnterBtnUpdateAssetData(object? sender, EventArgs e)
         {
             btnUpdateAssetData.BackgroundImage = Resources.save_button_triggered;
         }
-        private void OnMouseLeaveBtnUpdateAssetData(object sender, EventArgs e)
+        private void OnMouseLeaveBtnUpdateAssetData(object? sender, EventArgs e)
         {
             btnUpdateAssetData.BackgroundImage = Resources.save_button_untriggered;
         }
-        private void OnMouseEnterBtnNextInterface(object sender, EventArgs e)
+        private void OnMouseEnterBtnNextInterface(object? sender, EventArgs e)
         {
             btnNextInterface.BackgroundImage = Resources.direction_button_triggered;
             rotateImage(btnNextInterface);
         }
-        private void OnMouseLeaveBtnNextInterface(object sender, EventArgs e)
+        private void OnMouseLeaveBtnNextInterface(object? sender, EventArgs e)
         {
             btnNextInterface.BackgroundImage = Resources.direction_button_untriggered;
             rotateImage(btnNextInterface);
@@ -364,7 +364,7 @@ namespace SystemTrayApp
             }
         }
 
-        private void UpdateStatus(string statusMessage, bool isConnected)
+        private async void UpdateStatus(string statusMessage, bool isConnected)
         {
             if (InvokeRequired)
             {
@@ -383,7 +383,7 @@ namespace SystemTrayApp
                     Console.ForegroundColor = ConsoleColor.DarkMagenta;
                     Console.WriteLine("Loading data from Snipe-IT into textboxes:\n");
                     Console.ResetColor();
-                    UseAssetProperties();
+                    await UseAssetProperties();
                 }
             }
             else
@@ -399,10 +399,10 @@ namespace SystemTrayApp
             apiCheckTimer.Dispose();
             base.OnFormClosing(e);
         }
-        private async void btnTestAPI_Click(object sender, EventArgs e)
+        private void btnTestAPI_Click(object sender, EventArgs e)
         {
         }
-        private async void CheckApiStatus(object sender, ElapsedEventArgs e)
+        private async void CheckApiStatus(object? sender, ElapsedEventArgs e)
         {
             DotNetEnv.Env.Load($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\SnipeAgent\.Env");
             string apiToken = DotNetEnv.Env.GetString("API_TOKEN");
@@ -506,9 +506,9 @@ namespace SystemTrayApp
                 { "model_id", txtAssetModelNumber.Text },
                 {"serial", txtAssetSerial.Text }
             };
-            UpdateAsset(updates);
+            await UpdateAsset(updates);
 
-            SnipeIT.AssignAssetToUser(true, txtAssetUsername.Text);
+            await SnipeIT.AssignAssetToUser(true, txtAssetUsername.Text);
         }
 
         private void btnCopyHostMachien_Click(object sender, EventArgs e)

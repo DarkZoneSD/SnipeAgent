@@ -17,6 +17,10 @@ namespace SystemTrayApp
         public Settings_Form()
         {
             InitializeComponent();
+
+            this.BackColor = Color.DimGray;
+            this.TransparencyKey = Color.DimGray;
+
             btnOpenGithub.MouseEnter += OnMouseEnterBtnOpenGitHub;
             btnOpenGithub.MouseLeave += OnMouseLeaveBtnOpenGitHub;
 
@@ -32,29 +36,29 @@ namespace SystemTrayApp
             }
         }
 
-        private void OnMouseEnterBtnOpenGitHub(object sender, EventArgs e)
+        private void OnMouseEnterBtnOpenGitHub(object? sender, EventArgs e)
         {
             btnOpenGithub.BackgroundImage = Resources.github_button_triggered;
         }
-        private void OnMouseLeaveBtnOpenGitHub(object sender, EventArgs e)
+        private void OnMouseLeaveBtnOpenGitHub(object? sender, EventArgs e)
         {
             btnOpenGithub.BackgroundImage = Resources.github_button_untriggered;
         }
-        private void OnMouseEnterBtnOpenAppdataFolder(object sender, EventArgs e)
+        private void OnMouseEnterBtnOpenAppdataFolder(object? sender, EventArgs e)
         {
             btnOpenAppdataFolder.BackgroundImage = Resources.folder_button_triggered;
         }
-        private void OnMouseLeaveBtnOpenAppdataFolder(object sender, EventArgs e)
+        private void OnMouseLeaveBtnOpenAppdataFolder(object? sender, EventArgs e)
         {
             btnOpenAppdataFolder.BackgroundImage = Resources.folder_button_untriggered;
         }
 
-        private void Settings_Form_Load(object sender, EventArgs e)
+        private void Settings_Form_Load(object? sender, EventArgs e)
         {
 
         }
 
-        private void btnOpenGithub_Click(object sender, EventArgs e)
+        private void btnOpenGithub_Click(object? sender, EventArgs e)
         {
             Process myProcess = new Process();
             myProcess.StartInfo.UseShellExecute = true;
@@ -62,7 +66,7 @@ namespace SystemTrayApp
             myProcess.Start();
         }
 
-        private void btnOpenAppdataFolder_Click(object sender, EventArgs e)
+        private void btnOpenAppdataFolder_Click(object? sender, EventArgs e)
         {
             Process.Start("explorer.exe", $@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\SnipeAgent");
         }

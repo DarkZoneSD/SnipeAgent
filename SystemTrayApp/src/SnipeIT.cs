@@ -57,7 +57,7 @@ namespace SystemTrayApp.src
                     string responseBody = await response.Content.ReadAsStringAsync();
 
                     Console.WriteLine("Asset created successfully. Response: " + responseBody);
-                    Task.Delay(200);
+                    await Task.Delay(200);
                     AssignAssetToUser(false); //false because when creating the asset the asset is not checked out currently, if it were it would be true
                 }
                 else
@@ -391,7 +391,7 @@ Retrieving data for property: {key} of the asset with UUID:{uuid}
             Console.ForegroundColor= ConsoleColor.Blue;
             Console.WriteLine(consoleOutput);
             Console.ResetColor();
-            return null;
+            return "Asset not found.";
         }
         public static async void CheckAsset()
         {
@@ -399,17 +399,17 @@ Retrieving data for property: {key} of the asset with UUID:{uuid}
             if (!assetExists)
             {
                 bool model_exists = await SnipeIT.CheckIfModelExists();
-                Task.Delay(100);
+                await Task.Delay(100);
                 string category = await SnipeIT.GetCategory(Global.SystemModel);
-                Task.Delay(100);
+                await Task.Delay(100);
                 int model_id = await SnipeIT.GetSystemModelID();
-                Task.Delay(100);
+                await Task.Delay(100);
                 if (model_exists)
                 {
-                    SnipeIT.CreateAssetWithModel(Global.HostName, model_id, Global.SerialNumber, getMacAddress(0), Global.Uuid, category);
+                    await SnipeIT.CreateAssetWithModel(Global.HostName, model_id, Global.SerialNumber, getMacAddress(0), Global.Uuid, category);
                 } else
                 {
-                    SnipeIT.CreateAsset(Global.HostName, Global.SerialNumber, getMacAddress(0), Global.Uuid);
+                    await SnipeIT.CreateAsset(Global.HostName, Global.SerialNumber, getMacAddress(0), Global.Uuid);
                 }
             }
             
@@ -456,18 +456,16 @@ Retrieving data for property: {key} of the asset with UUID:{uuid}
                                         string key_value_length_two = row[key[0]][key[1]][key[2]]?.ToString();
                                         Console.WriteLine($"Value: {key_value_length_two}");
                                         return key_value_length_two;
-                                        break;
                                     default:
                                         string key_value_length_tree = row[key[0]][key[1]]?.ToString();
                                         Console.WriteLine($"Value: {key_value_length_tree}");
                                         return key_value_length_tree;
-                                        break;
                                 }
                             }
                             else
                             {
                                 Console.WriteLine("Asset not found.");
-                                return null;
+                                return "Asset not found.";
                             }
 
                         }
@@ -489,7 +487,7 @@ Retrieving data for property: {key} of the asset with UUID:{uuid}
                 Console.ResetColor();
             }
             Console.WriteLine("--------------------------------------------------------------");
-            return null;
+            return "Asset not found.";
         }
         public static async Task UpdateHardwareAssetProperty(string id, Dictionary<string, object> propertiesToUpdate)
         {
@@ -616,7 +614,7 @@ An unexpected error occurred: {ex.Message}
             return 0;
         }
 
-        public static async Task AssignAssetToUser(bool asset_is_already_checked_out, string username = null)
+        public static async Task AssignAssetToUser(bool asset_is_already_checked_out, string? username = null)
         {
             if(username == null)
             {

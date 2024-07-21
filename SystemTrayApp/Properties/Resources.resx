@@ -262,4 +262,10 @@
   <data name="uuid_custom_field" xml:space="preserve">
     <value>UUID_CUSTOM_FIELD=_snipeit_uuid_2</value>
   </data>
+  <data name="background_ui_light" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\background_ui_light.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="settings_menu_ui_light" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\settings_menu_ui_light.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

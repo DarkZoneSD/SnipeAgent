@@ -28,24 +28,24 @@ namespace SystemTrayApp
             btnOpen.MouseLeave += OnMouseLeaveBtnOpen;
 
         }
-        private void OnMouseEnterBtnClose(object sender, EventArgs e)
+        private void OnMouseEnterBtnClose(object? sender, EventArgs e)
         {
             btnClose.BackgroundImage = Resources.context_menu_close_button_triggered;
         }
-        private void OnMouseLeaveBtnClosep(object sender, EventArgs e)
+        private void OnMouseLeaveBtnClosep(object? sender, EventArgs e)
         {
             btnClose.BackgroundImage = Resources.context_menu_close_button_untriggered;
         }
-        private void OnMouseEnterBtnOpen(object sender, EventArgs e)
+        private void OnMouseEnterBtnOpen(object? sender, EventArgs e)
         {
             btnOpen.BackgroundImage = Resources.context_menu_open_button_triggered;
         }
-        private void OnMouseLeaveBtnOpen(object sender, EventArgs e)
+        private void OnMouseLeaveBtnOpen(object? sender, EventArgs e)
         {
             btnOpen.BackgroundImage = Resources.context_menu_open_button_untriggered;
         }
 
-        private void Context_Menu_Form_Load(object sender, EventArgs e)
+        private void Context_Menu_Form_Load(object? sender, EventArgs e)
         {
 
             this.SetDesktopLocation(Cursor.Position.X, Cursor.Position.Y - 48);
