@@ -494,6 +494,8 @@ namespace SystemTrayApp
             //Context_Menu_Form ctmForm = new Context_Menu_Form();
             //ctmForm.Show();
 
+            await SnipeIT.AssignAssetToUser(true, txtAssetUsername.Text);
+
             DotNetEnv.Env.Load($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\SnipeAgent\.Env");
             string macCustomField = DotNetEnv.Env.GetString("MAC_CUSTOM_FIELD");
             string uuidCustomField = DotNetEnv.Env.GetString("UUID_CUSTOM_FIELD");
@@ -508,7 +510,6 @@ namespace SystemTrayApp
             };
             await UpdateAsset(updates);
 
-            await SnipeIT.AssignAssetToUser(true, txtAssetUsername.Text);
         }
 
         private void btnCopyHostMachien_Click(object sender, EventArgs e)
