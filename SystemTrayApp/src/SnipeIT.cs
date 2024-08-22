@@ -616,7 +616,7 @@ An unexpected error occurred: {ex.Message}
 
         public static async Task AssignAssetToUser(bool asset_is_already_checked_out, string? username = null)
         {
-            if(username == null)
+            if (String.IsNullOrEmpty(username));
             {
                 username = Environment.UserName;
             }
